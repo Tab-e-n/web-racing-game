@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://db1idhlcf3swl"]
+
+[ext_resource type="PackedScene" uid="uid://dq4jcgjndycyl" path="res://Objects/racecar.tscn" id="1_i6yhx"]
+[ext_resource type="Script" path="res://Tracks/Camera2D.gd" id="2_p4krl"]
+
+[node name="test_scene" type="Node2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.145098, 0.145098, 0.145098, 1)
+polygon = PackedVector2Array(8, 320, 376, 320, 440, -32, 632, -232, 1080, -320, 1352, -224, 1528, 8, 1584, 320, 1544, 584, 1288, 872, 1144, 1208, 1336, 1592, 1568, 1744, 2264, 1824, 2704, 1656, 2888, 1440, 2920, 1056, 2976, 632, 3192, 400, 3656, 456, 4080, 976, 4208, 1712, 4072, 2472, 3576, 3016, 3120, 3168, 1992, 3184, 1208, 3112, 712, 2800, 360, 2368, 312, 1904, 352, 1424, 352, 904, 392, 512, 8, 480, -8, 736, -72, 1296, -152, 1624, -176, 2136, -88, 2560, 48, 2920, 592, 3440, 1136, 3720, 2216, 3840, 3080, 3768, 3920, 3624, 4352, 3336, 4632, 2752, 4848, 2240, 4784, 1472, 4664, 920, 4392, 352, 3928, 32, 3424, -120, 2912, 8, 2624, 272, 2544, 792, 2512, 1088, 2256, 1288, 1864, 1224, 1760, 1024, 1864, 616, 2088, 176, 2016, -160, 1696, -560, 1416, -680, 920, -752, 512, -664, 96, -296)
+
+[node name="Racecar" parent="." instance=ExtResource("1_i6yhx")]
+position = Vector2(192, 256)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_p4krl")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(1984, 832, 2048, 896, 2240, 896, 2304, 832, 2304, 640, 2240, 576, 2048, 576, 1984, 640)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(1984, 832, 2048, 896, 2240, 896, 2304, 832, 2304, 640, 2240, 576, 2048, 576, 1984, 640)
