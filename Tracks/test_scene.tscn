@@ -1,7 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://db1idhlcf3swl"]
 
 [ext_resource type="PackedScene" uid="uid://dq4jcgjndycyl" path="res://Objects/racecar.tscn" id="1_i6yhx"]
-[ext_resource type="Script" path="res://Tracks/Camera2D.gd" id="2_p4krl"]
+
+[sub_resource type="GDScript" id="GDScript_4g0n2"]
+script/source = "extends Camera2D
+
+func _physics_process(delta):
+	position = get_parent().get_node(\"Racecar\").position
+"
 
 [node name="test_scene" type="Node2D"]
 
@@ -18,7 +24,7 @@ polygon = PackedVector2Array(320, 352, 392, 88, 776, -56, 1136, 80, 1408, 224, 1
 position = Vector2(192, 256)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("2_p4krl")
+script = SubResource("GDScript_4g0n2")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
