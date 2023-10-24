@@ -30,11 +30,19 @@ texture = ExtResource("2_4oll1")
 offset = Vector2(0, -32)
 
 [node name="sliding_rot_cos" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(1, 0, 0.501961, 0.501961)
 texture = ExtResource("2_4oll1")
 offset = Vector2(0, -32)
 
 [node name="last_coll_rot" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(1, 1, 0, 0.501961)
+texture = ExtResource("2_4oll1")
+offset = Vector2(0, -32)
+
+[node name="new_rot" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0, 0, 0.501961)
 texture = ExtResource("2_4oll1")
 offset = Vector2(0, -32)
