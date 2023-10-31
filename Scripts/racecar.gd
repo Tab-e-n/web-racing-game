@@ -21,10 +21,15 @@ var switching_gears_timer = 0
 
 var state_sliding = false
 
+var is_taking_inputs = true
+
 func _ready():
 	motion_mode = MOTION_MODE_FLOATING
 
 func _physics_process(_delta):
+	if Net.is_a_spectator:
+		visible = false
+		return
 	
 	if switching_gears_timer > 0:
 		switching_gears_timer -= 1
@@ -40,34 +45,33 @@ func _physics_process(_delta):
 		physics_sliding()
 	else:
 		physics_normal()
-	move_and_slide()
 	
 	$last_coll_rot.global_rotation = last_coll_rot
 	
-	for i in get_slide_collision_count():
-		var coll = get_slide_collision(i)
-		var wall_angle = coll.get_normal().angle() + PI/2
-		$last_coll_rot.global_rotation = wall_angle
+	if move_and_slide():
+		for i in get_slide_collision_count():
+			var coll = get_slide_collision(i)
+			var wall_angle = coll.get_normal().angle() + PI/2
+			$last_coll_rot.global_rotation = wall_angle
+			
+			
+			var new_angle
+			if rotation_distance(wall_angle, flip_angle(rotation)) < PI/6:
+				new_angle = flip_angle(wall_angle)
+			elif rotation_distance(wall_angle, rotation) < PI/6:
+				new_angle = wall_angle
+			else:
+				new_angle = wall_rotation_change(rotation, wall_angle)
+	#		if cur_speed < 0:
+	#			new_angle = flip_angle(new_angle)
+			$new_rot.global_rotation = new_angle
+			
+			var angle_dist = rotation_distance(new_angle, rotation)
+			var angle_sign = rotation_sign(rotation, new_angle)
+			rotation += angle_dist * angle_sign * 0.05
+	#		print(rotation_apply_percent)
+	#		print($last_coll_rot.global_rotation)
 		
-		
-		var new_angle
-		if rotation_distance(wall_angle, flip_angle(rotation)) < PI/6:
-			new_angle = flip_angle(wall_angle)
-		elif rotation_distance(wall_angle, rotation) < PI/6:
-			new_angle = wall_angle
-		else:
-			new_angle = wall_rotation_change(rotation, wall_angle)
-#		if cur_speed < 0:
-#			new_angle = flip_angle(new_angle)
-		$new_rot.global_rotation = new_angle
-		
-		var angle_dist = rotation_distance(new_angle, rotation)
-		var angle_sign = rotation_sign(rotation, new_angle)
-		rotation += angle_dist * angle_sign * 0.05
-#		print(rotation_apply_percent)
-#		print($last_coll_rot.global_rotation)
-	
-	if get_slide_collision_count() > 0:
 		velocity = get_real_velocity()
 		if pythagoras(velocity.x, velocity.y) < cur_speed:
 			cur_speed = pythagoras(velocity.x, velocity.y)
@@ -93,13 +97,13 @@ func physics_normal():
 #	if Input.is_action_pressed("right"):
 #		turn_direction = 1
 #
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed("left") and is_taking_inputs:
 		rotation -= TURN_SPEED
-	if Input.is_action_pressed("right"):
+	if Input.is_action_pressed("right") and is_taking_inputs:
 		rotation += TURN_SPEED
 	
 	if switching_gears_timer == 0:
-		if Input.is_action_pressed("up"):
+		if Input.is_action_pressed("up") and is_taking_inputs:
 			if cur_speed < TOP_SPEED:
 				cur_speed += ACCELERATION - GEAR_ACC_DECREASE[gear]
 				if cur_speed > TOP_SPEED:
@@ -107,7 +111,7 @@ func physics_normal():
 			if friction_reduction < FRICTION:
 				friction_reduction += 1
 		
-		if Input.is_action_pressed("down"):
+		if Input.is_action_pressed("down") and is_taking_inputs:
 			if cur_speed > -TOP_SPEED_BACK:
 				cur_speed -= DECCELERATION
 				if cur_speed < -TOP_SPEED_BACK:
@@ -127,7 +131,7 @@ func physics_normal():
 			gear = expected_gear
 			switching_gears_timer = 30
 	
-	if !Input.is_action_pressed("up") and !Input.is_action_pressed("down") and friction_reduction > 0:
+	if ((!Input.is_action_pressed("up") and !Input.is_action_pressed("down")) or !is_taking_inputs) and friction_reduction > 0:
 		friction_reduction -= 1
 	
 	if cur_speed != 0:
@@ -144,9 +148,9 @@ func physics_normal():
 
 func physics_sliding():
 	
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed("left") and is_taking_inputs:
 		rotation -= TURN_SPEED_SLIDING
-	if Input.is_action_pressed("right"):
+	if Input.is_action_pressed("right") and is_taking_inputs:
 		rotation += TURN_SPEED_SLIDING
 	
 	var pyth = pythagoras(velocity.x, velocity.y)
@@ -157,16 +161,16 @@ func physics_sliding():
 		velocity_cos = (velocity.y / pyth)
 	
 	if switching_gears_timer == 0:
-		if Input.is_action_pressed("up"):
+		if Input.is_action_pressed("up") and is_taking_inputs:
 			velocity.x += sin(rotation) * ACCELERATION
 			velocity.y -= cos(rotation) * ACCELERATION
 		
-		if Input.is_action_pressed("down") and pyth > 10:
+		if Input.is_action_pressed("down") and is_taking_inputs and pyth > 10:
 			velocity.x -= velocity_sin * DECCELERATION
 			velocity.y -= velocity_cos * DECCELERATION
 	
 	
-	if !Input.is_action_pressed("up") and !Input.is_action_pressed("down"):
+	if (!Input.is_action_pressed("up") and !Input.is_action_pressed("down")) or !is_taking_inputs:
 		if friction_reduction > 0:
 			friction_reduction -= 1
 	

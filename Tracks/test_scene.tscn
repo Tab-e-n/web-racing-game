@@ -1,6 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://db1idhlcf3swl"]
+[gd_scene load_steps=5 format=3 uid="uid://db1idhlcf3swl"]
 
+[ext_resource type="PackedScene" uid="uid://d1u3cho1sh1kk" path="res://Objects/opponent_visualizer.tscn" id="1_b0l6y"]
 [ext_resource type="PackedScene" uid="uid://dq4jcgjndycyl" path="res://Objects/racecar.tscn" id="1_i6yhx"]
+
+[sub_resource type="GDScript" id="GDScript_a8vj5"]
+script/source = "extends Node2D
+
+
+func get_car_data():
+	var data = {}
+	data[\"position\"] = $Racecar.position
+	data[\"rotation\"] = $Racecar.rotation
+#	data[\"gear\"] = $Racecar.gear
+#	data[\"cur_speed\"] = $Racecar.cur_speed
+#	data[\"state_sliding\"] = $Racecar.state_sliding
+	return data
+
+func _on_create_pressed():
+	print(Net.create_game())
+
+
+func _on_join_pressed():
+	print(Net.join_game())
+"
 
 [sub_resource type="GDScript" id="GDScript_4g0n2"]
 script/source = "extends Camera2D
@@ -10,6 +32,7 @@ func _physics_process(delta):
 "
 
 [node name="test_scene" type="Node2D"]
+script = SubResource("GDScript_a8vj5")
 
 [node name="track1" type="Polygon2D" parent="."]
 color = Color(0.145098, 0.145098, 0.145098, 1)
@@ -20,16 +43,35 @@ visible = false
 color = Color(0.145098, 0.145098, 0.145098, 1)
 polygon = PackedVector2Array(320, 352, 392, 88, 776, -56, 1136, 80, 1408, 224, 1752, 200, 1960, 32, 2408, -256, 2920, -208, 3232, 64, 3360, 472, 3200, 808, 2856, 1184, 2840, 1560, 3216, 1784, 3632, 1768, 3872, 1584, 4112, 1280, 4472, 1152, 4864, 1248, 5040, 1664, 5528, 2016, 6040, 1816, 6352, 1480, 6456, 1024, 6384, 648, 6176, 336, 5632, 80, 5200, -40, 4944, -24, 4600, 112, 4440, 360, 4400, 624, 4800, 648, 4856, 384, 5088, 296, 5416, 368, 5768, 504, 5920, 648, 6064, 936, 5992, 1144, 5896, 1368, 5680, 1448, 5368, 1224, 5168, 968, 4944, 888, 4456, 728, 4248, 784, 3944, 872, 3816, 1064, 3624, 1232, 3464, 1344, 3376, 1272, 3432, 1136, 3632, 864, 3808, 656, 3776, 216, 3544, -240, 2960, -592, 2216, -600, 1776, -464, 1536, -248, 1144, -368, 648, -528, 488, -464, 216, -280, 120, -64, -24, 288, -56, 624, 16, 856, 216, 992, 664, 1096, 872, 912, 1192, 968, 1496, 1160, 1536, 1496, 1336, 1824, 1336, 1824, 1288, 2160, 1288, 2168, 1288, 2432, 1288, 2456, 1440, 2616, 1792, 2816, 1792, 2816, 2304, 3016, 2808, 3200, 3296, 3344, 3800, 3400, 4056, 3200, 4392, 2840, 4544, 2392, 4592, 1760, 4672, 1352, 4304, 1304, 4216, 1664, 4176, 2136, 4072, 2400, 3920, 2728, 3616, 2824, 3248, 2728, 2656, 2408, 1976, 2184, 1800, 1984, 1848, 1680, 1848, 1352, 1752, 984, 1544, 792, 1136, 688, 824, 600, 584, 728, 336, 688)
 
+[node name="opponent_visualizer" parent="." instance=ExtResource("1_b0l6y")]
+
 [node name="Racecar" parent="." instance=ExtResource("1_i6yhx")]
 position = Vector2(192, 256)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = SubResource("GDScript_4g0n2")
 
+[node name="create" type="Button" parent="Camera2D"]
+offset_left = -512.0
+offset_top = 320.0
+offset_right = -448.0
+offset_bottom = 384.0
+text = "Create"
+
+[node name="join" type="Button" parent="Camera2D"]
+offset_left = -512.0
+offset_top = 256.0
+offset_right = -448.0
+offset_bottom = 320.0
+text = "Join"
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
-polygon = PackedVector2Array(1984, 832, 2048, 896, 2240, 896, 2304, 832, 2304, 640, 2240, 576, 2048, 576, 1984, 640)
+polygon = PackedVector2Array(1984, 832, 2048, 896, 2376, 1048, 2416, 800, 2488, 576, 2592, 408, 2120, 232, 1984, 640)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PackedVector2Array(1984, 832, 2048, 896, 2240, 896, 2304, 832, 2304, 640, 2240, 576, 2048, 576, 1984, 640)
+polygon = PackedVector2Array(1984, 832, 2048, 896, 2376, 1048, 2416, 800, 2488, 576, 2592, 408, 2120, 232, 1984, 640)
+
+[connection signal="pressed" from="Camera2D/create" to="." method="_on_create_pressed"]
+[connection signal="pressed" from="Camera2D/join" to="." method="_on_join_pressed"]
