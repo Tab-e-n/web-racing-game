@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6m05hpjgeyco"]
+
+[ext_resource type="Script" path="res://Scripts/checkpoint.gd" id="1_vm4tp"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6x8c3"]
+
+[node name="checkpoint" type="Area2D"]
+script = ExtResource("1_vm4tp")
+
+[node name="coll" type="CollisionShape2D" parent="."]
+shape = SubResource("WorldBoundaryShape2D_6x8c3")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

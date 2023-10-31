@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dio5x6fxxcoph"]
+
+[ext_resource type="Script" path="res://Scripts/finish_line.gd" id="1_ocw73"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_csgxu"]
+
+[node name="finish_line" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_ocw73")
+
+[node name="coll" type="CollisionShape2D" parent="."]
+shape = SubResource("WorldBoundaryShape2D_csgxu")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

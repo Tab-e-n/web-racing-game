@@ -26,7 +26,7 @@ var players_loaded = 0
 var is_a_player : bool = true
 var is_a_spectator : bool = false
 
-var current_track_name : String = ""
+var current_track_name : String = "test_scene"
 
 var rcp_delay : int = 0
 
