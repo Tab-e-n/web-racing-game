@@ -12,19 +12,49 @@ const GEAR_THRESHOLDS = [150, 275, 400, 500]
 const GEAR_ACC_DECREASE = [0, 1.6, 2.1, 2.4, 2.7]
 const TURN_SPEED_SLIDING : float = 0.05
 const SLIDING_DRAG : float = 1.5
+const BUNKER_DRAG : float = 4
 
-var gear = 0
+var is_taking_inputs = true
+
 var cur_speed = 0
 var friction_reduction = 0
-
+var gear = 0
 var switching_gears_timer = 0
 
-var state_sliding = false
+var state_sliding : bool = false
+var forced_accel : bool = false
+var extra_friction : float = 0
+var extra_drag : float = 0
+
+var on_asphalt : bool = false
+var on_bunker : bool = false
+
+var oil_covered : bool = false
 
 func _ready():
 	motion_mode = MOTION_MODE_FLOATING
 
 func _physics_process(_delta):
+	if Net.is_a_spectator:
+		visible = false
+		return
+	
+	if not on_asphalt:
+		on_bunker = true
+	else:
+		on_bunker = false
+#	print(on_asphalt)
+#	print(on_bunker)
+	
+	extra_friction = 0
+	extra_drag = 0
+	
+	if on_bunker:
+		extra_drag += BUNKER_DRAG
+	
+	if oil_covered:
+		state_sliding = true
+		extra_friction += 1.5
 	
 	if switching_gears_timer > 0:
 		switching_gears_timer -= 1
@@ -40,34 +70,33 @@ func _physics_process(_delta):
 		physics_sliding()
 	else:
 		physics_normal()
-	move_and_slide()
 	
 	$last_coll_rot.global_rotation = last_coll_rot
 	
-	for i in get_slide_collision_count():
-		var coll = get_slide_collision(i)
-		var wall_angle = coll.get_normal().angle() + PI/2
-		$last_coll_rot.global_rotation = wall_angle
+	if move_and_slide():
+		for i in get_slide_collision_count():
+			var coll = get_slide_collision(i)
+			var wall_angle = coll.get_normal().angle() + PI/2
+			$last_coll_rot.global_rotation = wall_angle
+			
+			
+			var new_angle
+			if rotation_distance(wall_angle, flip_angle(rotation)) < PI/6:
+				new_angle = flip_angle(wall_angle)
+			elif rotation_distance(wall_angle, rotation) < PI/6:
+				new_angle = wall_angle
+			else:
+				new_angle = wall_rotation_change(rotation, wall_angle)
+	#		if cur_speed < 0:
+	#			new_angle = flip_angle(new_angle)
+			$new_rot.global_rotation = new_angle
+			
+			var angle_dist = rotation_distance(new_angle, rotation)
+			var angle_sign = rotation_sign(rotation, new_angle)
+			rotation += angle_dist * angle_sign * 0.05
+	#		print(rotation_apply_percent)
+	#		print($last_coll_rot.global_rotation)
 		
-		
-		var new_angle
-		if rotation_distance(wall_angle, flip_angle(rotation)) < PI/6:
-			new_angle = flip_angle(wall_angle)
-		elif rotation_distance(wall_angle, rotation) < PI/6:
-			new_angle = wall_angle
-		else:
-			new_angle = wall_rotation_change(rotation, wall_angle)
-#		if cur_speed < 0:
-#			new_angle = flip_angle(new_angle)
-		$new_rot.global_rotation = new_angle
-		
-		var angle_dist = rotation_distance(new_angle, rotation)
-		var angle_sign = rotation_sign(rotation, new_angle)
-		rotation += angle_dist * angle_sign * 0.05
-#		print(rotation_apply_percent)
-#		print($last_coll_rot.global_rotation)
-	
-	if get_slide_collision_count() > 0:
 		velocity = get_real_velocity()
 		if pythagoras(velocity.x, velocity.y) < cur_speed:
 			cur_speed = pythagoras(velocity.x, velocity.y)
@@ -75,7 +104,7 @@ func _physics_process(_delta):
 	
 	$Label.text = String.num(gear) + "\n" + String.num(round(cur_speed))
 	
-	if state_sliding:
+	if state_sliding or oil_covered:
 		$placeholder.modulate = Color(0.5, 0.5, 0.5)
 	else:
 		$placeholder.modulate = Color(1, 1, 1)
@@ -93,13 +122,13 @@ func physics_normal():
 #	if Input.is_action_pressed("right"):
 #		turn_direction = 1
 #
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed("left") and is_taking_inputs:
 		rotation -= TURN_SPEED
-	if Input.is_action_pressed("right"):
+	if Input.is_action_pressed("right") and is_taking_inputs:
 		rotation += TURN_SPEED
 	
 	if switching_gears_timer == 0:
-		if Input.is_action_pressed("up"):
+		if (Input.is_action_pressed("up") and is_taking_inputs) or forced_accel:
 			if cur_speed < TOP_SPEED:
 				cur_speed += ACCELERATION - GEAR_ACC_DECREASE[gear]
 				if cur_speed > TOP_SPEED:
@@ -107,7 +136,7 @@ func physics_normal():
 			if friction_reduction < FRICTION:
 				friction_reduction += 1
 		
-		if Input.is_action_pressed("down"):
+		if Input.is_action_pressed("down") and is_taking_inputs:
 			if cur_speed > -TOP_SPEED_BACK:
 				cur_speed -= DECCELERATION
 				if cur_speed < -TOP_SPEED_BACK:
@@ -127,12 +156,12 @@ func physics_normal():
 			gear = expected_gear
 			switching_gears_timer = 30
 	
-	if !Input.is_action_pressed("up") and !Input.is_action_pressed("down") and friction_reduction > 0:
+	if ((!(Input.is_action_pressed("up") or forced_accel) and !Input.is_action_pressed("down")) or !is_taking_inputs) and friction_reduction > 0:
 		friction_reduction -= 1
 	
 	if cur_speed != 0:
 		var speed_sign = sign(cur_speed)
-		cur_speed -= speed_sign * (FRICTION - friction_reduction)
+		cur_speed -= speed_sign * (FRICTION - friction_reduction + abs(cur_speed) / 1000 * extra_drag + extra_friction)
 		if speed_sign != sign(cur_speed):
 			cur_speed = 0
 	
@@ -144,9 +173,9 @@ func physics_normal():
 
 func physics_sliding():
 	
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed("left") and is_taking_inputs:
 		rotation -= TURN_SPEED_SLIDING
-	if Input.is_action_pressed("right"):
+	if Input.is_action_pressed("right") and is_taking_inputs:
 		rotation += TURN_SPEED_SLIDING
 	
 	var pyth = pythagoras(velocity.x, velocity.y)
@@ -157,29 +186,29 @@ func physics_sliding():
 		velocity_cos = (velocity.y / pyth)
 	
 	if switching_gears_timer == 0:
-		if Input.is_action_pressed("up"):
+		if (Input.is_action_pressed("up") and is_taking_inputs) or forced_accel:
 			velocity.x += sin(rotation) * ACCELERATION
 			velocity.y -= cos(rotation) * ACCELERATION
 		
-		if Input.is_action_pressed("down") and pyth > 10:
+		if Input.is_action_pressed("down") and is_taking_inputs and pyth > 10:
 			velocity.x -= velocity_sin * DECCELERATION
 			velocity.y -= velocity_cos * DECCELERATION
 	
 	
-	if !Input.is_action_pressed("up") and !Input.is_action_pressed("down"):
+	if (!Input.is_action_pressed("up") and !Input.is_action_pressed("down")) or !is_taking_inputs:
 		if friction_reduction > 0:
 			friction_reduction -= 1
 	
 	if velocity_sin != null or velocity_cos != null:
 		if velocity.x != 0:
 			var speed_sign = sign(velocity.x)
-			velocity.x -= velocity_sin * (FRICTION / 3 + pyth / 1000 * SLIDING_DRAG)
+			velocity.x -= velocity_sin * (FRICTION / 3 + pyth / 1000 * (SLIDING_DRAG + extra_drag) + extra_friction)
 			if speed_sign != sign(velocity.x) and speed_sign != 0:
 				velocity.x = 0
 		
 		if velocity.y != 0:
 			var speed_sign = sign(velocity.y)
-			velocity.y -= velocity_cos * (FRICTION / 3 + pyth / 1000 * SLIDING_DRAG)
+			velocity.y -= velocity_cos * (FRICTION / 3 + pyth / 1000 * (SLIDING_DRAG + extra_drag) + extra_friction)
 			if speed_sign != sign(velocity.y) and speed_sign != 0:
 				velocity.y = 0
 		
@@ -198,6 +227,16 @@ func physics_sliding():
 	
 #	velocity.x = sin(rotation) * cur_speed
 #	velocity.y = -cos(rotation) * cur_speed
+
+
+func boost(magnitude : float, drag : float, direction : float):
+	if state_sliding:
+		var pyth = pythagoras(velocity.x, velocity.y)
+		velocity.x += sin(direction) * magnitude / (1 + pyth / 1000 * drag)
+		velocity.y += -cos(direction) * magnitude / (1 + pyth / 1000 * drag)
+	else:
+		cur_speed += (PI - rotation_distance(direction, rotation)) / PI * magnitude / (1 + abs(cur_speed) / 1000 * drag)
+
 
 func wall_rotation_change(curr_rot : float, wall_rot : float):
 	var bang_angle = flip_angle(curr_rot)

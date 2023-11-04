@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="web-racing-game"
-run/main_scene="res://Tracks/test_scene.tscn"
+run/main_scene="res://gameplay.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Global="*res://Scripts/Global.gd"
+Net="*res://Scripts/Netcode.gd"
 
 [display]
 
