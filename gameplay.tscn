@@ -12,7 +12,10 @@ script = ExtResource("1_7u3yl")
 [node name="track_loader" parent="." instance=ExtResource("1_3amlh")]
 
 [node name="opponent_visualizer" parent="." instance=ExtResource("1_0oath")]
+z_index = 20
 
 [node name="Racecar" parent="." instance=ExtResource("1_po648")]
+z_index = 20
 
 [node name="camera" parent="." instance=ExtResource("4_50n4o")]
+z_index = 100

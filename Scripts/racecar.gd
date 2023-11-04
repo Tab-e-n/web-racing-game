@@ -12,6 +12,7 @@ const GEAR_THRESHOLDS = [150, 275, 400, 500]
 const GEAR_ACC_DECREASE = [0, 1.6, 2.1, 2.4, 2.7]
 const TURN_SPEED_SLIDING : float = 0.05
 const SLIDING_DRAG : float = 1.5
+const BUNKER_DRAG : float = 4
 
 var is_taking_inputs = true
 
@@ -23,6 +24,10 @@ var switching_gears_timer = 0
 var state_sliding : bool = false
 var forced_accel : bool = false
 var extra_friction : float = 0
+var extra_drag : float = 0
+
+var on_asphalt : bool = false
+var on_bunker : bool = false
 
 var oil_covered : bool = false
 
@@ -30,11 +35,26 @@ func _ready():
 	motion_mode = MOTION_MODE_FLOATING
 
 func _physics_process(_delta):
-	extra_friction = 0
-	
 	if Net.is_a_spectator:
 		visible = false
 		return
+	
+	if not on_asphalt:
+		on_bunker = true
+	else:
+		on_bunker = false
+#	print(on_asphalt)
+#	print(on_bunker)
+	
+	extra_friction = 0
+	extra_drag = 0
+	
+	if on_bunker:
+		extra_drag += BUNKER_DRAG
+	
+	if oil_covered:
+		state_sliding = true
+		extra_friction += 1.5
 	
 	if switching_gears_timer > 0:
 		switching_gears_timer -= 1
@@ -45,10 +65,6 @@ func _physics_process(_delta):
 					gear += 1
 	
 	var last_coll_rot = $last_coll_rot.global_rotation
-	
-	if oil_covered:
-		state_sliding = true
-		extra_friction += 1.5
 	
 	if state_sliding:
 		physics_sliding()
@@ -145,7 +161,7 @@ func physics_normal():
 	
 	if cur_speed != 0:
 		var speed_sign = sign(cur_speed)
-		cur_speed -= speed_sign * (FRICTION - friction_reduction + extra_friction)
+		cur_speed -= speed_sign * (FRICTION - friction_reduction + abs(cur_speed) / 1000 * extra_drag + extra_friction)
 		if speed_sign != sign(cur_speed):
 			cur_speed = 0
 	
@@ -186,13 +202,13 @@ func physics_sliding():
 	if velocity_sin != null or velocity_cos != null:
 		if velocity.x != 0:
 			var speed_sign = sign(velocity.x)
-			velocity.x -= velocity_sin * (FRICTION / 3 + pyth / 1000 * SLIDING_DRAG + extra_friction)
+			velocity.x -= velocity_sin * (FRICTION / 3 + pyth / 1000 * (SLIDING_DRAG + extra_drag) + extra_friction)
 			if speed_sign != sign(velocity.x) and speed_sign != 0:
 				velocity.x = 0
 		
 		if velocity.y != 0:
 			var speed_sign = sign(velocity.y)
-			velocity.y -= velocity_cos * (FRICTION / 3 + pyth / 1000 * SLIDING_DRAG + extra_friction)
+			velocity.y -= velocity_cos * (FRICTION / 3 + pyth / 1000 * (SLIDING_DRAG + extra_drag) + extra_friction)
 			if speed_sign != sign(velocity.y) and speed_sign != 0:
 				velocity.y = 0
 		

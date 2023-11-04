@@ -11,7 +11,7 @@ func _physics_process(delta):
 			var new_op : Sprite2D = Sprite2D.new()
 			new_op.texture = preload("res://Textures/placeholder_car.png")
 			new_op.name = String.num(i)
-			new_op.modulate = Color.DIM_GRAY
+			new_op.modulate = Color.DARK_GRAY
 			add_child(new_op)
 	for op in get_children():
 		if not Net.players.has(int(String(op.name))):
@@ -22,3 +22,7 @@ func _physics_process(delta):
 		var car_data = Net.players[int(String(op.name))]["car_data"]
 		op.rotation =  car_data["rotation"]
 		op.position =  car_data["position"]
+		if car_data["sliding"]:
+			op.self_modulate = Color(0.5, 0.5, 0.5)
+		else:
+			op.self_modulate = Color(1, 1, 1)
