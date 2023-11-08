@@ -1,7 +1,9 @@
 extends Area2D
 
+
 var car : Node2D
 var oil_covered_timer : int
+
 
 func _physics_process(_delta):
 	if car != null:

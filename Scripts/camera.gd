@@ -1,6 +1,6 @@
 extends Camera2D
 
-func _physics_process(delta):
+
+func _physics_process(_delta):
 	var target = get_parent().get_node("Racecar")
-	if target != null:
-		position = target.position
+	position = (target as Node2D).position

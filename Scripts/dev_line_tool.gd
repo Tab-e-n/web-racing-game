@@ -1,7 +1,9 @@
 @tool
+class_name DevLineTool
 extends Line2D
+# Draws a line that shows how a car will move
+# under the specified conditions
 
-class_name dev_line_tool
 
 @export var reload : bool = false
 @export_category("Car Simulation")
@@ -9,6 +11,7 @@ class_name dev_line_tool
 @export var car_simulation_curr_speed : float = 690
 @export var car_simulation_turn_speed : float = 0.03
 @export var car_simulation_end_rotation : float = PI/2
+
 
 func _ready():
 	if not Engine.is_editor_hint():
@@ -19,6 +22,7 @@ func _ready():
 		add_child(dot)
 		modulate = Color(1, 0, 1, 0.5)
 		width = 2
+
 
 func _physics_process(delta):
 	if enable_car_simulation_turn:
@@ -38,4 +42,3 @@ func _physics_process(delta):
 					break
 	
 	reload = false
-

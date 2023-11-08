@@ -1,5 +1,6 @@
 extends Line2D
 
+
 func _ready():
 	if not visible:
 		return

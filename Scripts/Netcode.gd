@@ -30,6 +30,7 @@ var current_track_name : String = "test_scene"
 
 var rcp_delay : int = 0
 
+
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
@@ -38,9 +39,11 @@ func _ready():
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if multiplayer.multiplayer_peer != null:
 		if multiplayer.is_server():
+			# This is here to limit server and peer network load.
+			# Mostlikely not neccesary
 			rcp_delay += 1
 			if rcp_delay >= 3:
 				get_car_data.rpc()
@@ -73,12 +76,8 @@ func remove_multiplayer_peer():
 	multiplayer.multiplayer_peer = null
 
 
-# When the server decides to start the game from a UI scene,
-# do Lobby.load_game.rpc(filepath)
-#@rpc("call_local", "reliable")
-#func load_game(game_scene_path):
-#	get_tree().change_scene_to_file(game_scene_path)
-
+# The server will call this ever so often to tell every peer
+# to send information about where they are, their speed and their rotation.
 @rpc("authority", "call_local", "unreliable")
 func get_car_data():
 	if is_a_spectator or not is_a_player:
@@ -87,6 +86,7 @@ func get_car_data():
 		var car_data = get_tree().current_scene.get_car_data()
 		send_car_data.rpc(car_data)
 
+
 @rpc("any_peer", "call_remote", "unreliable")
 func send_car_data(car_data : Dictionary):
 	var peer_id = multiplayer.get_remote_sender_id()
@@ -94,18 +94,22 @@ func send_car_data(car_data : Dictionary):
 		players[peer_id]["car_data"] = car_data.duplicate()
 #		print("data_recieved")
 
+
+# INCOMPLETE
 @rpc("authority", "call_local", "reliable")
 func send_game_info(game_info : Dictionary):
 	current_track_name = game_info["track_name"]
 
-# Every peer will call this when they have loaded the game scene.
-#@rpc("any_peer", "call_local", "reliable")
-#func player_loaded():
-#	if multiplayer.is_server():
-#		players_loaded += 1
-#		if players_loaded == players.size():
-#			$/root/Game.start_game()
-#			players_loaded = 0
+
+# Tabin function todo list
+#func vote_map
+#func changing_map
+#func send_time
+#func start_countdown
+#func player_finished_race
+#func race_time_ran_out
+#func become_spectator
+#func become_player
 
 
 # When a peer connects, send them my player info.
