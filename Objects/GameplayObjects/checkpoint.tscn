@@ -6,6 +6,7 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6x8c3"]
 
 [node name="checkpoint" type="Area2D"]
+collision_layer = 0
 script = ExtResource("1_vm4tp")
 
 [node name="coll" type="CollisionShape2D" parent="."]

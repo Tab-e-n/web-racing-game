@@ -1,5 +1,6 @@
 extends Marker2D
 
+
 func _ready():
 	var game = get_tree().current_scene
 	if game.has_node("Racecar"):
