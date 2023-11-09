@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjrfuokbebqih"]
+
+[ext_resource type="Script" path="res://Scripts/booster.gd" id="1_rsh2b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pm675"]
+size = Vector2(64, 64)
+
+[node name="booster" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_rsh2b")
+
+[node name="placeholder" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-32, -32, 0, -32, 0, -16, -16, 8, 16, 8, 0, -16, 0, -32, 32, -32, 32, 32, -32, 32)
+
+[node name="coll" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pm675")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cm7fsaqo11er"]
+
+[ext_resource type="Script" path="res://Scripts/oil.gd" id="1_rk51n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wixl5"]
+radius = 56.0
+
+[node name="oil" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_rk51n")
+
+[node name="placeholder" type="Polygon2D" parent="."]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-16, 56, -32, 56, -40, 40, -56, 24, -64, 0, -56, -16, -56, -32, -40, -40, -24, -48, -8, -48, 0, -64, 24, -56, 32, -40, 48, -32, 56, -24, 56, -8, 56, 8, 48, 24, 48, 40, 40, 48, 24, 48, 8, 64)
+
+[node name="coll" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wixl5")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
