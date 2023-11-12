@@ -13,7 +13,8 @@ const MAX_CONNECTIONS = 20
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
-var players = {}
+var players = {
+}
 # This is the local player info. This should be modified locally
 # before the connection is made. It will be passed to every other peer.
 # For example, the value of "name" can be set to something the player
@@ -21,6 +22,7 @@ var players = {}
 var player_info = {
 	"name": "Name",
 	"palette" : 0,
+	"time" : -1,
 }
 var players_loaded = 0
 var is_a_player : bool = true
@@ -37,6 +39,8 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	
+	(get_tree().current_scene as Gameplay).race_finished.connect(_on_race_finished)
 
 
 func _physics_process(_delta):
@@ -96,20 +100,37 @@ func send_car_data(car_data : Dictionary):
 
 
 # INCOMPLETE
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_remote", "reliable")
 func send_game_info(game_info : Dictionary):
 	current_track_name = game_info["track_name"]
+
+
+@rpc("authority", "call_local", "reliable")
+func start_countdown():
+	(get_tree().current_scene as Gameplay).start_race()
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func send_time(time : float):
+	var peer_id = multiplayer.get_remote_sender_id()
+	if players.has(peer_id):
+		players[peer_id]["time"] = time
+
+
+func _on_race_finished(race_timer):
+	send_time.rpc(race_timer)
 
 
 # Tabin function todo list
 #func vote_map
 #func changing_map
-#func send_time
-#func start_countdown
-#func player_finished_race
 #func race_time_ran_out
 #func become_spectator
 #func become_player
+
+
+func kick(id):
+	multiplayer.multiplayer_peer.disconnect_peer(id)
 
 
 # When a peer connects, send them my player info.

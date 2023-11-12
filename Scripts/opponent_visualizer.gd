@@ -19,8 +19,22 @@ func manage_opponents():
 			var new_op : Sprite2D = Sprite2D.new()
 			new_op.texture = preload("res://Textures/placeholder_car.png")
 			new_op.name = String.num(i)
-			new_op.modulate = Color.DARK_GRAY
+			new_op.self_modulate = Color.DARK_GRAY
 			add_child(new_op)
+			
+			var op_name : Label = Label.new()
+			op_name.name = "name"
+			op_name.text = Net.players[i]["name"]
+			
+			var stylebox : StyleBoxFlat = StyleBoxFlat.new()
+			stylebox.bg_color = Color(0, 0, 0, 0.3)
+			op_name.add_theme_stylebox_override("normal", stylebox)
+#
+#			op_name.pivot_offset = op_name.size / 2
+#			op_name.position = -op_name.size / 2
+			op_name.set_anchors_preset(Control.PRESET_TOP_LEFT)
+			
+			new_op.add_child(op_name)
 
 
 func animate_opponents():
@@ -33,9 +47,11 @@ func animate_opponents():
 			continue
 		
 		var car_data = Net.players[int(String(op.name))]["car_data"]
-		op.rotation =  car_data["rotation"]
-		op.position =  car_data["position"]
+		op.rotation = car_data["rotation"]
+		op.position = car_data["position"]
 		if car_data["sliding"]:
-			op.self_modulate = Color(0.5, 0.5, 0.5)
+			op.self_modulate = Color.DARK_GRAY * Color(0.5, 0.5, 0.5)
 		else:
-			op.self_modulate = Color(1, 1, 1)
+			op.self_modulate = Color.DARK_GRAY
+		
+		op.get_node("name").rotation = -op.rotation

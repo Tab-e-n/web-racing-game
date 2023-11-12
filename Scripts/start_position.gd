@@ -7,4 +7,5 @@ func _ready():
 		var car = game.get_node("Racecar")
 		car.position = position
 		car.rotation = rotation
+		(car as Racecar).reset()
 	queue_free()

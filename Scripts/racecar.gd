@@ -1,3 +1,4 @@
+class_name Racecar
 extends CharacterBody2D
 
 
@@ -25,6 +26,7 @@ var switching_gears_timer = 0
 
 var state_sliding : bool = false
 var forced_accel : bool = false
+var forced_brake : bool = false
 var extra_friction : float = 0
 var extra_drag : float = 0
 
@@ -35,7 +37,31 @@ var oil_covered : bool = false
 
 
 func _ready():
+	(get_parent() as Gameplay).race_finished.connect(_on_race_finished)
+	(get_parent() as Gameplay).race_started.connect(_on_race_started)
+	if not get_parent() is Gameplay:
+		_on_race_started()
 	motion_mode = MOTION_MODE_FLOATING
+
+
+func reset():
+	is_taking_inputs = false
+	
+	curr_speed = 0
+	friction_reduction = 0
+	gear = 0
+	switching_gears_timer = 0
+	
+	state_sliding = false
+	forced_accel = false
+	forced_brake = false
+	extra_friction = 0
+	extra_drag = 0
+	
+	on_asphalt = false
+	on_bunker = false
+	
+	oil_covered = false
 
 
 func _physics_process(_delta):
@@ -134,7 +160,7 @@ func physics_normal():
 			if friction_reduction < FRICTION:
 				friction_reduction += 1
 		
-		if Input.is_action_pressed("down") and is_taking_inputs:
+		if (Input.is_action_pressed("down") and is_taking_inputs) or (forced_brake and curr_speed > 10):
 			curr_speed = normal_change_speed(curr_speed, TOP_SPEED_BACK, -DECCELERATION)
 			if friction_reduction < FRICTION:
 				friction_reduction += 1
@@ -176,7 +202,7 @@ func physics_sliding():
 			velocity.x += sin(rotation) * ACCELERATION
 			velocity.y -= cos(rotation) * ACCELERATION
 		
-		if Input.is_action_pressed("down") and is_taking_inputs and pyth > 10:
+		if ((Input.is_action_pressed("down") and is_taking_inputs) or forced_brake) and pyth > 10:
 			velocity.x -= velocity_sin * DECCELERATION
 			velocity.y -= velocity_cos * DECCELERATION
 	
@@ -193,7 +219,7 @@ func physics_sliding():
 			$sliding_rot_cos.global_rotation = incos(velocity_cos, velocity.x)
 		
 		if not DEBUG_NO_EXIT_SLIDING:
-			if rotation_distance(incos(velocity_cos, velocity.x), rotation) < 0.1 and !Input.is_action_pressed("down"):
+			if rotation_distance(incos(velocity_cos, velocity.x), rotation) < 0.1 and !(Input.is_action_pressed("down") or forced_brake):
 				state_sliding = false
 	
 	if not DEBUG_NO_EXIT_SLIDING:
@@ -296,3 +322,12 @@ func incos(n : float, velx : float):
 
 func pythagoras(a, b):
 	return sqrt(a * a + b * b)
+
+
+func _on_race_started():
+	is_taking_inputs = true
+
+
+func _on_race_finished(_race_timer):
+	is_taking_inputs = false
+	forced_brake = true
