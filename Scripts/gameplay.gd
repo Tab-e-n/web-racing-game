@@ -5,6 +5,7 @@ extends Node2D
 signal lap_finished(lap)
 signal race_started()
 signal race_finished(final_time)
+signal wrong_way()<
 
 
 var countdown_has_started : bool = true

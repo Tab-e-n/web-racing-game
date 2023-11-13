@@ -17,3 +17,7 @@ func _on_body_entered(_body):
 	if current_checkpoint == last_check_point:
 		(get_tree().current_scene as Gameplay).player_did_a_lap()
 		current_checkpoint = 0
+
+
+func wrong_way():
+	(get_tree().current_scene as Gameplay).wrong_way.emit()
