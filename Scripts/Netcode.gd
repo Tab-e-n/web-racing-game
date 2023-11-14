@@ -10,6 +10,8 @@ signal server_disconnected
 const PORT = 7000
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
 const MAX_CONNECTIONS = 20
+const END_OF_RACE_TIMEOUT : float = 60
+const VOTE_TIME : float = 10
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
@@ -24,13 +26,16 @@ var player_info = {
 	"palette" : 0,
 	"time" : -1,
 }
-var players_loaded = 0
+var players_loaded = []
 var is_a_player : bool = true
 var is_a_spectator : bool = false
 
 var current_track_name : String = "test_scene"
 
 var rcp_delay : int = 0
+
+var end_of_race_timeout : float = 0
+var vote_timer : float = 0
 
 
 func _ready():
@@ -39,11 +44,9 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
-	
-	(get_tree().current_scene as Gameplay).race_finished.connect(_on_race_finished)
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if multiplayer.multiplayer_peer != null:
 		if multiplayer.is_server():
 			# This is here to limit server and peer network load.
@@ -52,6 +55,21 @@ func _physics_process(_delta):
 			if rcp_delay >= 3:
 				get_car_data.rpc()
 				rcp_delay = 0
+			
+			if end_of_race_timeout > 0:
+				end_of_race_timeout -= delta
+				if end_of_race_timeout <= 0:
+					racing_finished.rpc()
+			
+			if vote_timer > 0:
+				vote_timer -= delta
+				if vote_timer <= 0:
+					start_new_round()
+			
+			if players_loaded.size() == players.size():
+				players_loaded = []
+				start_countdown.rpc()
+			
 #			print("server")
 
 
@@ -74,6 +92,7 @@ func create_game():
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
+	call_deferred("start_countdown")
 
 
 func remove_multiplayer_peer():
@@ -99,34 +118,100 @@ func send_car_data(car_data : Dictionary):
 #		print("data_recieved")
 
 
-# INCOMPLETE
 @rpc("authority", "call_remote", "reliable")
 func send_game_info(game_info : Dictionary):
+	print("got game info")
 	current_track_name = game_info["track_name"]
+	become_spectator()
+
+
+func start_new_round():
+	print("new round")
+	end_of_race_timeout = 0
+	vote_timer = 0
+	players_loaded = []
+	change_map.rpc(current_track_name)
+
+
+@rpc("authority", "call_local", "reliable")
+func change_map(track_name : String):
+	print("changing map: ", track_name)
+	if track_name == current_track_name:
+		call_deferred("set", "current_track_name", track_name)
+		track_name = ""
+	current_track_name = track_name
+	send_time.rpc(-1)
+	if not multiplayer.is_server():
+		map_loaded.rpc_id(1)
+	else:
+		map_loaded()
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func map_loaded():
+	var peer_id = multiplayer.get_remote_sender_id()
+	print(peer_id, " loaded the map")
+	if not players_loaded.has(peer_id):
+		players_loaded.append(peer_id)
 
 
 @rpc("authority", "call_local", "reliable")
 func start_countdown():
-	(get_tree().current_scene as Gameplay).start_race()
+	print("starting coundown")
+	become_player()
+	if get_tree().current_scene is Gameplay:
+		get_tree().current_scene.start_race()
 
 
 @rpc("any_peer", "call_remote", "reliable")
 func send_time(time : float):
+	print(time)
 	var peer_id = multiplayer.get_remote_sender_id()
 	if players.has(peer_id):
 		players[peer_id]["time"] = time
+	if multiplayer.is_server() and time != -1:
+		end_of_race_timeout = END_OF_RACE_TIMEOUT
+		check_player_times()
+
+
+func check_player_times():
+	for i in players:
+		if players[i]["time"] == -1:
+			print(players)
+			return
+	racing_finished()
 
 
 func _on_race_finished(race_timer):
+	print("i finished")
 	send_time.rpc(race_timer)
+	if multiplayer.is_server():
+		print(race_timer)
+		if players.has(1):
+			players[1]["time"] = race_timer
+		end_of_race_timeout = END_OF_RACE_TIMEOUT
+		check_player_times()
 
 
 # Tabin function todo list
 #func vote_map
-#func changing_map
-#func race_time_ran_out
-#func become_spectator
-#func become_player
+
+
+@rpc("authority", "call_local", "reliable")
+func racing_finished():
+	print("race over")
+	(get_tree().current_scene as Gameplay).stop_race()
+	if multiplayer.is_server():
+		end_of_race_timeout = 0
+		vote_timer = VOTE_TIME
+
+
+func become_spectator():
+	is_a_spectator = true
+
+
+func become_player():
+	is_a_spectator = false
 
 
 func kick(id):
