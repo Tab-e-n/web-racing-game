@@ -8,7 +8,7 @@ signal race_finished(final_time)
 signal wrong_way()
 
 
-const COUNTDOWN : float = 4
+const COUNTDOWN : float = 3
 
 var is_racing : bool = false
 

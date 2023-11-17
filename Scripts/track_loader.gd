@@ -18,5 +18,7 @@ func change_track(new_track_name : String):
 		return
 	
 	var packed = load("res://Tracks/" + new_track_name + ".tscn")
+	if packed == null:
+		packed = load("res://Tracks/test_scene.tscn")
 	current_track = packed.instantiate()
 	add_child(current_track)
