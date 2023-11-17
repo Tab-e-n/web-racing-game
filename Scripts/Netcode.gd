@@ -11,7 +11,7 @@ const PORT = 7000
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
 const MAX_CONNECTIONS = 20
 const END_OF_RACE_TIMEOUT : float = 60
-const VOTE_TIME : float = 10
+const VOTE_TIME : float = 20
 const NUMBER_OF_VOTE_OPTIONS : int = 4
 
 # This will contain player info for every player,
@@ -199,6 +199,9 @@ func _on_race_finished(race_timer):
 		check_player_times()
 
 
+# This is the function that the ui can call when the player
+# chooses the vote option. It can be called multiple times,
+# only the most recent vote will count.
 func vote_map(vote):
 	send_map_vote.rpc_id(1)
 
