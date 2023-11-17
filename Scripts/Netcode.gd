@@ -12,6 +12,7 @@ const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
 const MAX_CONNECTIONS = 20
 const END_OF_RACE_TIMEOUT : float = 60
 const VOTE_TIME : float = 10
+const NUMBER_OF_VOTE_OPTIONS : int = 4
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
@@ -36,6 +37,9 @@ var rcp_delay : int = 0
 
 var end_of_race_timeout : float = 0
 var vote_timer : float = 0
+
+var votes : Array = []
+var vote_options : Array = ["test_scene","test_scene","test_scene","test_scene"]
 
 
 func _ready():
@@ -130,7 +134,9 @@ func start_new_round():
 	end_of_race_timeout = 0
 	vote_timer = 0
 	players_loaded = []
-	change_map.rpc(current_track_name)
+	
+	var top_vote = count_votes()
+	change_map.rpc(vote_options[top_vote])
 
 
 @rpc("authority", "call_local", "reliable")
@@ -193,8 +199,50 @@ func _on_race_finished(race_timer):
 		check_player_times()
 
 
-# Tabin function todo list
-#func vote_map
+func vote_map(vote):
+	send_map_vote.rpc_id(1)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func send_map_vote(vote):
+	var peer_id = multiplayer.get_remote_sender_id()
+	if vote < 0 or vote > 3:
+		return
+	votes[peer_id] = vote
+
+
+func count_votes() -> int:
+	var vote_count = []
+	for i in range(NUMBER_OF_VOTE_OPTIONS):
+		vote_count.append(0)
+	
+	for i in votes:
+		vote_count[i] += 1
+	
+	var highest = 0
+	var top_vote = []
+	for i in range(NUMBER_OF_VOTE_OPTIONS):
+		if vote_count[i] > highest:
+			highest = vote_count[i]
+			top_vote = [i]
+		if vote_count[i] == highest:
+			top_vote.append(i)
+	
+	var rng = RandomNumberGenerator.new()
+	return top_vote[rng.randi_range(0, top_vote.size() - 1)]
+
+
+func generate_vote_options():
+	var dir : Array = DirAccess.get_files_at("res://Tracks/")
+	var rng = RandomNumberGenerator.new()
+	for i in range(NUMBER_OF_VOTE_OPTIONS):
+		var index = rng.randi_range(0, dir.size() - 1)
+		vote_options[i] = dir[index]
+		dir.remove_at(index)
+		if dir.is_empty():
+			break
+	
+	print(vote_options)
 
 
 @rpc("authority", "call_local", "reliable")
@@ -204,6 +252,8 @@ func racing_finished():
 	if multiplayer.is_server():
 		end_of_race_timeout = 0
 		vote_timer = VOTE_TIME
+		votes = []
+		generate_vote_options()
 
 
 func become_spectator():
