@@ -237,8 +237,9 @@ func generate_vote_options():
 	var rng = RandomNumberGenerator.new()
 	for i in range(NUMBER_OF_VOTE_OPTIONS):
 		var index = rng.randi_range(0, dir.size() - 1)
-		vote_options[i] = dir[index]
+		var map : String = dir[index]
 		dir.remove_at(index)
+		vote_options[i] = map.trim_suffix(".tscn")
 		if dir.is_empty():
 			break
 	
