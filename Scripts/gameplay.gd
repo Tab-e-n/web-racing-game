@@ -42,6 +42,7 @@ func get_car_data():
 
 
 func start_race():
+	race_timer = 0
 	current_lap = 0
 	is_racing = true
 	countdown_has_started = true
