@@ -17,10 +17,10 @@ func _on_create_button_pressed():
 
 func _on_join_button_pressed():
 	load_game()
-	Net.join_game($IpLine.text)
+	Net.join_game($ip_line.text)
 
 
 func load_game():
-	Net.player_info["name"] = $NameLine.text
+	Net.player_info["name"] = $name_line.text
 	get_tree().change_scene_to_file("res://gameplay.tscn")
 	

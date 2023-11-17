@@ -15,7 +15,7 @@ var is_racing : bool = false
 var countdown_has_started : bool = false
 var countdown : float = COUNTDOWN
 var timer_has_started : bool = false
-var race_timer : float = 0
+var race_timer : float = 0 
 
 var lap_count : int = 3
 var current_lap : int = 0
