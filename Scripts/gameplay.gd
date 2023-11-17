@@ -8,8 +8,12 @@ signal race_finished(final_time)
 signal wrong_way()
 
 
-var countdown_has_started : bool = true
-var countdown : float = 3
+const COUNTDOWN : float = 4
+
+var is_racing : bool = false
+
+var countdown_has_started : bool = false
+var countdown : float = COUNTDOWN
 var timer_has_started : bool = false
 var race_timer : float = 0 
 
@@ -38,13 +42,26 @@ func get_car_data():
 
 
 func start_race():
+	is_racing = true
 	countdown_has_started = true
+	countdown = COUNTDOWN
+	timer_has_started = false
+
+
+func stop_race():
+	is_racing = false
+	countdown_has_started = false
+	timer_has_started = false
+	$Racecar.is_taking_inputs = false
 
 
 func player_did_a_lap():
+	if not is_racing:
+		return
 	print("You did a lap :D")
 	current_lap += 1
 	if current_lap != lap_count:
 		lap_finished.emit(current_lap)
 	else:
 		race_finished.emit(race_timer)
+		Net._on_race_finished(race_timer)
