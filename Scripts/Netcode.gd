@@ -40,7 +40,8 @@ func _ready():
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	
-	(get_tree().current_scene as Gameplay).race_finished.connect(_on_race_finished)
+	if get_tree().current_scene == Gameplay:
+		(get_tree().current_scene as Gameplay).race_finished.connect(_on_race_finished)
 
 
 func _physics_process(_delta):
@@ -108,6 +109,7 @@ func send_game_info(game_info : Dictionary):
 @rpc("authority", "call_local", "reliable")
 func start_countdown():
 	(get_tree().current_scene as Gameplay).start_race()
+	pass
 
 
 @rpc("any_peer", "call_remote", "reliable")

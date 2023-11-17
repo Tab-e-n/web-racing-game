@@ -5,13 +5,13 @@ extends Node2D
 signal lap_finished(lap)
 signal race_started()
 signal race_finished(final_time)
-signal wrong_way()<
+signal wrong_way()
 
 
 var countdown_has_started : bool = true
 var countdown : float = 3
 var timer_has_started : bool = false
-var race_timer : float = 0
+var race_timer : float = 0 
 
 var lap_count : int = 3
 var current_lap : int = 0

@@ -1,16 +1,17 @@
 [gd_scene load_steps=2 format=3 uid="uid://c6et65lkb71bw"]
 
-[ext_resource type="Script" path="res://ui.gd" id="1_m12s4"]
+[ext_resource type="Script" path="res://Scripts/ui.gd" id="1_roakc"]
 
-[node name="Menu" type="Control"]
+[node name="menu" type="Control"]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_m12s4")
+script = ExtResource("1_roakc")
 
-[node name="CreateButton" type="Button" parent="."]
+[node name="create_button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -22,7 +23,7 @@ offset_bottom = 380.0
 grow_horizontal = 2
 text = "Create game"
 
-[node name="JoinButton" type="Button" parent="."]
+[node name="join_button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -37,7 +38,7 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "Join game"
 
-[node name="IpLine" type="LineEdit" parent="."]
+[node name="ip_line" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -50,8 +51,9 @@ offset_right = 97.5
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+placeholder_text = "ip address"
 
-[node name="NameLine" type="LineEdit" parent="."]
+[node name="name_line" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -64,6 +66,7 @@ offset_right = 97.5
 offset_bottom = 142.0
 grow_horizontal = 2
 grow_vertical = 2
+placeholder_text = "Name"
 
-[connection signal="pressed" from="CreateButton" to="." method="_on_create_button_pressed"]
-[connection signal="pressed" from="JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="create_button" to="." method="_on_create_button_pressed"]
+[connection signal="pressed" from="join_button" to="." method="_on_join_button_pressed"]
