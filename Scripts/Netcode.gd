@@ -52,7 +52,7 @@ func _ready():
 
 func _physics_process(delta):
 	if multiplayer.multiplayer_peer != null:
-		if multiplayer.is_server():
+		if multiplayer.is_server() and get_tree().current_scene is Gameplay:
 			# This is here to limit server and peer network load.
 			# Mostlikely not neccesary
 			rcp_delay += 1
