@@ -238,7 +238,12 @@ func count_votes() -> int:
 func generate_vote_options():
 	var dir : Array = DirAccess.get_files_at("res://Tracks/")
 	var rng = RandomNumberGenerator.new()
-	for i in range(NUMBER_OF_VOTE_OPTIONS):
+	
+	vote_options[NUMBER_OF_VOTE_OPTIONS - 1] = current_track_name
+	if dir.find(current_track_name) > -1:
+		dir.remove_at(dir.find(current_track_name))
+	
+	for i in range(NUMBER_OF_VOTE_OPTIONS - 1):
 		var index = rng.randi_range(0, dir.size() - 1)
 		var map : String = dir[index]
 		dir.remove_at(index)
