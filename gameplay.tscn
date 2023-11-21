@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c64snpqm6f4ah"]
+[gd_scene load_steps=8 format=3 uid="uid://c64snpqm6f4ah"]
 
 [ext_resource type="PackedScene" uid="uid://d1u3cho1sh1kk" path="res://Objects/opponent_visualizer.tscn" id="1_0oath"]
 [ext_resource type="PackedScene" uid="uid://be2hnvy4ty6sv" path="res://Objects/track_loader.tscn" id="1_3amlh"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dq4jcgjndycyl" path="res://Objects/racecar.tscn" id="1_po648"]
 [ext_resource type="PackedScene" uid="uid://buw70a4g4fxay" path="res://Objects/camera.tscn" id="4_50n4o"]
 [ext_resource type="Texture2D" uid="uid://dbebh8lkvxccl" path="res://Textures/ui/countdown/3.png" id="6_f2n8t"]
+[ext_resource type="Texture2D" uid="uid://2b0bcrok4cvy" path="res://Textures/ui/on_finish_image.png" id="7_ta2gp"]
 
 [node name="gameplay" type="Node2D"]
 script = ExtResource("1_7u3yl")
@@ -35,6 +36,20 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_f2n8t")
 
+[node name="on_finish_image" type="TextureRect" parent="camera"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -75.0
+offset_right = 225.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_ta2gp")
+
 [node name="score" type="VBoxContainer" parent="camera"]
 offset_left = 359.0
 offset_top = -371.0
@@ -56,3 +71,27 @@ deselect_on_focus_loss_enabled = false
 layout_mode = 2
 text = "lap: 0 / 0"
 editable = false
+
+[node name="player_list" type="TextEdit" parent="camera"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.5
+offset_top = -172.5
+offset_right = 115.5
+offset_bottom = 172.5
+grow_horizontal = 2
+grow_vertical = 2
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+
+[connection signal="race_finished" from="." to="camera" method="_on_gameplay_race_finished"]
