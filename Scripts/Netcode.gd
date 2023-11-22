@@ -270,6 +270,9 @@ func generate_vote_options():
 			break
 	
 	print(vote_options)
+	for child in (get_tree().current_scene as Gameplay).get_children(): #tohle je asi spatne
+		if child.name == "camera":
+			child.start_vote()
 
 
 @rpc("authority", "call_local", "reliable")
