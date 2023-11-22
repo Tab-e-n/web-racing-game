@@ -64,6 +64,7 @@ func player_did_a_lap():
 	current_lap += 1
 	if current_lap != lap_count:
 		lap_finished.emit(current_lap)
+		Net._on_lap_finished(race_timer, current_lap)
 	else:
 		race_finished.emit(race_timer)
 		Net._on_race_finished(race_timer)

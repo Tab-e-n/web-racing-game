@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c64snpqm6f4ah"]
+[gd_scene load_steps=10 format=3 uid="uid://c64snpqm6f4ah"]
 
 [ext_resource type="PackedScene" uid="uid://d1u3cho1sh1kk" path="res://Objects/opponent_visualizer.tscn" id="1_0oath"]
 [ext_resource type="PackedScene" uid="uid://be2hnvy4ty6sv" path="res://Objects/track_loader.tscn" id="1_3amlh"]
@@ -7,6 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://buw70a4g4fxay" path="res://Objects/camera.tscn" id="4_50n4o"]
 [ext_resource type="Texture2D" uid="uid://dbebh8lkvxccl" path="res://Textures/ui/countdown/3.png" id="6_f2n8t"]
 [ext_resource type="Texture2D" uid="uid://2b0bcrok4cvy" path="res://Textures/ui/on_finish_image.png" id="7_ta2gp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vl44o"]
+bg_color = Color(0.443137, 0.443137, 0.443137, 1)
+
+[sub_resource type="GDScript" id="GDScript_4inib"]
+script/source = "extends Label
+
+func _physics_process(delta):
+	visible = Net.temp_start_countdown
+"
 
 [node name="gameplay" type="Node2D"]
 script = ExtResource("1_7u3yl")
@@ -71,6 +81,19 @@ deselect_on_focus_loss_enabled = false
 layout_mode = 2
 text = "lap: 0 / 0"
 editable = false
+
+[node name="temp" type="Label" parent="camera"]
+offset_left = -112.0
+offset_top = -40.0
+offset_right = 113.0
+offset_bottom = 38.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vl44o")
+text = "WAITING FOR PLAYERS.
+PRESS F1 IF YOU ARE HOST
+TO START THE COUNTDOWN."
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_4inib")
 
 [node name="player_list" type="TextEdit" parent="camera"]
 visible = false
