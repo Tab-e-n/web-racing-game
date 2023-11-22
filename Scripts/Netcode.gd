@@ -40,7 +40,7 @@ var rcp_delay : int = 0
 var end_of_race_timeout : float = 0
 var vote_timer : float = 0
 
-var votes : Array = []
+var votes : Dictionary = {}
 var vote_options : Array = ["test_scene","test_scene","test_scene","test_scene"]
 
 var temp_start_countdown = true
@@ -52,6 +52,7 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	print("starting map: ", current_track_name)
 
 
 func _physics_process(delta):
@@ -92,6 +93,8 @@ func join_game(address = ""):
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
+	
+	temp_start_countdown = false
 
 
 func create_game():
@@ -103,6 +106,8 @@ func create_game():
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
+	
+	temp_start_countdown = true
 #	call_deferred("start_countdown")
 
 
@@ -172,15 +177,15 @@ func map_loaded():
 # But it needs to get called manually when the lobby is created.
 @rpc("authority", "call_local", "reliable")
 func start_countdown():
-	print("starting coundown")
+	print("starting countdown")
 	become_player()
 	if get_tree().current_scene is Gameplay:
 		get_tree().current_scene.start_race()
 
 
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func send_time(time : float, done : bool, laps : int = -1):
-	print(time)
+	print("my time: ", time)
 	var peer_id = multiplayer.get_remote_sender_id()
 	if players.has(peer_id):
 		players[peer_id]["time"] = time
@@ -195,7 +200,7 @@ func send_time(time : float, done : bool, laps : int = -1):
 func check_player_finish():
 	for i in players:
 		if not players[i]["finished"]:
-			print(players)
+			print("everyone isn't done yet.")
 			return
 	racing_finished()
 
@@ -203,14 +208,6 @@ func check_player_finish():
 func _on_race_finished(race_timer):
 	print("i finished")
 	send_time.rpc(race_timer, true)
-	if multiplayer.is_server():
-		print(race_timer)
-		if players.has(1):
-			players[1]["time"] = race_timer
-			players[1]["laps"] = 0
-			players[1][["finished"]] = false
-		end_of_race_timeout = END_OF_RACE_TIMEOUT
-		check_player_finish()
 
 
 func _on_lap_finished(race_timer, lap):
@@ -221,14 +218,16 @@ func _on_lap_finished(race_timer, lap):
 # chooses the vote option. It can be called multiple times,
 # only the most recent vote will count.
 func vote_map(vote):
-	send_map_vote.rpc_id(1)
+	print("i voted for ", vote)
+	send_map_vote.rpc_id(1, vote)
 
 
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func send_map_vote(vote):
 	var peer_id = multiplayer.get_remote_sender_id()
 	if vote < 0 or vote > NUMBER_OF_VOTE_OPTIONS:
 		return
+	print(peer_id, " voted for ", vote)
 	votes[peer_id] = vote
 
 
@@ -237,7 +236,7 @@ func count_votes() -> int:
 	for i in range(NUMBER_OF_VOTE_OPTIONS):
 		vote_count.append(0)
 	
-	for i in votes:
+	for i in votes.values():
 		vote_count[i] += 1
 	
 	var highest = 0
@@ -250,7 +249,9 @@ func count_votes() -> int:
 			top_vote.append(i)
 	
 	var rng = RandomNumberGenerator.new()
-	return top_vote[rng.randi_range(0, top_vote.size() - 1)]
+	var vote_winner = top_vote[rng.randi_range(0, top_vote.size() - 1)]
+	print(vote_winner, ". map won with ", highest, " votes ", vote_count)
+	return vote_winner
 
 
 func generate_vote_options():
@@ -270,21 +271,17 @@ func generate_vote_options():
 			break
 	
 	print(vote_options)
-	for child in (get_tree().current_scene as Gameplay).get_children(): #tohle je asi spatne
-		if child.name == "camera":
-			child.start_vote()
 
 
 @rpc("authority", "call_local", "reliable")
 func racing_finished():
 	print("race over")
-	(get_tree().current_scene as Gameplay).stop_race()
 	if multiplayer.is_server():
 		end_of_race_timeout = 0
 		vote_timer = VOTE_TIME
-		votes = []
+		votes = {}
 		generate_vote_options()
-
+	(get_tree().current_scene as Gameplay).stop_race()
 
 func become_spectator():
 	is_a_spectator = true
