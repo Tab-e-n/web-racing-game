@@ -55,6 +55,8 @@ func stop_race():
 	countdown_has_started = false
 	timer_has_started = false
 	$Racecar.is_taking_inputs = false
+	$camera.start_vote() # premistil jsem ti funkci ha ha ha
+	# Tam kde si to dal predtim to sice fungovalo, ale bylo to moc zamotane
 
 
 func player_did_a_lap():

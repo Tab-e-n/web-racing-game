@@ -25,8 +25,7 @@ func _ready():
 	vote_buttons = [$vote_buttons/b1, $vote_buttons/b2, $vote_buttons/b3, $vote_buttons/b4]
 	
 	for i in range(len(vote_buttons)):
-		vote_buttons[i].connect("button_down", vote_button_pressed.bind([i]))
-	
+		vote_buttons[i].connect("button_down", vote_button_pressed.bind(i))
 
 func _physics_process(_delta):
 	#jenom pro debug
@@ -89,8 +88,8 @@ func _physics_process(_delta):
 	$"car_stats/speed".text = "speed: " + str(int($"../Racecar".curr_speed))
 
 
-func vote_button_pressed(args):
-	Net.vote_map(args[0])
+func vote_button_pressed(vote):
+	Net.vote_map(vote)
 
 
 func update_player_list():
