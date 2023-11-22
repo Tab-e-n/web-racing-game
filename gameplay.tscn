@@ -28,9 +28,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -125.0
+offset_left = -225.0
 offset_top = -125.0
-offset_right = 125.0
+offset_right = 225.0
 offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -43,9 +43,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -225.0
-offset_top = -75.0
+offset_top = -125.0
 offset_right = 225.0
-offset_bottom = 75.0
+offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_ta2gp")
@@ -53,8 +53,8 @@ texture = ExtResource("7_ta2gp")
 [node name="score" type="VBoxContainer" parent="camera"]
 offset_left = 359.0
 offset_top = -371.0
-offset_right = 498.0
-offset_bottom = -305.0
+offset_right = 501.0
+offset_bottom = -297.0
 
 [node name="timer" type="LineEdit" parent="camera/score"]
 layout_mode = 2
@@ -79,10 +79,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -115.5
-offset_top = -172.5
-offset_right = 115.5
-offset_bottom = 172.5
+offset_left = -225.0
+offset_top = -125.0
+offset_right = 225.0
+offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
 editable = false
@@ -93,5 +93,64 @@ deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
+
+[node name="car_stats" type="VBoxContainer" parent="camera"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.0
+offset_top = 268.0
+offset_right = 106.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="gear" type="Label" parent="camera/car_stats"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "gear 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="speed" type="Label" parent="camera/car_stats"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "speed: 0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vote_buttons" type="HBoxContainer" parent="camera"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -366.0
+offset_top = -277.0
+offset_right = 366.0
+offset_bottom = -183.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="b1" type="Button" parent="camera/vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b2" type="Button" parent="camera/vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b3" type="Button" parent="camera/vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b4" type="Button" parent="camera/vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "random"
 
 [connection signal="race_finished" from="." to="camera" method="_on_gameplay_race_finished"]
