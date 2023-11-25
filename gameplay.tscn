@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c64snpqm6f4ah"]
+[gd_scene load_steps=12 format=3 uid="uid://c64snpqm6f4ah"]
 
 [ext_resource type="PackedScene" uid="uid://d1u3cho1sh1kk" path="res://Objects/opponent_visualizer.tscn" id="1_0oath"]
 [ext_resource type="PackedScene" uid="uid://be2hnvy4ty6sv" path="res://Objects/track_loader.tscn" id="1_3amlh"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://buw70a4g4fxay" path="res://Objects/camera.tscn" id="4_50n4o"]
 [ext_resource type="Texture2D" uid="uid://dbebh8lkvxccl" path="res://Textures/ui/countdown/3.png" id="6_f2n8t"]
 [ext_resource type="Texture2D" uid="uid://2b0bcrok4cvy" path="res://Textures/ui/on_finish_image.png" id="7_ta2gp"]
+[ext_resource type="Script" path="res://Scripts/minimap.gd" id="8_71xy8"]
+[ext_resource type="Texture2D" uid="uid://bjhwo2vfwr6ja" path="res://Textures/ui/minimap_car.png" id="9_ab43m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vl44o"]
 bg_color = Color(0.443137, 0.443137, 0.443137, 1)
@@ -81,6 +83,34 @@ deselect_on_focus_loss_enabled = false
 layout_mode = 2
 text = "lap: 0 / 0"
 editable = false
+
+[node name="minimap" type="Control" parent="camera"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -480.0
+offset_top = 96.0
+offset_right = -224.0
+offset_bottom = 352.0
+script = ExtResource("8_71xy8")
+
+[node name="track" type="Control" parent="camera/minimap"]
+modulate = Color(0.501961, 0.501961, 0.501961, 0.752941)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -96.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.15, 0.15)
+
+[node name="opponents" type="Node2D" parent="camera/minimap"]
+
+[node name="player" type="Sprite2D" parent="camera/minimap"]
+texture = ExtResource("9_ab43m")
+offset = Vector2(0, -3)
 
 [node name="temp" type="Label" parent="camera"]
 offset_left = -112.0
