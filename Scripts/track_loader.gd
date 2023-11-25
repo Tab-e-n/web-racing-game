@@ -1,6 +1,9 @@
 extends Node2D
 
 
+signal new_track_loaded(track)
+
+
 var current_track : Node2D = Node2D.new()
 var track_name : String = ""
 
@@ -22,3 +25,5 @@ func change_track(new_track_name : String):
 		packed = load("res://Tracks/test_scene.tscn")
 	current_track = packed.instantiate()
 	add_child(current_track)
+	
+	new_track_loaded.emit(current_track)

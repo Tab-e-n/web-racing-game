@@ -1,3 +1,4 @@
+class_name Road
 extends Line2D
 
 

@@ -1,3 +1,4 @@
+class_name RoadWidthChange
 extends Line2D
 
 @export var width_end = 512
