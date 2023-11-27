@@ -33,7 +33,7 @@ var players_loaded = []
 var is_a_player : bool = true
 var is_a_spectator : bool = false
 
-var current_track_name : String = "test_scene"
+var current_track_name : String = "test_scene_1"
 
 var rcp_delay : int = 0
 
@@ -41,7 +41,7 @@ var end_of_race_timeout : float = 0
 var vote_timer : float = 0
 
 var votes : Dictionary = {}
-var vote_options : Array = ["test_scene","test_scene","test_scene","test_scene"]
+var vote_options : Array = ["test_scene", "test_scene", "test_scene", "test_scene"]
 
 var temp_start_countdown = true
 
@@ -72,6 +72,8 @@ func _physics_process(delta):
 			
 			if vote_timer > 0:
 				vote_timer -= delta
+				if votes.size() == players.size():
+					vote_timer -= delta
 				if vote_timer <= 0:
 					do_a_new_round()
 			
@@ -259,8 +261,8 @@ func generate_vote_options():
 	var rng = RandomNumberGenerator.new()
 	
 	vote_options[NUMBER_OF_VOTE_OPTIONS - 1] = current_track_name
-	if dir.find(current_track_name) > -1:
-		dir.remove_at(dir.find(current_track_name))
+	if dir.find(current_track_name + ".tscn") != -1:
+		dir.remove_at(dir.find(current_track_name + ".tscn"))
 	
 	for i in range(NUMBER_OF_VOTE_OPTIONS - 1):
 		var index = rng.randi_range(0, dir.size() - 1)

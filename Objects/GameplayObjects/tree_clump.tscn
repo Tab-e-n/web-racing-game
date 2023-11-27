@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyqmi0txwlr0o"]
+
+[ext_resource type="PackedScene" uid="uid://bt4r6c4xu6n25" path="res://Objects/GameplayObjects/tree.tscn" id="1_3tuwb"]
+
+[node name="tree_clump" type="Node2D"]
+
+[node name="tree" parent="." instance=ExtResource("1_3tuwb")]
+position = Vector2(48, 72)
+scale = Vector2(1.75, 1.75)
+
+[node name="tree2" parent="." instance=ExtResource("1_3tuwb")]
+position = Vector2(-88, 0)
+
+[node name="tree3" parent="." instance=ExtResource("1_3tuwb")]
+position = Vector2(72, -48)
+scale = Vector2(1.5, 1.5)
+
+[node name="tree4" parent="." instance=ExtResource("1_3tuwb")]
+position = Vector2(-88, -136)
+scale = Vector2(2, 2)
