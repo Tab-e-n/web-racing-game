@@ -33,7 +33,7 @@ var players_loaded = []
 var is_a_player : bool = true
 var is_a_spectator : bool = false
 
-var current_track_name : String = "test_scene"
+var current_track_name : String = "test_scene_1"
 
 var rcp_delay : int = 0
 
@@ -72,6 +72,8 @@ func _physics_process(delta):
 			
 			if vote_timer > 0:
 				vote_timer -= delta
+				if votes.size() == players.size():
+					vote_timer -= delta
 				if vote_timer <= 0:
 					do_a_new_round()
 			

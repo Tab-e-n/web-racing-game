@@ -9,11 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil.tscn" id="7_5atdm"]
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="8_epro5"]
 
-[sub_resource type="Curve" id="Curve_3ppcv"]
+[sub_resource type="Curve" id="Curve_7cktj"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.4), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_ah2rf"]
+[sub_resource type="Curve" id="Curve_0a4x5"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.714286), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -41,7 +41,7 @@ width = 224.0
 position = Vector2(-944, 184)
 points = PackedVector2Array(-656, -184, 496, -184)
 width = 320.0
-width_curve = SubResource("Curve_3ppcv")
+width_curve = SubResource("Curve_7cktj")
 width_end = 448.0
 
 [node name="Road2" parent="." instance=ExtResource("2_yes6l")]
@@ -53,7 +53,7 @@ width = 448.0
 position = Vector2(-2048, 1920)
 points = PackedVector2Array(0, 96, 0, -512)
 width = 448.0
-width_curve = SubResource("Curve_ah2rf")
+width_curve = SubResource("Curve_0a4x5")
 width_end = 320.0
 
 [node name="Road3" parent="." instance=ExtResource("2_yes6l")]
@@ -217,25 +217,13 @@ position = Vector2(-2152, -216)
 [node name="oil3" parent="." instance=ExtResource("7_5atdm")]
 position = Vector2(-3472, -24)
 
-[node name="booster" parent="." instance=ExtResource("8_epro5")]
-position = Vector2(-1088, 1152)
-rotation = 1.5708
-scale = Vector2(1.5, 1.5)
-
 [node name="booster2" parent="." instance=ExtResource("8_epro5")]
-position = Vector2(-672, 832)
-rotation = 1.5708
-scale = Vector2(1.5, 1.5)
-
-[node name="booster3" parent="." instance=ExtResource("8_epro5")]
-position = Vector2(-256, 1152)
-rotation = 1.5708
-scale = Vector2(1.5, 1.5)
+position = Vector2(-672, 768)
+rotation = 4.71238
 
 [node name="booster4" parent="." instance=ExtResource("8_epro5")]
-position = Vector2(-672, 1472)
-rotation = 1.5708
-scale = Vector2(1.5, 1.5)
+position = Vector2(-672, 1536)
+rotation = -1.57079
 
 [node name="booster5" parent="." instance=ExtResource("8_epro5")]
 position = Vector2(-3264, 1616)

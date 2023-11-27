@@ -246,7 +246,8 @@ func boost(magnitude : float, drag : float, direction : float):
 		velocity.x += sin(direction) * magnitude / (1 + pyth / 1000 * drag)
 		velocity.y += -cos(direction) * magnitude / (1 + pyth / 1000 * drag)
 	else:
-		curr_speed += ((PI/3) - rotation_distance(direction, rotation)) / (PI/3) * magnitude / (1 + abs(curr_speed) / 1000 * drag)
+		print("b: ", direction, " r: ", rotation, " d: ", rotation_distance(direction, rotation))
+		curr_speed += ((PI/2) - rotation_distance(direction, rotation)) / (PI/2) * magnitude / (1 + abs(curr_speed) / 1000 * drag)
 
 
 func wall_rotation_change(curr_rot : float, wall_rot : float):
@@ -256,6 +257,10 @@ func wall_rotation_change(curr_rot : float, wall_rot : float):
 
 
 func rotation_distance(r1, r2):
+	while r1 < 0:
+		r1 += 2*PI
+	while r2 < 0:
+		r2 += 2*PI
 	var dist = abs(r1 - r2)
 	r1 -= PI
 	while r1 < 0:

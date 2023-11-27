@@ -22,7 +22,7 @@ width = 128.0
 [node name="finish_line" parent="." instance=ExtResource("3_mu34q")]
 position = Vector2(24, -320)
 rotation = -1.5708
-lap_count = 4
+lap_count = 5
 width = 128
 
 [node name="checkpoint" parent="finish_line" instance=ExtResource("4_su8cg")]
