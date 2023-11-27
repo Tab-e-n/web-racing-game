@@ -1,17 +1,22 @@
+@tool
 class_name RoadWidthChange
 extends Line2D
 
-@export var width_end = 512
+@export var width_end : float = 512
 
 func _ready():
-	if not visible:
-		queue_free()
-	if points.size() > 2:
-		queue_free()
+	if not Engine.is_editor_hint():
+		if not visible:
+			queue_free()
+		if points.size() > 2:
+			queue_free()
 	
 	width_curve = Curve.new()
 	width_curve.add_point(Vector2(0, 1))
 	width_curve.add_point(Vector2(1, width_end / width))
+	
+	if Engine.is_editor_hint():
+		return
 	
 	var a : float = points[1].x - points[0].x
 	var b : float = points[1].y - points[0].y
@@ -55,6 +60,12 @@ func _ready():
 #	var pol = Polygon2D.new()
 #	pol.polygon = poly
 #	$Asphalt.add_child(pol)
+
+
+func _physics_process(_delta):
+	if Engine.is_editor_hint():
+#		width_curve.set_point_value(0, 1)
+		width_curve.set_point_value(1, width_end / width)
 
 
 func point_offset_cos(offset : float, angle : float):

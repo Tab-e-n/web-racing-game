@@ -1,3 +1,4 @@
+@tool
 class_name Finish
 extends Area2D
 
@@ -11,6 +12,11 @@ var last_check_point : int = 0
 func _ready():
 	(get_tree().current_scene as Gameplay).set("lap_count", lap_count)
 	$finish.region_rect.size = Vector2(width, 32)
+
+
+func _physics_process(delta):
+	if Engine.is_editor_hint():
+		$finish.region_rect.size = Vector2(width, 32)
 
 
 func _on_body_entered(_body):

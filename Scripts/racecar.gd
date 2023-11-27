@@ -142,6 +142,7 @@ func _physics_process(_delta):
 	else:
 		$placeholder.modulate = Color(1, 1, 1)
 	
+	$Label.visible = Global.debug_mode
 	$normal_rot.visible = Global.debug_mode
 	$last_coll_rot.visible = Global.debug_mode
 	$sliding_rot_cos.visible = Global.debug_mode and state_sliding and not velocity == Vector2(0, 0)
@@ -245,7 +246,7 @@ func boost(magnitude : float, drag : float, direction : float):
 		velocity.x += sin(direction) * magnitude / (1 + pyth / 1000 * drag)
 		velocity.y += -cos(direction) * magnitude / (1 + pyth / 1000 * drag)
 	else:
-		curr_speed += (PI - rotation_distance(direction, rotation)) / PI * magnitude / (1 + abs(curr_speed) / 1000 * drag)
+		curr_speed += ((PI/3) - rotation_distance(direction, rotation)) / (PI/3) * magnitude / (1 + abs(curr_speed) / 1000 * drag)
 
 
 func wall_rotation_change(curr_rot : float, wall_rot : float):

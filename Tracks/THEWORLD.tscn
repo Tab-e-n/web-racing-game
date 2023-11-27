@@ -1,0 +1,99 @@
+[gd_scene load_steps=8 format=3 uid="uid://dkbrqoyexts1k"]
+
+[ext_resource type="Texture2D" uid="uid://dl46choff5qis" path="res://Textures/Blue_Marble_2002.png" id="1_7mbfn"]
+[ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="2_qvlt1"]
+[ext_resource type="PackedScene" uid="uid://dio5x6fxxcoph" path="res://Objects/GameplayObjects/finish_line.tscn" id="3_mu34q"]
+[ext_resource type="PackedScene" uid="uid://b6m05hpjgeyco" path="res://Objects/GameplayObjects/checkpoint.tscn" id="4_su8cg"]
+[ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="5_7g31q"]
+[ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="6_njw1t"]
+[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil.tscn" id="7_0i6xl"]
+
+[node name="THE_WORLD" type="Node2D"]
+
+[node name="BlueMarble2002" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = ExtResource("1_7mbfn")
+
+[node name="Road" parent="." instance=ExtResource("2_qvlt1")]
+position = Vector2(-472, -40)
+points = PackedVector2Array(520, -280, 592, -280, 640, -240, 704, -192, 792, -168, 864, -208, 864, -288, 864, -376, 944, -440, 1072, -456, 1208, -456, 1344, -424, 1432, -360, 1408, -280, 1344, -248, 1224, -216, 1152, -168, 1128, -96, 1176, -16, 1280, 48, 1416, 96, 1456, 216, 1432, 288, 1344, 296, 1264, 256, 1184, 288, 1096, 232, 992, 264, 904, 224, 888, 152, 872, 72, 792, 24, 696, 16, 640, 48, 608, 120, 576, 200, 536, 216, 480, 208, 432, 152, 400, 104, 328, 48, 272, 40, 216, 56, 168, 80, 128, 112, 88, 152, 40, 208, -32, 232, -80, 216, -128, 184, -168, 112, -192, 56, -272, 24, -368, 72, -488, 24, -520, -48, -480, -120, -448, -160, -368, -152, -320, -128, -272, -112, -216, -120, -144, -200, -128, -312, -56, -360, 32, -400, 144, -400, 248, -344, 328, -296, 424, -280, 504, -280)
+width = 128.0
+
+[node name="finish_line" parent="." instance=ExtResource("3_mu34q")]
+position = Vector2(24, -320)
+rotation = -1.5708
+lap_count = 4
+width = 128
+
+[node name="checkpoint" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-40, 280)
+rotation = -0.523599
+
+[node name="checkpoint2" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(152, 416)
+rotation = -0.523599
+
+[node name="checkpoint3" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(176, 656)
+
+[node name="checkpoint4" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(88, 912)
+rotation = 1.309
+
+[node name="checkpoint5" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-184, 640)
+rotation = 1.5708
+
+[node name="checkpoint6" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-440, 952)
+rotation = 1.5708
+
+[node name="checkpoint7" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-552, 744)
+rotation = 3.14159
+
+[node name="checkpoint8" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-536, 544)
+rotation = 3.14159
+
+[node name="checkpoint10" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-312, 288)
+rotation = 3.14159
+
+[node name="checkpoint11" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-432, 24)
+rotation = 3.14159
+
+[node name="checkpoint12" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-344, -232)
+rotation = 3.14159
+
+[node name="checkpoint13" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-504, -544)
+rotation = 3.40339
+
+[node name="checkpoint14" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(-232, -840)
+rotation = 4.71239
+
+[node name="checkpoint15" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(32, -608)
+rotation = 5.49779
+
+[node name="checkpoint16" parent="finish_line" instance=ExtResource("4_su8cg")]
+position = Vector2(40, -240)
+rotation = 6.28319
+
+[node name="booster" parent="." instance=ExtResource("5_7g31q")]
+position = Vector2(960, -240)
+rotation = -3.14159
+
+[node name="start_position" parent="." instance=ExtResource("6_njw1t")]
+position = Vector2(-48, -320)
+rotation = 1.5708
+
+[node name="oil" parent="." instance=ExtResource("7_0i6xl")]
+position = Vector2(-640, -88)
+
+[node name="oil2" parent="." instance=ExtResource("7_0i6xl")]
+position = Vector2(-840, -88)
