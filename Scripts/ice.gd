@@ -7,6 +7,7 @@ var car : Node2D
 func _physics_process(_delta):
 	if car != null:
 		car.on_ice = true
+		car.on_road = true
 
 
 func _on_body_entered(body):
@@ -16,4 +17,5 @@ func _on_body_entered(body):
 
 func _on_body_exited(_body):
 	car.on_ice = false
+	car.on_road = false
 	car = null

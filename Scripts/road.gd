@@ -10,7 +10,7 @@ func _ready():
 	for poly in line_poly:
 		var col = CollisionPolygon2D.new()
 		col.polygon = poly
-		$Asphalt.add_child(col)
+		$Terrain.add_child(col)
 #		var pol = Polygon2D.new()
 #		pol.polygon = poly
-#		$Asphalt.add_child(pol)
+#		$Terrain.add_child(pol)
