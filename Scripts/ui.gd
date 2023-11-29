@@ -1,6 +1,9 @@
 extends Control
 
 
+func _ready():
+	Net.reset()
+
 
 func _on_create_button_pressed():
 	load_game()

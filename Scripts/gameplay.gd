@@ -52,7 +52,6 @@ func start_race():
 
 func stop_race():
 	is_racing = false
-	countdown_has_started = false
 	timer_has_started = false
 	$Racecar.is_taking_inputs = false
 	$camera.start_vote() # premistil jsem ti funkci ha ha ha
@@ -70,3 +69,7 @@ func player_did_a_lap():
 	else:
 		race_finished.emit(race_timer)
 		Net._on_race_finished(race_timer)
+
+
+func _on_new_track_loaded(track):
+	countdown_has_started = false

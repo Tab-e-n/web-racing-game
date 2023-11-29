@@ -33,7 +33,7 @@ var players_loaded = []
 var is_a_player : bool = true
 var is_a_spectator : bool = false
 
-var current_track_name : String = "test_scene_1"
+var current_track_name : String = "test_scene"
 
 var rcp_delay : int = 0
 
@@ -46,7 +46,22 @@ var vote_options : Array = ["test_scene", "test_scene", "test_scene", "test_scen
 var temp_start_countdown = true
 
 
+func reset():
+	players = {}
+	players_loaded = []
+	is_a_player = true
+	is_a_spectator = false
+#	current_track_name = "test_scene"
+	current_track_name = "funny_ice_physics"
+	rcp_delay = 0
+	end_of_race_timeout = 0
+	vote_timer = 0
+	votes = {}
+	vote_options = ["test_scene", "test_scene", "test_scene", "test_scene"]
+
+
 func _ready():
+	reset()
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_ok)
@@ -77,7 +92,7 @@ func _physics_process(delta):
 				if vote_timer <= 0:
 					do_a_new_round()
 			
-			if players_loaded.size() == players.size():
+			if players_loaded.size() == players.size() and not temp_start_countdown:
 				players_loaded = []
 				start_countdown.rpc()
 			
@@ -161,10 +176,6 @@ func change_map(track_name : String):
 		track_name = ""
 	current_track_name = track_name
 	send_time.rpc(0, false, 0)
-	if not multiplayer.is_server():
-		map_loaded.rpc_id(1)
-	else:
-		map_loaded()
 
 
 @rpc("any_peer", "call_remote", "reliable")

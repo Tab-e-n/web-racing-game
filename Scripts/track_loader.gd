@@ -27,3 +27,8 @@ func change_track(new_track_name : String):
 	add_child(current_track)
 	
 	new_track_loaded.emit(current_track)
+	
+	if not Net.multiplayer.is_server():
+		Net.map_loaded.rpc_id(1)
+	else:
+		Net.map_loaded()

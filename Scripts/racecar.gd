@@ -20,7 +20,7 @@ const BUNKER_DRAG : float = 4
 var is_taking_inputs = true
 
 var curr_speed = 0
-var friction_reduction = 0
+var friction_reduction : float = 0
 var gear = 0
 var switching_gears_timer = 0
 
@@ -29,11 +29,19 @@ var forced_accel : bool = false
 var forced_brake : bool = false
 var extra_friction : float = 0
 var extra_drag : float = 0
+var extra_accel : float = 0
 
 var on_asphalt : bool = false
+var on_ice : bool = false
 var on_bunker : bool = false
 
 var oil_covered : bool = false
+
+var input_left : bool = false
+var input_right : bool = false
+var input_up : bool = false
+var input_down : bool = false
+
 
 
 func _ready():
@@ -55,11 +63,9 @@ func reset():
 	state_sliding = false
 	forced_accel = false
 	forced_brake = false
-	extra_friction = 0
-	extra_drag = 0
 	
 	on_asphalt = false
-	on_bunker = false
+	on_ice = false
 	
 	oil_covered = false
 
@@ -69,19 +75,31 @@ func _physics_process(_delta):
 		visible = false
 		return
 	
-	on_bunker = not on_asphalt
+	input_right = Input.is_action_pressed("right") and not Input.is_action_pressed("left") and is_taking_inputs
+	input_left = Input.is_action_pressed("left") and not Input.is_action_pressed("right") and is_taking_inputs
+	input_down = (Input.is_action_pressed("down") or Input.is_action_pressed("shift")) and is_taking_inputs
+	input_up = Input.is_action_pressed("up") and not input_down and is_taking_inputs
+	
+	
+	on_bunker = not on_asphalt and not on_ice
 #	print(on_asphalt)
 #	print(on_bunker)
 	
 	extra_friction = 0
 	extra_drag = 0
+	extra_accel = 0
+	
+	if on_ice:
+		state_sliding = true
+		extra_friction -= FRICTION * 0.85
+		extra_accel -= ACCELERATION * 0.6
 	
 	if on_bunker:
 		extra_drag += BUNKER_DRAG
 	
 	if oil_covered:
 		state_sliding = true
-		extra_friction += 1.5
+		extra_friction += FRICTION * 0.75
 	
 	if switching_gears_timer > 0:
 		switching_gears_timer -= 1
@@ -97,14 +115,14 @@ func _physics_process(_delta):
 		physics_sliding()
 	else:
 		physics_normal()
-		
-		if switching_gears_timer == 0:
-			var expected_gear = 0
-			for i in GEAR_THRESHOLDS:
-				if curr_speed > i:
-					expected_gear += 1
-			if expected_gear != gear:
-				switching_gears_timer = 30
+	
+	if switching_gears_timer == 0:
+		var expected_gear = 0
+		for i in GEAR_THRESHOLDS:
+			if curr_speed > i:
+				expected_gear += 1
+		if expected_gear != gear:
+			switching_gears_timer = 30
 	
 	$last_coll_rot.global_rotation = last_coll_rot
 	
@@ -150,28 +168,31 @@ func _physics_process(_delta):
 
 
 func physics_normal():
-	if Input.is_action_pressed("left") and is_taking_inputs:
+	if input_left:
 		rotation -= TURN_SPEED
-	if Input.is_action_pressed("right") and is_taking_inputs:
+	if input_right:
 		rotation += TURN_SPEED
 	
 	if switching_gears_timer == 0:
-		if (Input.is_action_pressed("up") and is_taking_inputs) or forced_accel:
-			curr_speed = normal_change_speed(curr_speed, TOP_SPEED, ACCELERATION - GEAR_ACC_DECREASE[gear])
-			if friction_reduction < FRICTION:
+		if input_up or forced_accel:
+			curr_speed = normal_change_speed(curr_speed, TOP_SPEED, ACCELERATION - GEAR_ACC_DECREASE[gear] + extra_accel)
+			if friction_reduction < FRICTION + extra_friction:
 				friction_reduction += 1
 		
-		if (Input.is_action_pressed("down") and is_taking_inputs) or (forced_brake and curr_speed > 10):
-			curr_speed = normal_change_speed(curr_speed, TOP_SPEED_BACK, -DECCELERATION)
-			if friction_reduction < FRICTION:
-				friction_reduction += 1
-			if gear > 0:
-				state_sliding = true
+	if input_down or (forced_brake and curr_speed > 10):
+		curr_speed = normal_change_speed(curr_speed, TOP_SPEED_BACK, -DECCELERATION)
+		if friction_reduction < FRICTION + extra_friction:
+			friction_reduction += 1
+		if gear > 0:
+			state_sliding = true
 	
-	if ((!(Input.is_action_pressed("up") or forced_accel) and !Input.is_action_pressed("down")) or !is_taking_inputs) and friction_reduction > 0:
+	if ((not input_up and not input_down) or not is_taking_inputs) and friction_reduction > 0:
 		friction_reduction -= 1
 	
-	curr_speed = apply_reductive_forces(curr_speed, sign(curr_speed), FRICTION - friction_reduction, abs(curr_speed), extra_drag, extra_friction)
+	if friction_reduction > FRICTION + extra_friction:
+		friction_reduction = FRICTION + extra_friction
+	
+	curr_speed = apply_reductive_forces(curr_speed, sign(curr_speed), FRICTION + extra_friction - friction_reduction , abs(curr_speed), extra_drag)
 	
 	velocity.x = sin(rotation) * curr_speed
 	velocity.y = -cos(rotation) * curr_speed
@@ -186,9 +207,9 @@ func normal_change_speed(speed : float, top_speed : float, acceleration : float)
 
 
 func physics_sliding():
-	if Input.is_action_pressed("left") and is_taking_inputs:
+	if input_left:
 		rotation -= TURN_SPEED_SLIDING
-	if Input.is_action_pressed("right") and is_taking_inputs:
+	if input_right:
 		rotation += TURN_SPEED_SLIDING
 	
 	var pyth = pythagoras(velocity.x, velocity.y)
@@ -198,29 +219,33 @@ func physics_sliding():
 		velocity_sin = (velocity.x / pyth)
 		velocity_cos = (velocity.y / pyth)
 	
-	if switching_gears_timer == 0:
-		if (Input.is_action_pressed("up") and is_taking_inputs) or forced_accel:
-			velocity.x += sin(rotation) * ACCELERATION
-			velocity.y -= cos(rotation) * ACCELERATION
+	if input_up or forced_accel:
+		if switching_gears_timer == 0:
+			velocity.x += sin(rotation) * (ACCELERATION + extra_accel)
+			velocity.y -= cos(rotation) * (ACCELERATION + extra_accel)
+		else:
+			velocity.x += sin(rotation) * (ACCELERATION + extra_accel) * 0.6
+			velocity.y -= cos(rotation) * (ACCELERATION + extra_accel) * 0.6
 		
-		if ((Input.is_action_pressed("down") and is_taking_inputs) or forced_brake) and pyth > 10:
-			velocity.x -= velocity_sin * DECCELERATION
-			velocity.y -= velocity_cos * DECCELERATION
+		
+	if (input_down or forced_brake) and pyth > 10:
+		velocity.x -= velocity_sin * DECCELERATION
+		velocity.y -= velocity_cos * DECCELERATION
 	
 	
-	if (!Input.is_action_pressed("up") and !Input.is_action_pressed("down")) or !is_taking_inputs:
+	if (not input_up and not input_down) or not is_taking_inputs:
 		if friction_reduction > 0:
 			friction_reduction -= 1
 	
 	if velocity_sin != null or velocity_cos != null:
-		velocity.x = apply_reductive_forces(velocity.x, velocity_sin, FRICTION, pyth, SLIDING_DRAG + extra_drag, extra_friction)
-		velocity.y = apply_reductive_forces(velocity.y, velocity_cos, FRICTION, pyth, SLIDING_DRAG + extra_drag, extra_friction)
+		velocity.x = apply_reductive_forces(velocity.x, velocity_sin, FRICTION + extra_friction, pyth, SLIDING_DRAG + extra_drag)
+		velocity.y = apply_reductive_forces(velocity.y, velocity_cos, FRICTION + extra_friction, pyth, SLIDING_DRAG + extra_drag)
 		
 		if Global.debug_mode:
 			$sliding_rot_cos.global_rotation = incos(velocity_cos, velocity.x)
 		
 		if not DEBUG_NO_EXIT_SLIDING:
-			if rotation_distance(incos(velocity_cos, velocity.x), rotation) < 0.1 and !(Input.is_action_pressed("down") or forced_brake):
+			if rotation_distance(incos(velocity_cos, velocity.x), rotation) < 0.1 and not input_down and not forced_brake:
 				state_sliding = false
 	
 	if not DEBUG_NO_EXIT_SLIDING:
@@ -230,11 +255,11 @@ func physics_sliding():
 	curr_speed = pyth
 
 
-func apply_reductive_forces(vel : float, portion : float, friction : float, speed : float, drag : float, bonus_friction : float):
+func apply_reductive_forces(vel : float, portion : float, friction : float, speed : float, drag : float):
 	if vel == 0:
 		return vel
 	var speed_sign = sign(vel)
-	vel -= portion * (friction / 3 + speed / 1000 * drag + bonus_friction)
+	vel -= portion * (friction / 3 + speed / 1000 * drag)
 	if speed_sign != sign(vel) and speed_sign != 0:
 		vel = 0
 	return vel
