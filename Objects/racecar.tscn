@@ -1,19 +1,18 @@
 [gd_scene load_steps=5 format=3 uid="uid://dq4jcgjndycyl"]
 
 [ext_resource type="Script" path="res://Scripts/racecar.gd" id="1_xv4uw"]
+[ext_resource type="Texture2D" uid="uid://bys5jfqcu8v27" path="res://Textures/placeholder_car_2.png" id="2_1ko0k"]
 [ext_resource type="Texture2D" uid="uid://doxnw8vkcqiag" path="res://Textures/debug_vector.png" id="2_4oll1"]
-[ext_resource type="Texture2D" uid="uid://dw6uj3apwvl4h" path="res://Textures/pixilart-drawing.png" id="2_ot72g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1j6se"]
-size = Vector2(32, 96)
+size = Vector2(32, 80)
 
 [node name="Racecar" type="CharacterBody2D"]
 collision_mask = 65534
 script = ExtResource("1_xv4uw")
 
 [node name="placeholder" type="Sprite2D" parent="."]
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_ot72g")
+texture = ExtResource("2_1ko0k")
 
 [node name="collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1j6se")

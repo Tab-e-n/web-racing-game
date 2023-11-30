@@ -22,7 +22,7 @@ func _ready():
 		return
 	
 	opponents = gameplay.get_node("opponent_visualizer")
-	if racecar == null:
+	if opponents == null:
 		print("ERROR: Minimap can't find the opponent_visualizer.")
 		queue_free()
 		return
@@ -45,12 +45,13 @@ func _physics_process(_delta):
 			new_op.texture = preload("res://Textures/ui/minimap_car.png")
 			new_op.offset.y = -3
 			new_op.self_modulate = Color.DARK_GRAY
+			$opponents.add_child(new_op)
 	for op in $opponents.get_children():
 		if not opponents.has_node(NodePath(op.name)):
 			op.queue_free()
 			continue
 		var linked_op = opponents.get_node(NodePath(op.name))
-		op.position = linked_op.position
+		op.position = linked_op.position * $track.scale
 		op.rotation = linked_op.rotation
 
 

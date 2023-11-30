@@ -14,9 +14,16 @@ const END_OF_RACE_TIMEOUT : float = 60
 const VOTE_TIME : float = 20
 const NUMBER_OF_VOTE_OPTIONS : int = 4
 
+const VOTE_POSSIBILITIES : Dictionary = {
+	"Anti Testies" : "AntiTesties.tscn",
+	"Funny Ice Physics" : "funny_ice_physics.tscn",
+	"test_scene" : "test_scene.tscn",
+	"Trees Trees Trees" : "test_scene_1.tscn",
+	"DA WORLD" : "THEWORLD.tscn",
+}
+
 
 var TIME_TO_TIMEOUT : float = 360
-
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
@@ -32,6 +39,7 @@ var player_info = {
 	"time" : 0,
 	"laps" : 0,
 	"finished" : false,
+	"car_data" : {},
 }
 var players_loaded = []
 var is_a_player : bool = true
@@ -53,8 +61,7 @@ func reset():
 	players_loaded = []
 	is_a_player = true
 	is_a_spectator = false
-#	current_track_name = "test_scene"
-	current_track_name = "test_scene"
+	current_track_name = "Funny Ice Physics"#"test_scene"
 	time_till_timeout = 0
 	vote_timer = 0
 	votes = {}
@@ -79,7 +86,7 @@ func _physics_process(delta):
 			if time_till_timeout > 0:
 				time_till_timeout -= delta
 				if time_till_timeout <= 0:
-					racing_finished.rpc()
+					end_race()
 			
 			if vote_timer > 0:
 				vote_timer -= delta
@@ -134,6 +141,7 @@ func remove_multiplayer_peer():
 func get_car_data():
 	if is_a_spectator or not is_a_player:
 		send_car_data.rpc({})
+		return
 	if get_tree().current_scene.has_method("get_car_data"):
 		var car_data = get_tree().current_scene.get_car_data()
 		send_car_data.rpc(car_data)
@@ -145,10 +153,7 @@ func get_car_data():
 func send_car_data(car_data : Dictionary):
 	var peer_id = multiplayer.get_remote_sender_id()
 	if players.has(peer_id):
-		if car_data.is_empty() and players[peer_id].has("car_data"):
-			players[peer_id].erase("car_data")
-		if not car_data.is_empty():
-			players[peer_id]["car_data"] = car_data.duplicate()
+		players[peer_id]["car_data"] = car_data.duplicate()
 #		print("data_recieved")
 
 
@@ -156,12 +161,14 @@ func send_car_data(car_data : Dictionary):
 func send_game_info(game_info : Dictionary):
 	print("got game info")
 	current_track_name = game_info["track_name"]
-	become_spectator()
+	if game_info["become_spectator"]:
+		become_spectator()
+	else:
+		become_player()
 
 
 func do_a_new_round():
 	print("new round")
-	time_till_timeout = TIME_TO_TIMEOUT
 	vote_timer = 0
 	players_loaded = []
 	
@@ -195,6 +202,9 @@ func start_countdown():
 	become_player()
 	if get_tree().current_scene is Gameplay:
 		get_tree().current_scene.start_race()
+	if multiplayer.is_server():
+		print("timeout in ", TIME_TO_TIMEOUT)
+		time_till_timeout = TIME_TO_TIMEOUT
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -209,15 +219,16 @@ func send_time(time : float, done : bool, laps : int = -1):
 	if multiplayer.is_server() and done:
 		if time_till_timeout > END_OF_RACE_TIMEOUT:
 			time_till_timeout = END_OF_RACE_TIMEOUT
+			print("timeout in ", END_OF_RACE_TIMEOUT)
 		check_player_finish()
 
 
 func check_player_finish():
 	for i in players:
-		if not players[i]["finished"] and players[i].has("car_data"):
+		if not players[i]["finished"] and not players[i]["car_data"].is_empty():
 			print("everyone isn't done yet.")
 			return
-	racing_finished()
+	end_race()
 
 
 func _on_race_finished(race_timer):
@@ -270,33 +281,39 @@ func count_votes() -> int:
 
 
 func generate_vote_options():
-	var dir : Array = DirAccess.get_files_at("res://Tracks/")
+	var possibilities = VOTE_POSSIBILITIES.keys()
 	var rng = RandomNumberGenerator.new()
 	
 	vote_options[NUMBER_OF_VOTE_OPTIONS - 1] = current_track_name
-	if dir.find(current_track_name + ".tscn") != -1:
-		dir.remove_at(dir.find(current_track_name + ".tscn"))
+	if possibilities.find(current_track_name) != -1:
+		possibilities.remove_at(possibilities.find(current_track_name))
 	
 	for i in range(NUMBER_OF_VOTE_OPTIONS - 1):
-		var index = rng.randi_range(0, dir.size() - 1)
-		var map : String = dir[index]
-		dir.remove_at(index)
-		vote_options[i] = map.trim_suffix(".tscn")
-		if dir.is_empty():
+		var index = rng.randi_range(0, possibilities.size() - 1)
+		var map : String = possibilities[index]
+		possibilities.remove_at(index)
+		vote_options[i] = map
+		if possibilities.is_empty():
 			break
 	
 	print(vote_options)
 
 
-@rpc("authority", "call_local", "reliable")
-func racing_finished():
+func end_race():
 	print("race over")
 	if multiplayer.is_server():
 		time_till_timeout = 0
 		vote_timer = VOTE_TIME
 		votes = {}
 		generate_vote_options()
+	racing_finished.rpc(vote_options)
+
+
+@rpc("authority", "call_local", "reliable")
+func racing_finished(_vote_options : Array):
+	vote_options = _vote_options.duplicate()
 	(get_tree().current_scene as Gameplay).stop_race()
+
 
 func become_spectator():
 	is_a_spectator = true
@@ -317,6 +334,7 @@ func _on_player_connected(id):
 	if multiplayer.is_server():
 		var game_info = {}
 		game_info["track_name"] = current_track_name
+		game_info["become_spectator"] = not temp_start_countdown
 		send_game_info.rpc_id(id, game_info)
 
 
@@ -331,6 +349,8 @@ func _register_player(new_player_info):
 func _on_player_disconnected(id):
 	players.erase(id)
 	player_disconnected.emit(id)
+	if id == 1 and not multiplayer.is_server():
+		get_tree().change_scene_to_file("res://menu.tscn")
 
 
 func _on_connected_ok():

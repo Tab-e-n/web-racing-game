@@ -16,14 +16,14 @@ bg_color = Color(0.443137, 0.443137, 0.443137, 1)
 [sub_resource type="GDScript" id="GDScript_4inib"]
 script/source = "extends Label
 
-func _physics_process(delta):
-	visible = not get_parent().get_parent().countdown_has_started
+func _physics_process(_delta):
+	visible = not get_parent().get_parent().countdown_has_started and not Net.is_a_spectator
 "
 
 [sub_resource type="GDScript" id="GDScript_uvl46"]
 script/source = "extends Label
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	visible = Net.temp_start_countdown
 "
 
@@ -125,8 +125,8 @@ offset_top = -40.0
 offset_right = 96.0
 offset_bottom = 38.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_vl44o")
-text = "WAITING FOR HOST
-TO START COUNTDOWN."
+text = "WAITING FOR THE
+COUNTDOWN TO START."
 horizontal_alignment = 1
 vertical_alignment = 1
 script = SubResource("GDScript_4inib")

@@ -237,11 +237,16 @@ func physics_sliding():
 		else:
 			velocity.x += sin(rotation) * (ACCELERATION + extra_accel) * 0.6
 			velocity.y -= cos(rotation) * (ACCELERATION + extra_accel) * 0.6
+#
+#	if (input_down or forced_brake) and pyth > 10:
+#		velocity.x -= velocity_sin * DECCELERATION
+#		velocity.y -= velocity_cos * DECCELERATION
+#
+	if (input_down or forced_brake):
+		velocity.x -= sin(rotation) * (DECCELERATION + extra_accel)
+		velocity.y += cos(rotation) * (DECCELERATION + extra_accel)
 		
-		
-	if (input_down or forced_brake) and pyth > 10:
-		velocity.x -= velocity_sin * DECCELERATION
-		velocity.y -= velocity_cos * DECCELERATION
+		extra_drag += 3
 	
 	
 	if (not input_up and not input_down) or not is_taking_inputs:
@@ -256,8 +261,12 @@ func physics_sliding():
 			$sliding_rot_cos.global_rotation = incos(velocity_cos, velocity.x)
 		
 		if not DEBUG_NO_EXIT_SLIDING:
-			if rotation_distance(incos(velocity_cos, velocity.x), rotation) < 0.1 and not input_down and not forced_brake:
+			var rot_dist = rotation_distance(incos(velocity_cos, velocity.x), rotation)
+			if (rot_dist < PI * 0.03 and not input_down and not forced_brake):
 				state_sliding = false
+			if rot_dist > PI * 0.97:
+				state_sliding = false
+				pyth = -pyth
 	
 	if not DEBUG_NO_EXIT_SLIDING:
 		if abs(velocity.x) < 25 and abs(velocity.y) < 25:
