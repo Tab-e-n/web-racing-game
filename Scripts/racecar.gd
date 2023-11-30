@@ -77,6 +77,8 @@ func _physics_process(_delta):
 	if Net.is_a_spectator:
 		visible = false
 		return
+	else:
+		visible = true
 	
 	input_right = Input.is_action_pressed("right") and not Input.is_action_pressed("left") and is_taking_inputs
 	input_left = Input.is_action_pressed("left") and not Input.is_action_pressed("right") and is_taking_inputs
