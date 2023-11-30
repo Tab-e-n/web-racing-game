@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://f1l2euej16s1"]
+
+[ext_resource type="PackedScene" uid="uid://dhsm5kygcfgwi" path="res://Objects/GameplayObjects/ice.tscn" id="1_rj24y"]
+[ext_resource type="Texture2D" uid="uid://dnx1viimlw0vj" path="res://Textures/placeholder_finish.png" id="2_20mg0"]
+[ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="2_763ng"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvplw"]
+size = Vector2(10240, 10240)
+
+[node name="FunnyIcePhysics" type="Node2D"]
+
+[node name="Ice" parent="." instance=ExtResource("1_rj24y")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ice"]
+shape = SubResource("RectangleShape2D_pvplw")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.447059, 0.705882, 0.705882, 1)
+texture = ExtResource("2_20mg0")
+texture_scale = Vector2(0.05, 0.05)
+polygon = PackedVector2Array(-5160, -5008, 5040, -5088, 5136, 5128, -5224, 5224)
+
+[node name="start_position" parent="." instance=ExtResource("2_763ng")]
+position = Vector2(-296, 112)
