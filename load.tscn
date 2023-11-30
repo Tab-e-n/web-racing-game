@@ -1,0 +1,68 @@
+[gd_scene load_steps=2 format=3 uid="uid://cptbqknjbolid"]
+
+[sub_resource type="GDScript" id="GDScript_4tpbd"]
+script/source = "extends Node
+
+
+var server_active : bool = false
+var initial_start_wait : float = 60
+
+
+func _ready():
+	if get_tree().change_scene_to_file(\"res://menu.tscn\") == OK:
+		print(\"Not Server :(\")
+		return
+	
+	server_active = true
+	Net.reset()
+	
+	Net.is_a_player = false
+	Net.player_info[\"name\"] = \"Dedicated Server\"
+	
+	command_line_arguments()
+	
+	Net.create_game()
+	
+	
+	print(\"Server Mode Active\")
+
+
+func command_line_arguments():
+	for arg in OS.get_cmdline_args():
+		if not arg.begins_with(\"--\"):
+			continue
+		
+		arg = arg.trim_prefix(\"--\")
+		
+		var argument = arg.split(\"=\")
+		
+		print(argument)
+		
+		match(argument[0]):
+			\"say\":
+				print(argument[1])
+			\"starting_map\":
+				Net.current_track_name = argument[1]
+			\"time_to_timeout\":
+				Net.TIME_TO_TIMEOUT = argument[1]
+			\"initial_start_wait\":
+				initial_start_wait = argument[1]
+			\"name\":
+				Net.player_info[\"name\"] = argument[1]
+
+
+func _physics_process(delta):
+	if not server_active:
+		return
+	
+	if initial_start_wait > 0:
+		initial_start_wait -= delta
+		if initial_start_wait <= 0 and Net.temp_start_countdown:
+			Net.start_countdown.rpc()
+			Net.temp_start_countdown = false
+#	print(\"Server\")
+
+"
+
+[node name="Load" type="Node"]
+script = SubResource("GDScript_4tpbd")

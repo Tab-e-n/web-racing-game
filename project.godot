@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="web-racing-game"
-run/main_scene="res://menu.tscn"
+run/main_scene="res://load.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -28,6 +28,10 @@ window/size/viewport_height=768
 [dotnet]
 
 project/assembly_name="web-racing-game"
+
+[editor]
+
+run/main_run_args="--funnz --say=\"yesss\"s"
 
 [input]
 

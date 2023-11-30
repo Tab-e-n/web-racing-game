@@ -15,9 +15,12 @@ func manage_opponents():
 		if i == Net.multiplayer.get_unique_id():
 			continue
 		
+		if not Net.players[i].has("car_data"):
+			continue
+		
 		if not has_node(String.num(i)):
 			var new_op : Sprite2D = Sprite2D.new()
-			new_op.texture = preload("res://Textures/placeholder_car.png")
+			new_op.texture = preload("res://Textures/pixilart-drawing.png")
 			new_op.name = String.num(i)
 			new_op.self_modulate = Color.DARK_GRAY
 			add_child(new_op)
@@ -44,6 +47,7 @@ func animate_opponents():
 			continue
 		
 		if not Net.players[int(String(op.name))].has("car_data"):
+			op.queue_free()
 			continue
 		
 		var car_data = Net.players[int(String(op.name))]["car_data"]
