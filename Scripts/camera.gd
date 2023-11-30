@@ -108,9 +108,9 @@ func format_time(time):
 	var format_zeros = func(x): return "0%d" % x if x / 10 < 1 else "%d" % x
 	
 	var text = "time: "
-	text += format_zeros.call(int(int((get_parent() as Gameplay).race_timer / 60) % 60)) #minuty
-	text += ":" + format_zeros.call(int(int((get_parent() as Gameplay).race_timer) % 60)) #sekundy
-	text += ":" + format_zeros.call(int(int((get_parent() as Gameplay).race_timer * 60) % 60)) #milisekundy
+	text += format_zeros.call(int(int(time / 60) % 60)) #minuty
+	text += ":" + format_zeros.call(int(int(time) % 60)) #sekundy
+	text += ":" + format_zeros.call(int(int(time * 60) % 60)) #milisekundy
 	return text
 	
 

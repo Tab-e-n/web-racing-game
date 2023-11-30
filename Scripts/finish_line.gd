@@ -14,7 +14,7 @@ func _ready():
 	$finish.region_rect.size = Vector2(width, 32)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if Engine.is_editor_hint():
 		$finish.region_rect.size = Vector2(width, 32)
 

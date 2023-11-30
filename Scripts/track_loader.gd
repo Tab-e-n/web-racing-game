@@ -20,7 +20,7 @@ func change_track(new_track_name : String):
 	if new_track_name == "":
 		return
 	
-	var packed = load("res://Tracks/" + new_track_name + ".tscn")
+	var packed = load("res://Tracks/" + Net.VOTE_POSSIBILITIES[track_name])
 	if packed == null:
 		packed = load("res://Tracks/test_scene.tscn")
 	current_track = packed.instantiate()

@@ -61,7 +61,7 @@ func stop_race():
 func player_did_a_lap():
 	if not is_racing:
 		return
-	print("You did a lap :D")
+	print("you did a lap :D")
 	current_lap += 1
 	if current_lap != lap_count:
 		lap_finished.emit(current_lap)
@@ -71,5 +71,5 @@ func player_did_a_lap():
 		Net._on_race_finished(race_timer)
 
 
-func _on_new_track_loaded(track):
+func _on_new_track_loaded(_track):
 	countdown_has_started = false
