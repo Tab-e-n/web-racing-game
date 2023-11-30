@@ -10,5 +10,5 @@ texture = ExtResource("1_oa1hq")
 texture_mode = 1
 script = ExtResource("2_f8vvq")
 
-[node name="Asphalt" parent="." instance=ExtResource("3_0edyk")]
+[node name="Terrain" parent="." instance=ExtResource("3_0edyk")]
 modulate = Color(1, 1, 1, 0.501961)

@@ -1,15 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://dk3wy4a4pb5la"]
+[gd_scene load_steps=5 format=3 uid="uid://dk3wy4a4pb5la"]
 
 [ext_resource type="Texture2D" uid="uid://dwmsjpkb8rgch" path="res://Textures/placeholder_track.png" id="1_av4l5"]
 [ext_resource type="Script" path="res://Scripts/road_width_change.gd" id="2_3lkig"]
 [ext_resource type="PackedScene" uid="uid://cv88uov3uxp48" path="res://Objects/GameplayObjects/asphalt.tscn" id="3_0ni4i"]
 
+[sub_resource type="Curve" id="Curve_jkj8e"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="Road_Change" type="Line2D"]
 points = PackedVector2Array(0, 0, 0, -256)
 width = 512.0
+width_curve = SubResource("Curve_jkj8e")
 texture = ExtResource("1_av4l5")
 texture_mode = 1
 script = ExtResource("2_3lkig")
 
-[node name="Asphalt" parent="." instance=ExtResource("3_0ni4i")]
+[node name="Terrain" parent="." instance=ExtResource("3_0ni4i")]
 modulate = Color(1, 1, 1, 0.501961)

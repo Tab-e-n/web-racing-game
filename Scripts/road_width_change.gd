@@ -56,10 +56,10 @@ func _ready():
 	var col = CollisionPolygon2D.new()
 	col.polygon = poly
 	print(poly)
-	$Asphalt.add_child(col)
+	$Terrain.add_child(col)
 #	var pol = Polygon2D.new()
 #	pol.polygon = poly
-#	$Asphalt.add_child(pol)
+#	$Terrain.add_child(pol)
 
 
 func _physics_process(_delta):

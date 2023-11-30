@@ -31,11 +31,14 @@ var extra_friction : float = 0
 var extra_drag : float = 0
 var extra_accel : float = 0
 
-var on_asphalt : bool = false
+var on_road : bool = false
 var on_ice : bool = false
 var on_bunker : bool = false
 
 var oil_covered : bool = false
+
+enum {BUNKER_TYPE_NORMAL, BUNKER_TYPE_SNOW}
+var bunker_type = BUNKER_TYPE_NORMAL
 
 var input_left : bool = false
 var input_right : bool = false
@@ -64,7 +67,7 @@ func reset():
 	forced_accel = false
 	forced_brake = false
 	
-	on_asphalt = false
+	on_road = false
 	on_ice = false
 	
 	oil_covered = false
@@ -82,9 +85,15 @@ func _physics_process(_delta):
 	input_down = (Input.is_action_pressed("down") or Input.is_action_pressed("shift")) and is_taking_inputs
 	input_up = Input.is_action_pressed("up") and not input_down and is_taking_inputs
 	
-	
-	on_bunker = not on_asphalt and not on_ice
-#	print(on_asphalt)
+	var last_bunker = on_bunker
+	on_bunker = not on_road
+	if on_bunker:
+		if bunker_type == BUNKER_TYPE_SNOW:
+			on_ice = true
+	if on_bunker != last_bunker and not on_bunker:
+		if bunker_type == BUNKER_TYPE_SNOW:
+			on_ice = false
+#	print(on_road)
 #	print(on_bunker)
 	
 	extra_friction = 0
@@ -273,7 +282,7 @@ func boost(magnitude : float, drag : float, direction : float):
 		velocity.x += sin(direction) * magnitude / (1 + pyth / 1000 * drag)
 		velocity.y += -cos(direction) * magnitude / (1 + pyth / 1000 * drag)
 	else:
-		print("b: ", direction, " r: ", rotation, " d: ", rotation_distance(direction, rotation))
+		#print("b: ", direction, " r: ", rotation, " d: ", rotation_distance(direction, rotation))
 		curr_speed += ((PI/2) - rotation_distance(direction, rotation)) / (PI/2) * magnitude / (1 + abs(curr_speed) / 1000 * drag)
 
 

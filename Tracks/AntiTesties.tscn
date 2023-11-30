@@ -9,11 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil.tscn" id="7_5atdm"]
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="8_epro5"]
 
-[sub_resource type="Curve" id="Curve_7cktj"]
+[sub_resource type="Curve" id="Curve_ymcsg"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.4), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_0a4x5"]
+[sub_resource type="Curve" id="Curve_2fmgu"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.714286), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -41,7 +41,7 @@ width = 224.0
 position = Vector2(-944, 184)
 points = PackedVector2Array(-656, -184, 496, -184)
 width = 320.0
-width_curve = SubResource("Curve_7cktj")
+width_curve = SubResource("Curve_ymcsg")
 width_end = 448.0
 
 [node name="Road2" parent="." instance=ExtResource("2_yes6l")]
@@ -53,7 +53,7 @@ width = 448.0
 position = Vector2(-2048, 1920)
 points = PackedVector2Array(0, 96, 0, -512)
 width = 448.0
-width_curve = SubResource("Curve_0a4x5")
+width_curve = SubResource("Curve_2fmgu")
 width_end = 320.0
 
 [node name="Road3" parent="." instance=ExtResource("2_yes6l")]
