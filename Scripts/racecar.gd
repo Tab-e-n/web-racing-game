@@ -237,12 +237,12 @@ func physics_sliding():
 		else:
 			velocity.x += sin(rotation) * (ACCELERATION + extra_accel) * 0.6
 			velocity.y -= cos(rotation) * (ACCELERATION + extra_accel) * 0.6
-#
-#	if (input_down or forced_brake) and pyth > 10:
-#		velocity.x -= velocity_sin * DECCELERATION
-#		velocity.y -= velocity_cos * DECCELERATION
-#
-	if (input_down or forced_brake):
+
+	if forced_brake and pyth > 10:
+		velocity.x -= velocity_sin * DECCELERATION
+		velocity.y -= velocity_cos * DECCELERATION
+	
+	if input_down:
 		velocity.x -= sin(rotation) * (DECCELERATION + extra_accel)
 		velocity.y += cos(rotation) * (DECCELERATION + extra_accel)
 		
