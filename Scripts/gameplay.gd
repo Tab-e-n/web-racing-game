@@ -21,7 +21,15 @@ var lap_count : int = 3
 var current_lap : int = 0
 
 
+func _ready():
+	Net.gameplay_active = true
+	Net.server_disconnected.connect(_on_server_disconnect)
+
+
 func _physics_process(delta):
+	if Input.is_key_pressed(KEY_DELETE) and OS.has_feature("editor"):
+		player_did_a_lap()
+	
 	if countdown_has_started and countdown > 0:
 		countdown -= delta
 		if countdown <= 0:
@@ -69,6 +77,10 @@ func player_did_a_lap():
 	else:
 		race_finished.emit(race_timer)
 		Net._on_race_finished(race_timer)
+
+
+func _on_server_disconnect():
+	get_tree().change_scene_to_file("res://menu.tscn")
 
 
 func _on_new_track_loaded(_track):

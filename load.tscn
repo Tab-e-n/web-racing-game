@@ -9,8 +9,9 @@ var initial_start_wait : float = 60
 
 
 func _ready():
-	if get_tree().change_scene_to_file(\"res://menu.tscn\") == OK:
-		print(\"Not Server :(\")
+	if not OS.has_feature(\"dedicated_server\"):
+		get_tree().change_scene_to_file(\"res://menu.tscn\")
+		print(\"not a server :(\")
 		return
 	
 	server_active = true
@@ -23,8 +24,9 @@ func _ready():
 	
 	Net.create_game()
 	
+	Net.gameplay_active = true
 	
-	print(\"Server Mode Active\")
+	print(\"this is a server\")
 
 
 func command_line_arguments():
