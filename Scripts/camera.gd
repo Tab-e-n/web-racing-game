@@ -1,11 +1,11 @@
 extends Camera2D
 
-var countdown_textures = [load("res://Textures/ui/countdown/0.png"),
-						load("res://Textures/ui/countdown/1.png"),
-						load("res://Textures/ui/countdown/2.png"),
-						load("res://Textures/ui/countdown/3.png")]
+const COUNTDOWN_TEXTURES = [preload("res://Textures/ui/countdown/0.png"),
+						preload("res://Textures/ui/countdown/1.png"),
+						preload("res://Textures/ui/countdown/2.png"),
+						preload("res://Textures/ui/countdown/3.png")]
 	
-var vote_buttons;
+const CHOOSE_BUTTONS_SIZE = 30
 
 var fadeout_speed_countdown : float = 0.005
 var fadeout_speed_finish : float = 0.01
@@ -22,10 +22,34 @@ var player_count_buffer = 0
 
 func _ready():
 	$on_finish_image.modulate = Color(0, 0, 0, 0)
-	vote_buttons = [$vote_buttons/b1, $vote_buttons/b2, $vote_buttons/b3, $vote_buttons/b4]
 	
-	for i in range(len(vote_buttons)):
-		vote_buttons[i].connect("button_down", vote_button_pressed.bind(i))
+	#crete vote buttons	
+	for i in range(len($vote_buttons.get_children())):
+		$vote_buttons.get_child(i).connect("button_down", vote_button_pressed.bind(i))
+	
+	#create choose buttons
+	if Net.multiplayer.is_server():
+		for map in Net.VOTE_POSSIBILITIES:
+			var button = Button.new()
+			button.text = map
+			button.custom_minimum_size.y = CHOOSE_BUTTONS_SIZE
+			button.connect("button_down", choose_button_pressed.bind(map))
+		
+			$choose_buttons.add_child(button)
+		
+		var start_button = Button.new()
+		start_button.text = "start countdown"
+		start_button.custom_minimum_size.y = CHOOSE_BUTTONS_SIZE
+		start_button.modulate = Color(0.8, 0.8, 0.1)
+		
+		var start = func():
+			Net.start_countdown.rpc()
+			Net.temp_start_countdown = false
+			$choose_buttons.queue_free()
+			
+		start_button.connect("button_down", start.bind())
+		$choose_buttons.add_child(start_button)
+
 
 func _physics_process(_delta):
 	if Net.is_a_spectator:
@@ -49,14 +73,14 @@ func _physics_process(_delta):
 		reset_fadeout.call()
 		race_finished = false
 		$countdown.modulate = Color(0, 0, 0, 1)
-		$countdown.texture = countdown_textures[int((get_parent() as Gameplay).countdown) + 1]
+		$countdown.texture = COUNTDOWN_TEXTURES[int((get_parent() as Gameplay).countdown) + 1]
 		
 		if voting:
 			$vote_buttons.visible = false
 			voting = false
 		
 	elif $countdown.modulate.a > 0:
-		$countdown.texture = countdown_textures[0]
+		$countdown.texture = COUNTDOWN_TEXTURES[0]
 		fade_out($countdown, fadeout_speed_countdown)
 	
 	#timer a pocitani kol
@@ -82,10 +106,14 @@ func _physics_process(_delta):
 	#car stats
 	$"car_stats/gear".text = "gear: " + str($"../Racecar".gear)
 	$"car_stats/speed".text = "speed: " + str(int($"../Racecar".curr_speed))
-
+	
 
 func vote_button_pressed(vote):
 	Net.vote_map(vote)
+	
+	
+func choose_button_pressed(map):
+	Net.current_track_name = map 
 
 
 func update_player_list():
@@ -114,8 +142,8 @@ func start_vote():
 	$vote_buttons.visible = true
 	voting = true
 	
-	for i in range(len(vote_buttons)):
-		vote_buttons[i].text = Net.vote_options[i]
+	for i in range(len($vote_buttons.get_children())):
+		$vote_buttons.get_child(i).text = Net.vote_options[i]
 
 
 func _on_gameplay_race_finished(final_time):
