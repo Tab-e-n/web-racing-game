@@ -124,7 +124,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = SubResource("GDScript_4inib")
 
-[node name="player_list" type="TextEdit" parent="camera"]
+[node name="player_list" type="ItemList" parent="camera"]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -137,14 +137,6 @@ offset_right = 225.0
 offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
-editable = false
-context_menu_enabled = false
-shortcut_keys_enabled = false
-selecting_enabled = false
-deselect_on_focus_loss_enabled = false
-drag_and_drop_selection_enabled = false
-virtual_keyboard_enabled = false
-middle_mouse_paste_enabled = false
 
 [node name="car_stats" type="VBoxContainer" parent="camera"]
 anchors_preset = 8
