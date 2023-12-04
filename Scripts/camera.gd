@@ -16,12 +16,21 @@ var race_finished : bool = false
 
 var voting : bool = false
 
-var player_count_buffer = 0
+var player_list : Dictionary = {}
 
 
 
 func _ready():
-	$on_finish_image.modulate = Color(0, 0, 0, 0)
+	$countdown.modulate.a = 0
+	$on_finish_image.modulate.a = 0
+	
+	player_list[Net.multiplayer.get_unique_id()] = [Net.players[Net.multiplayer.get_unique_id()]["name"], 0, 0]
+	update_visual_player_list()
+	
+	#player list update connection
+	Net.recieved_time.connect(update_player_list)
+	Net.player_connected.connect(update_player_list)
+	Net.player_disconnected.connect(delete_player_from_player_list)
 	
 	#crete vote buttons	
 	for i in range(len($vote_buttons.get_children())):
@@ -99,10 +108,6 @@ func _physics_process(_delta):
 	elif $player_list.visible == true:
 		$player_list.visible = false
 	
-	if(player_count_buffer != len(Net.players)):
-		update_player_list()
-	player_count_buffer = len(Net.players)
-	
 	#car stats
 	$"car_stats/gear".text = "gear: " + str($"../Racecar".gear)
 	$"car_stats/speed".text = "speed: " + str(int($"../Racecar".curr_speed))
@@ -116,12 +121,24 @@ func choose_button_pressed(map):
 	Net.current_track_name = map 
 
 
-func update_player_list():
-	var text = ""
-	for p in Net.players:
-		text += Net.players[p]["name"] + "\n"
-	$player_list.text = text
+func delete_player_from_player_list(peer_id):
+	player_list.erase(peer_id)
 
+func update_player_list(peer_id, time = null, lap = null):
+	print(peer_id, " ", time, " ", lap)
+	if time is float:
+		player_list[peer_id] = [Net.players[peer_id]["name"], time, lap]
+	else:
+		player_list[peer_id] = [Net.players[peer_id]["name"], 0, 0]
+	update_visual_player_list()
+
+
+func update_visual_player_list():
+	print(player_list)
+	$player_list.clear()
+	for player in player_list.values():
+		$player_list.add_item(player[0] + " / "+ format_time(player[1]) + " / lap: " + str(player[2]))
+	
 
 func fade_out(node, fadeout_speed):
 	fadeout_buffer += fadeout_speed

@@ -3,9 +3,10 @@ extends Node
 # Autoload named Lobby
 
 # These signals can be connected to by a UI lobby scene or the game scene.
-signal player_connected(peer_id, player_info)
+signal player_connected(peer_id)
 signal player_disconnected(peer_id)
 signal server_disconnected
+signal recieved_time(peer_id, time, lap)
 
 const PORT = 7000
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
@@ -127,7 +128,7 @@ func create_game():
 	multiplayer.multiplayer_peer = peer
 
 	players[1] = player_info
-	player_connected.emit(1, player_info)
+	player_connected.emit(1)
 	
 	temp_start_countdown = true
 	print("default map: ", current_track_name)
@@ -220,6 +221,7 @@ func start_countdown():
 @rpc("any_peer", "call_local", "reliable")
 func send_time(time : float, done : bool, laps : int = -1):
 	print("my time: ", snapped(time,  0.01))
+	
 	var peer_id = multiplayer.get_remote_sender_id()
 	if players.has(peer_id):
 		players[peer_id]["time"] = time
@@ -231,6 +233,8 @@ func send_time(time : float, done : bool, laps : int = -1):
 			time_till_timeout = END_OF_RACE_TIMEOUT
 			print("timeout in: ", END_OF_RACE_TIMEOUT, " seconds")
 		check_player_finish()
+		
+	recieved_time.emit(peer_id, time, laps)
 
 
 func check_player_finish():
@@ -356,7 +360,7 @@ func _on_player_connected(id):
 func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
-	player_connected.emit(new_player_id, new_player_info)
+	player_connected.emit(new_player_id)
 	
 	print("registered player ", new_player_id)
 
@@ -374,7 +378,7 @@ func _on_player_disconnected(id):
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()
 	players[peer_id] = player_info
-	player_connected.emit(peer_id, player_info)
+	player_connected.emit(peer_id)
 	
 	print("succesfuly connected")
 
