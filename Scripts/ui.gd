@@ -6,13 +6,17 @@ func _ready():
 
 
 func _on_create_button_pressed():
-	load_game()
-	Net.create_game()
+	if Net.create_game():
+		Net.reset()
+	else:
+		load_game()
 
 
 func _on_join_button_pressed():
-	load_game()
-	Net.join_game($ip_line.text)
+	if Net.join_game($ip_line.text):
+		Net.reset()
+	else:
+		load_game()
 
 
 func load_game():

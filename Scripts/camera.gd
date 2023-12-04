@@ -28,10 +28,6 @@ func _ready():
 		vote_buttons[i].connect("button_down", vote_button_pressed.bind(i))
 
 func _physics_process(_delta):
-	#jenom pro debug
-	if Input.is_key_pressed(KEY_DELETE):
-		(get_parent() as Gameplay).player_did_a_lap()
-		
 	if Net.is_a_spectator:
 		var speed_up = 1
 		if Input.is_action_pressed("shift"):

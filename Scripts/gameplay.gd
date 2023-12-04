@@ -27,6 +27,9 @@ func _ready():
 
 
 func _physics_process(delta):
+	if Input.is_key_pressed(KEY_DELETE) and OS.has_feature("editor"):
+		player_did_a_lap()
+	
 	if countdown_has_started and countdown > 0:
 		countdown -= delta
 		if countdown <= 0:

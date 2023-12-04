@@ -136,6 +136,7 @@ func create_game():
 
 func remove_multiplayer_peer():
 	multiplayer.multiplayer_peer = null
+	print("i disconnected myself")
 
 
 # The server will call this ever so often to tell every peer
