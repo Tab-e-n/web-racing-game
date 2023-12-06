@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://cpourwq7eu8p0"]
+
+[ext_resource type="Script" path="res://Scripts/Palletes.gd" id="1_pp87p"]
+[ext_resource type="Texture2D" uid="uid://br0nljrw10p7m" path="res://Textures/placeholder_car_3.png" id="2_7ti1i"]
+[ext_resource type="Shader" path="res://Scripts/pallete_replacer.gdshader" id="2_hsw6f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_piv7g"]
+shader = ExtResource("2_hsw6f")
+shader_parameter/active = true
+shader_parameter/pallete = PackedVector3Array()
+
+[node name="PalleteTestScene" type="Node"]
+script = ExtResource("1_pp87p")
+pallete = [Color(0, 0, 0, 1), Color(0.101961, 0.101961, 0.101961, 1), Color(0.2, 0.2, 0.2, 1), Color(0.301961, 0.301961, 0.301961, 1), Color(0.4, 0.4, 0.4, 1), Color(0.501961, 0.501961, 0.501961, 1), Color(0.6, 0.6, 0.6, 1), Color(0.701961, 0.701961, 0.701961, 1), Color(0.8, 0.8, 0.8, 1), Color(0.901961, 0.901961, 0.901961, 1), Color(1, 1, 1, 1)]
+change_colors = true
+
+[node name="PlaceholderCar3" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_piv7g")
+position = Vector2(0, -3)
+texture = ExtResource("2_7ti1i")
