@@ -68,6 +68,9 @@ func reset():
 	votes = {}
 	vote_options = ["test_scene", "test_scene", "test_scene", "test_scene"]
 	gameplay_active = false
+	
+	# TEMPORARY
+	player_info["palette"] = randi_range(0, 3)
 
 func _ready():
 	reset()

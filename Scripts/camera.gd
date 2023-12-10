@@ -118,7 +118,7 @@ func vote_button_pressed(vote):
 	
 	
 func choose_button_pressed(map):
-	Net.current_track_name = map 
+	Net.change_map.rpc(map)
 
 
 func delete_player_from_player_list(peer_id):

@@ -22,7 +22,14 @@ func manage_opponents():
 			var new_op : Sprite2D = Sprite2D.new()
 			new_op.texture = preload("res://Textures/placeholder_car_2.png")
 			new_op.name = String.num(i)
-			new_op.self_modulate = Color.DARK_GRAY
+			
+			new_op.material = ShaderMaterial.new()
+			new_op.material.shader = preload("res://Scripts/palette_replacer.gdshader")
+			var palette = Palettes.PALETTES[Net.players[i]["palette"]].duplicate()
+			new_op.material.set_shader_parameter("dim", Color.DARK_GRAY)
+			new_op.material.set_shader_parameter("palette", palette)
+			new_op.material.set_shader_parameter("active", true)
+			
 			add_child(new_op)
 			
 			var op_name : Label = Label.new()
@@ -54,8 +61,8 @@ func animate_opponents():
 		op.rotation = car_data["rotation"]
 		op.position = car_data["position"]
 		if car_data["sliding"]:
-			op.self_modulate = Color.DARK_GRAY * Color(0.5, 0.5, 0.5)
+			op.material.set_shader_parameter("dim", Color.DARK_GRAY * Color(0.5, 0.5, 0.5))
 		else:
-			op.self_modulate = Color.DARK_GRAY
+			op.material.set_shader_parameter("dim", Color.DARK_GRAY * Color(1, 1, 1))
 		
 		op.get_node("name").rotation = -op.rotation
