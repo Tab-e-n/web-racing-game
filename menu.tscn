@@ -12,17 +12,21 @@ func _ready():
 		queue_free()
 		return
 	
-	for i in Palettes.PALETTES:
-		var sprite = Sprite2D.new()
-		sprite.texture = preload(\"res://Textures/placeholder_car_3.png\")
-		sprite.position.x = i * 64
-		sprite.material = ShaderMaterial.new()
-		sprite.material.shader = preload(\"res://Scripts/palette_replacer.gdshader\")
-		sprite.material.set_shader_parameter(\"palette\", Palettes.PALETTES[i])
-		sprite.material.set_shader_parameter(\"active\", true)
-		
-		
-		add_child(sprite)
+	var textures = [preload(\"res://Textures/placeholder_car_3.png\"), preload(\"res://Textures/auto_vitor_2.png\")]
+	
+	for t in range(textures.size()):
+		for i in Palettes.PALETTES:
+			var sprite = Sprite2D.new()
+			sprite.texture = textures[t]
+			sprite.position.x = i * 48
+			sprite.position.y = t * 92
+			sprite.rotation_degrees = 15
+			sprite.material = ShaderMaterial.new()
+			sprite.material.shader = preload(\"res://Scripts/palette_replacer.gdshader\")
+			sprite.material.set_shader_parameter(\"palette\", Palettes.PALETTES[i])
+			sprite.material.set_shader_parameter(\"active\", true)
+			
+			add_child(sprite)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
