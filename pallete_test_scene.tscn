@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://cpourwq7eu8p0"]
 
 [ext_resource type="Script" path="res://Scripts/Palettes.gd" id="1_pp87p"]
-[ext_resource type="Texture2D" uid="uid://br0nljrw10p7m" path="res://Textures/placeholder_car_3.png" id="2_7ti1i"]
 [ext_resource type="Shader" path="res://Scripts/palette_replacer.gdshader" id="2_hsw6f"]
+[ext_resource type="Texture2D" uid="uid://boj0w0cla1na3" path="res://Textures/auto_vitor_2.png" id="3_8bt4a"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_piv7g"]
 shader = ExtResource("2_hsw6f")
@@ -14,9 +14,9 @@ shader_parameter/dim = Vector3(1, 1, 1)
 script = ExtResource("1_pp87p")
 palette = [Color(0, 0.113725, 0.180392, 1), Color(0, 0.113725, 0.180392, 1), Color(0, 0.14902, 0.356863, 1), Color(0, 0.207843, 0.407843, 1), Color(0, 0.27451, 0.443137, 1), Color(0.611765, 0.776471, 0.952941, 1), Color(0.737255, 0.85098, 0.94902, 1), Color(0.117647, 0.188235, 0.372549, 1), Color(0.152941, 0.27451, 0.411765, 1), Color(0.984314, 0.992157, 1, 1), Color(0.984314, 0.992157, 1, 1)]
 change_colors = true
-current_preset = 3
+current_preset = 4
 
 [node name="PlaceholderCar3" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_piv7g")
 position = Vector2(0, -3)
-texture = ExtResource("2_7ti1i")
+texture = ExtResource("3_8bt4a")
