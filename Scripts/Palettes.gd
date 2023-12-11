@@ -2,7 +2,7 @@
 class_name Palettes
 extends Node
 
-enum {PALETTE_CLASSIC, PALETTE_PINK, PALETTE_ICE, PALETTE_GRAYSCALE}
+enum {PALETTE_CLASSIC, PALETTE_BLUE_MARBLE, PALETTE_GRASS, PALETTE_ORANGE, PALETTE_DESERT, PALETTE_PINK, PALETTE_ICE, PALETTE_GRAYSCALE}
 
 const PALETTES : Dictionary = {
 	PALETTE_CLASSIC : [
@@ -56,6 +56,58 @@ const PALETTES : Dictionary = {
 		Color(0.1529, 0.2745, 0.4118, 1),
 		Color(0.9843, 0.9922, 1, 1),
 		Color(0.9843, 0.9922, 1, 1)
+	],
+	PALETTE_GRASS : [
+		Color(0.0196, 0.0824, 0, 1),
+		Color(0.0196, 0.0824, 0, 1),
+		Color(0.0627, 0.1843, 0.0941, 1),
+		Color(0.098, 0.2549, 0.0706, 1),
+		Color(0.1294, 0.3176, 0, 1),
+		Color(0.298, 0.5059, 0.2275, 1),
+		Color(0.3608, 0.6039, 0.1961, 1),
+		Color(0.8353, 0.7176, 0.4235, 1),
+		Color(0.9451, 0.8667, 0.5686, 1),
+		Color(0.9451, 0.8667, 0.5686, 1),
+		Color(0.9216, 0.7804, 0.2039, 1)
+	],
+	PALETTE_BLUE_MARBLE : [
+		Color(0, 0.0118, 0.1451, 1),
+		Color(0, 0.0118, 0.1451, 1),
+		Color(0, 0.1412, 0.2745, 1),
+		Color(0.0863, 0.2353, 0.2431, 1),
+		Color(0.1412, 0.2902, 0.1804, 1),
+		Color(0.1255, 0.2431, 0.5216, 1),
+		Color(0.2824, 0.3686, 0.7333, 1),
+		Color(0.3137, 0.6627, 0.2824, 1),
+		Color(0.5176, 0.749, 0.349, 1),
+		Color(0.8824, 0.8941, 0.5333, 1),
+		Color(0.8745, 0.9098, 0.2745, 1)
+	],
+	PALETTE_ORANGE : [
+		Color(0.1059, 0.0314, 0, 1),
+		Color(0.1059, 0.0314, 0, 1),
+		Color(0.2118, 0.0863, 0.0863, 1),
+		Color(0.2667, 0.1176, 0.0627, 1),
+		Color(0.3373, 0.1569, 0, 1),
+		Color(0.7686, 0.302, 0.1765, 1),
+		Color(0.9412, 0.3961, 0.1686, 1),
+		Color(0.9059, 0.6588, 0.4627, 1),
+		Color(0.9529, 0.7647, 0.5725, 1),
+		Color(0.9529, 0.7647, 0.5725, 1),
+		Color(0.9765, 0.8275, 0.4353, 1)
+	],
+	PALETTE_DESERT : [
+		Color(0.0627, 0.0627, 0, 1),
+		Color(0.1804, 0.0078, 0.1373, 1),
+		Color(0.1804, 0.0078, 0.1373, 1),
+		Color(0.1804, 0.0078, 0.1373, 1),
+		Color(0.1804, 0.0078, 0.1373, 1),
+		Color(0.8196, 0.6431, 0.4078, 1),
+		Color(0.9451, 0.8078, 0.4471, 1),
+		Color(0.5804, 0.149, 0.6941, 1),
+		Color(0.7333, 0.3647, 0.7216, 1),
+		Color(0.9686, 0.8824, 0.9647, 1),
+		Color(0.898, 0.3922, 0.549, 1)
 	],
 }
 

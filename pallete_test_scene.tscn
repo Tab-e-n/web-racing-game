@@ -7,14 +7,13 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_piv7g"]
 shader = ExtResource("2_hsw6f")
 shader_parameter/active = true
-shader_parameter/palette = [Color(0, 0, 0, 1), Color(0.102, 0.102, 0.102, 1), Color(0.2, 0.2, 0.2, 1), Color(0.302, 0.302, 0.302, 1), Color(0.4, 0.4, 0.4, 1), Color(0.502, 0.502, 0.502, 1), Color(0.6, 0.6, 0.6, 1), Color(0.702, 0.702, 0.702, 1), Color(0.8, 0.8, 0.8, 1), Color(0.902, 0.902, 0.902, 1), Color(1, 1, 1, 1)]
+shader_parameter/palette = [Color(0.0627451, 0.0627451, 0, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.819608, 0.643137, 0.407843, 1), Color(0.945098, 0.807843, 0.447059, 1), Color(0.580392, 0.14902, 0.694118, 1), Color(0.733333, 0.364706, 0.721569, 1), Color(0.968627, 0.882353, 0.964706, 1), Color(0.898039, 0.392157, 0.54902, 1)]
 shader_parameter/dim = Vector3(1, 1, 1)
 
 [node name="PalleteTestScene" type="Node"]
 script = ExtResource("1_pp87p")
-palette = [Color(0, 0.113725, 0.180392, 1), Color(0, 0.113725, 0.180392, 1), Color(0, 0.14902, 0.356863, 1), Color(0, 0.207843, 0.407843, 1), Color(0, 0.27451, 0.443137, 1), Color(0.611765, 0.776471, 0.952941, 1), Color(0.737255, 0.85098, 0.94902, 1), Color(0.117647, 0.188235, 0.372549, 1), Color(0.152941, 0.27451, 0.411765, 1), Color(0.984314, 0.992157, 1, 1), Color(0.984314, 0.992157, 1, 1)]
-change_colors = true
-current_preset = 3
+palette = [Color(0.0627451, 0.0627451, 0, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.819608, 0.643137, 0.407843, 1), Color(0.945098, 0.807843, 0.447059, 1), Color(0.580392, 0.14902, 0.694118, 1), Color(0.733333, 0.364706, 0.721569, 1), Color(0.968627, 0.882353, 0.964706, 1), Color(0.898039, 0.392157, 0.54902, 1)]
+current_preset = -1
 
 [node name="PlaceholderCar3" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_piv7g")
