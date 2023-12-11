@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bxjawhag4yo0" path="res://Textures/placeholder_crossroads.png" id="4_60oww"]
 [ext_resource type="PackedScene" uid="uid://dio5x6fxxcoph" path="res://Objects/GameplayObjects/finish_line.tscn" id="5_5n5vs"]
 [ext_resource type="PackedScene" uid="uid://b6m05hpjgeyco" path="res://Objects/GameplayObjects/checkpoint.tscn" id="6_3g61g"]
-[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil.tscn" id="7_5atdm"]
+[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="7_5atdm"]
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="8_epro5"]
 
 [sub_resource type="Curve" id="Curve_yaq71"]

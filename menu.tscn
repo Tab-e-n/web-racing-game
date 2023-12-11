@@ -12,7 +12,7 @@ func _ready():
 		queue_free()
 		return
 	
-	var textures = [preload(\"res://Textures/placeholder_car_3.png\"), preload(\"res://Textures/auto_vitor_2.png\")]
+	var textures : Array = [preload(\"res://Textures/placeholder_car_3.png\"), preload(\"res://Textures/auto_vitor_2.png\")]
 	
 	for t in range(textures.size()):
 		for i in Palettes.PALETTES:
@@ -23,7 +23,7 @@ func _ready():
 			sprite.rotation_degrees = 15
 			sprite.material = ShaderMaterial.new()
 			sprite.material.shader = preload(\"res://Scripts/palette_replacer.gdshader\")
-			sprite.material.set_shader_parameter(\"palette\", Palettes.PALETTES[i])
+			sprite.material.set_shader_parameter(\"palette\", Palettes.PALETTES[i].duplicate())
 			sprite.material.set_shader_parameter(\"active\", true)
 			
 			add_child(sprite)

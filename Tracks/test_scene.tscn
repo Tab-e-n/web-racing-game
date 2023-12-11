@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://db1idhlcf3swl"]
+[gd_scene load_steps=8 format=3 uid="uid://db1idhlcf3swl"]
 
 [ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="1_3ypym"]
 [ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="1_52i3j"]
 [ext_resource type="PackedScene" uid="uid://dio5x6fxxcoph" path="res://Objects/GameplayObjects/finish_line.tscn" id="2_0k7na"]
 [ext_resource type="PackedScene" uid="uid://b6m05hpjgeyco" path="res://Objects/GameplayObjects/checkpoint.tscn" id="3_xxc2b"]
-[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil.tscn" id="4_2jxhu"]
+[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="4_2jxhu"]
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="5_rf6l0"]
+[ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="7_8whyx"]
 
 [node name="test_scene" type="Node2D"]
 
@@ -105,3 +106,7 @@ position = Vector2(1672, 1608)
 [node name="booster" parent="." instance=ExtResource("5_rf6l0")]
 position = Vector2(1928, -168)
 rotation = 2.87979
+
+[node name="tire_obstacle" parent="." instance=ExtResource("7_8whyx")]
+position = Vector2(-240, -1040)
+points = PackedVector2Array(296, -224, 424, -296, 744, -368, 1208, -416, 1704, -400, 2120, -304, 2680, -112, 3264, 56, 4032, 384, 4816, 888, 5304, 1512, 5400, 2096, 5504, 2792, 5424, 3592, 5104, 4032, 4504, 4264, 3816, 4368, 3008, 4360, 2232, 4240, 1400, 4112, 824, 3952, 288, 3720, -88, 3480, -352, 3056, -440, 2496, -496, 1784, -496, 1008, -440, 680, -296, 344, -80, 64, 384, -240)
