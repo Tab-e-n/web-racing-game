@@ -7,7 +7,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_piv7g"]
 shader = ExtResource("2_hsw6f")
 shader_parameter/active = true
-shader_parameter/palette = [Color(0, 0, 0, 1), Color(0.102, 0.102, 0.102, 1), Color(0.2, 0.2, 0.2, 1), Color(0.302, 0.302, 0.302, 1), Color(0.4, 0.4, 0.4, 1), Color(0.502, 0.502, 0.502, 1), Color(0.6, 0.6, 0.6, 1), Color(0.702, 0.702, 0.702, 1), Color(0.8, 0.8, 0.8, 1), Color(0.902, 0.902, 0.902, 1), Color(1, 1, 1, 1)]
+shader_parameter/palette = [Color(0.0627451, 0.0627451, 0, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.180392, 0.00784314, 0.137255, 1), Color(0.819608, 0.643137, 0.407843, 1), Color(0.945098, 0.807843, 0.447059, 1), Color(0.580392, 0.14902, 0.694118, 1), Color(0.733333, 0.364706, 0.721569, 1), Color(0.968627, 0.882353, 0.964706, 1), Color(0.898039, 0.392157, 0.54902, 1)]
 shader_parameter/dim = Vector3(1, 1, 1)
 
 [node name="PalleteTestScene" type="Node"]

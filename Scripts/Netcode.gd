@@ -70,7 +70,7 @@ func reset():
 	gameplay_active = false
 	
 	# TEMPORARY
-	player_info["palette"] = randi_range(0, 3)
+	player_info["palette"] = randi_range(0, Palettes.PALETTES.size() - 1)
 
 func _ready():
 	reset()
