@@ -36,6 +36,7 @@ var players = {
 # entered in a UI scene.
 var player_info = {
 	"name": "Guest",
+	"car_model" : 0,
 	"palette" : 0,
 	"time" : 0,
 	"laps" : 0,
@@ -58,6 +59,8 @@ var temp_start_countdown : bool = true
 var gameplay_active : bool = false
 
 func reset():
+	remove_multiplayer_peer()
+	
 	players = {}
 	players_loaded = []
 	is_a_player = true
@@ -70,7 +73,7 @@ func reset():
 	gameplay_active = false
 	
 	# TEMPORARY
-	player_info["palette"] = randi_range(0, Palettes.PALETTES.size() - 1)
+#	player_info["palette"] = randi_range(0, Palettes.PALETTES.size() - 1)
 
 func _ready():
 	reset()

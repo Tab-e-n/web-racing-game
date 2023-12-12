@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dq4jcgjndycyl"]
+[gd_scene load_steps=6 format=3 uid="uid://dq4jcgjndycyl"]
 
 [ext_resource type="Script" path="res://Scripts/racecar.gd" id="1_xv4uw"]
 [ext_resource type="Texture2D" uid="uid://doxnw8vkcqiag" path="res://Textures/debug_vector.png" id="2_4oll1"]
 [ext_resource type="Shader" path="res://Scripts/palette_replacer.gdshader" id="2_ae73i"]
-[ext_resource type="Texture2D" uid="uid://br0nljrw10p7m" path="res://Textures/placeholder_car_3.png" id="2_uy5j3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y4ctw"]
 shader = ExtResource("2_ae73i")
@@ -18,9 +17,8 @@ size = Vector2(32, 80)
 collision_mask = 65534
 script = ExtResource("1_xv4uw")
 
-[node name="placeholder" type="Sprite2D" parent="."]
+[node name="car" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_y4ctw")
-texture = ExtResource("2_uy5j3")
 
 [node name="collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1j6se")

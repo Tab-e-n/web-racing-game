@@ -54,7 +54,8 @@ func _ready():
 		_on_race_started()
 	motion_mode = MOTION_MODE_FLOATING
 	
-	$placeholder.material.set_shader_parameter("palette", Palettes.PALETTES[Net.player_info["palette"]])
+	$car.texture = Palettes.CAR_MODELS[Net.player_info["car_model"]]
+	$car.material.set_shader_parameter("palette", Palettes.PALETTES[Net.player_info["palette"]])
 
 
 func reset():
@@ -169,9 +170,9 @@ func _physics_process(_delta):
 	$Label.text = String.num(gear) + "\n" + String.num(round(curr_speed))
 	
 	if state_sliding or oil_covered:
-		$placeholder.material.set_shader_parameter("dim", Vector3(0.5, 0.5, 0.5))
+		$car.material.set_shader_parameter("dim", Vector3(0.5, 0.5, 0.5))
 	else:
-		$placeholder.material.set_shader_parameter("dim", Vector3(1, 1, 1))
+		$car.material.set_shader_parameter("dim", Vector3(1, 1, 1))
 	
 	$Label.visible = Global.debug_mode
 	$normal_rot.visible = Global.debug_mode

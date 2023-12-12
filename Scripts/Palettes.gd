@@ -6,9 +6,16 @@ enum {
 	PALETTE_CLASSIC, PALETTE_BLUE_MARBLE, PALETTE_EULBINK, PALETTE_LIME, 
 	PALETTE_GRASS, PALETTE_DESERT, PALETTE_CP_ORANGE, PALETTE_BURNER, 
 	PALETTE_HECK, PALETTE_DELUSIONS, PALETTE_MALICE, PALETTE_ICE, 
-	PALETTE_FEM, PALETTE_MINECRAFT, PALETTE_CIVILIAN, PALETTE_YELLOW_CAR,
+	PALETTE_FEM, PALETTE_MINECRAFT, PALETTE_FLATOUT, PALETTE_CIVILIAN,
 	PALETTE_GRAYSCALE, PALETTE_GAMEBOY, PALETTE_CGA_1, PALETTE_CGA_2
 }
+
+const CAR_MODELS : Array = [
+	preload("res://Textures/placeholder_car_3.png"), 
+	preload("res://Textures/formula.png"), 
+	preload("res://Textures/auto_vitor_2.png")
+]
+
 
 const PALETTES : Dictionary = {
 	PALETTE_CLASSIC : [
@@ -245,18 +252,18 @@ const PALETTES : Dictionary = {
 		Color(0.7529, 0.8784, 0.7529, 1),
 		Color(0.7529, 0.8784, 0.7529, 1),
 	],
-	PALETTE_YELLOW_CAR : [
-		Color(0.1255, 0.1255, 0.0039, 1),
-		Color(0.1255, 0.1255, 0.0039, 1),
-		Color(0.1255, 0.1255, 0.0039, 1),
-		Color(0.1255, 0.1255, 0.0039, 1),
-		Color(0.1255, 0.1255, 0.0039, 1),
-		Color(0.8471, 0.8549, 0.1882, 1),
-		Color(0.8863, 0.9333, 0.3216, 1),
-		Color(0.8471, 0.8549, 0.1882, 1),
-		Color(0.8863, 0.9333, 0.3216, 1),
-		Color(0.8863, 0.9333, 0.3216, 1),
-		Color(0.9765, 0.4667, 0.1686, 1)
+	PALETTE_FLATOUT : [
+		Color(0.0157, 0.0118, 0.0078, 1),
+		Color(0.0157, 0.0157, 0.0078, 1),
+		Color(0.1176, 0.0902, 0.0588, 1),
+		Color(0.1804, 0.149, 0.1176, 1),
+		Color(0.2235, 0.1922, 0.1608, 1),
+		Color(0.2745, 0.2353, 0.2118, 1),
+		Color(0.4196, 0.4039, 0.3961, 1),
+		Color(0.9373, 0.2392, 0.1333, 1),
+		Color(0.949, 0.4784, 0.1255, 1),
+		Color(0.3176, 0.2824, 0.2863, 1),
+		Color(0.9804, 0.651, 0.1059, 1)
 	],
 	PALETTE_CIVILIAN : [
 		Color(0, 0, 0.1176, 1),

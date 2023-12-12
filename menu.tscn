@@ -8,30 +8,37 @@ script/source = "extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if not OS.has_feature(\"editor\"):
+	if not OS.has_feature(\"editor\"): 
 		queue_free()
 		return
 	
-	var textures : Array = [preload(\"res://Textures/placeholder_car_3.png\"), preload(\"res://Textures/auto_vitor_2.png\")]
+	var textures : Array = [preload(\"res://Textures/placeholder_car_3.png\"), preload(\"res://Textures/formula.png\"), preload(\"res://Textures/auto_vitor_2.png\")]
 	
 	for t in range(textures.size()):
 		for i in Palettes.PALETTES:
+			var button = Button.new()
+			button.size = Vector2(48, 92)
+			button.position.x = i * 48
+			button.position.y = t * 92
+			button.pressed.connect(_on_palette_pressed.bind(t, i))
+			
+			add_child(button)
+			
 			var sprite = Sprite2D.new()
 			sprite.texture = textures[t]
-			sprite.position.x = i * 48
-			sprite.position.y = t * 92
-			sprite.rotation_degrees = 15
+			sprite.position.x = 24
+			sprite.position.y = 46
+#			sprite.rotation_degrees = 15
 			sprite.material = ShaderMaterial.new()
 			sprite.material.shader = preload(\"res://Scripts/palette_replacer.gdshader\")
 			sprite.material.set_shader_parameter(\"palette\", Palettes.PALETTES[i].duplicate())
 			sprite.material.set_shader_parameter(\"active\", true)
 			
-			add_child(sprite)
+			button.add_child(sprite)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _on_palette_pressed(model, palette):
+	Net.player_info[\"palette\"] = palette
+	Net.player_info[\"car_model\"] = model
 "
 
 [node name="menu" type="Control"]
@@ -50,10 +57,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = -44.0
-offset_right = 96.0
-offset_bottom = -4.0
+offset_left = -94.5
+offset_right = 97.5
+offset_bottom = 40.0
 grow_horizontal = 2
 text = "Create game"
 
@@ -64,10 +70,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = 4.0
-offset_right = 96.0
-offset_bottom = 44.0
+offset_left = -94.5
+offset_top = 48.0
+offset_right = 97.5
+offset_bottom = 88.0
 grow_horizontal = 2
 text = "Join game"
 
@@ -78,10 +84,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -97.5
-offset_top = 67.0
-offset_right = 97.5
-offset_bottom = 100.0
+offset_left = -96.0
+offset_top = 111.0
+offset_right = 99.0
+offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 placeholder_text = "ip address"
@@ -93,20 +99,24 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -97.5
-offset_top = 109.0
-offset_right = 97.5
-offset_bottom = 142.0
+offset_left = -96.0
+offset_top = 153.0
+offset_right = 99.0
+offset_bottom = 186.0
 grow_horizontal = 2
 grow_vertical = 2
 placeholder_text = "Name"
 
-[node name="palette_test" type="Control" parent="."]
-anchors_preset = 0
-offset_left = 64.0
-offset_top = 64.0
-offset_right = 104.0
-offset_bottom = 104.0
+[node name="palette_temp" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -320.0
+offset_right = -440.0
+offset_bottom = -280.0
 script = SubResource("GDScript_gc13d")
 
 [connection signal="pressed" from="create_button" to="." method="_on_create_button_pressed"]
