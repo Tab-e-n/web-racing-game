@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5o1is0hgffk4"]
+[gd_scene load_steps=12 format=3 uid="uid://c5o1is0hgffk4"]
 
 [ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="1_80jcn"]
 [ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="2_yes6l"]
@@ -8,16 +8,18 @@
 [ext_resource type="PackedScene" uid="uid://b6m05hpjgeyco" path="res://Objects/GameplayObjects/checkpoint.tscn" id="6_3g61g"]
 [ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="7_5atdm"]
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="8_epro5"]
+[ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="9_ku2n2"]
 
-[sub_resource type="Curve" id="Curve_yaq71"]
+[sub_resource type="Curve" id="Curve_55f5v"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.4), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_p7uql"]
+[sub_resource type="Curve" id="Curve_y7yfi"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.714286), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="AntiTesties" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [-1368.0]
 
 [node name="start_position" parent="." instance=ExtResource("1_80jcn")]
 position = Vector2(-160, 0)
@@ -41,7 +43,7 @@ width = 224.0
 position = Vector2(-944, 184)
 points = PackedVector2Array(-656, -184, 496, -184)
 width = 320.0
-width_curve = SubResource("Curve_yaq71")
+width_curve = SubResource("Curve_55f5v")
 width_end = 448.0
 
 [node name="Road2" parent="." instance=ExtResource("2_yes6l")]
@@ -53,7 +55,7 @@ width = 448.0
 position = Vector2(-2048, 1920)
 points = PackedVector2Array(0, 96, 0, -512)
 width = 448.0
-width_curve = SubResource("Curve_p7uql")
+width_curve = SubResource("Curve_y7yfi")
 width_end = 320.0
 
 [node name="Road3" parent="." instance=ExtResource("2_yes6l")]
@@ -232,3 +234,19 @@ rotation = -2.87979
 [node name="booster6" parent="." instance=ExtResource("8_epro5")]
 position = Vector2(-1640, 352)
 rotation = 1.0472
+
+[node name="tire_obstacle" parent="." instance=ExtResource("9_ku2n2")]
+position = Vector2(-2848, 0)
+points = PackedVector2Array(416, 43.9999, 424, -204, 368, -388, 280, -468, 128, -508, -96, -500, -264, -412, -400, -244, -408, -44, -336, 132, -264, 220, -72, 308, 144, 292, 320, 212, 416, 44)
+
+[node name="tire_obstacle2" parent="." instance=ExtResource("9_ku2n2")]
+position = Vector2(-2792, 1968)
+points = PackedVector2Array(400, -72, 368, -216, 256, -368, 120, -408, -64, -400, -240, -352, -352, -216, -360, -8, -280, 160, -104, 248, 80, 256, 240, 200, 360, 96, 400, -72)
+
+[node name="tire_obstacle3" parent="." instance=ExtResource("9_ku2n2")]
+position = Vector2(-368, 544)
+points = PackedVector2Array(-1488, 0, 1024, 0, 1048, 0, 1048, -16, 1088, -144, 1184, -280, 1376, -328, 1528, -280, 1608, -136, 1624, 16, 1608, 176, 1544, 304, 1416, 360, 1280, 336, 1144, 272, 1072, 136, 1048, 0)
+
+[node name="tire_obstacle4" parent="." instance=ExtResource("9_ku2n2")]
+position = Vector2(-1640, 616)
+points = PackedVector2Array(-2448, -1224, -2408, -1504, -2208, -1744, -1880, -1896, -1232, -1920, 2648, -1856, 3232, -1720, 3616, -1328, 3672, -752, 3584, 1112, 3456, 1672, 3008, 2024, 2400, 2192, -1520, 2384, -2104, 2312, -2376, 1976, -2528, 1544, -2456, -1192)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dkyl0w0vfm31h"]
+[gd_scene load_steps=16 format=3 uid="uid://dkyl0w0vfm31h"]
 
 [ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="1_vn864"]
 [ext_resource type="PackedScene" uid="uid://dk3wy4a4pb5la" path="res://Objects/GameplayObjects/road_width_change.tscn" id="2_i45vm"]
@@ -6,24 +6,25 @@
 [ext_resource type="PackedScene" uid="uid://dio5x6fxxcoph" path="res://Objects/GameplayObjects/finish_line.tscn" id="3_aufp8"]
 [ext_resource type="Texture2D" uid="uid://bxjawhag4yo0" path="res://Textures/placeholder_crossroads.png" id="4_aa8my"]
 [ext_resource type="PackedScene" uid="uid://b6m05hpjgeyco" path="res://Objects/GameplayObjects/checkpoint.tscn" id="4_gas87"]
-[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil.tscn" id="5_5admw"]
+[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="5_5admw"]
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="6_4e201"]
 [ext_resource type="PackedScene" uid="uid://bt4r6c4xu6n25" path="res://Objects/GameplayObjects/tree.tscn" id="9_l7uvx"]
 [ext_resource type="PackedScene" uid="uid://cyqmi0txwlr0o" path="res://Objects/GameplayObjects/tree_clump.tscn" id="10_nr0wf"]
+[ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="11_1ff0m"]
 
-[sub_resource type="Curve" id="Curve_fnmdu"]
+[sub_resource type="Curve" id="Curve_37hys"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_bcrmu"]
+[sub_resource type="Curve" id="Curve_vw6uu"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.50588), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_tljpl"]
+[sub_resource type="Curve" id="Curve_le3ly"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.33333), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_ffbvk"]
+[sub_resource type="Curve" id="Curve_mhqeg"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.66667), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -62,26 +63,26 @@ width = 640.0
 position = Vector2(1680, 1520)
 points = PackedVector2Array(-96, 368, 0, 0)
 width = 640.0
-width_curve = SubResource("Curve_fnmdu")
+width_curve = SubResource("Curve_37hys")
 width_end = 320.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(296, -56)
 points = PackedVector2Array(0, 0, 168, -152)
 width = 340.0
-width_curve = SubResource("Curve_bcrmu")
+width_curve = SubResource("Curve_vw6uu")
 
 [node name="Road_Change3" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(5384, 240)
 points = PackedVector2Array(-424, 0, 0, 0)
 width = 384.0
-width_curve = SubResource("Curve_tljpl")
+width_curve = SubResource("Curve_le3ly")
 
 [node name="Road_Change4" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(4216, 2752)
 points = PackedVector2Array(72, -320, 8, 0)
 width = 384.0
-width_curve = SubResource("Curve_ffbvk")
+width_curve = SubResource("Curve_mhqeg")
 width_end = 640.0
 
 [node name="PlaceholderCrossroads" type="Sprite2D" parent="."]
@@ -296,15 +297,15 @@ position = Vector2(1976, 2192)
 scale = Vector2(1.5, 1.5)
 
 [node name="tree_clump" parent="." instance=ExtResource("10_nr0wf")]
-position = Vector2(2262, 515)
+position = Vector2(2632, 379)
 
 [node name="tree_clump2" parent="." instance=ExtResource("10_nr0wf")]
 position = Vector2(692, 1476)
 rotation = 2.35619
 
 [node name="tree_clump3" parent="." instance=ExtResource("10_nr0wf")]
-position = Vector2(3109, 2293)
-rotation = -0.785397
+position = Vector2(2709, 2248)
+rotation = -1.0472
 
 [node name="tree_clump4" parent="." instance=ExtResource("10_nr0wf")]
 position = Vector2(5630, 1085)
@@ -317,3 +318,19 @@ rotation = -2.87979
 [node name="tree_clump6" parent="." instance=ExtResource("10_nr0wf")]
 position = Vector2(216, -670)
 rotation = -1.83259
+
+[node name="tire_obstacle" parent="." instance=ExtResource("11_1ff0m")]
+position = Vector2(1814, 572)
+points = PackedVector2Array(-903, -137, 389, 210, 436, 223, 456, 287, 621, 1269, 634, 1316, 676, 1352, 1745, 2029, 1820, 2057, 1866, 2052, 1917, 2026, 1942, 1984, 1945, 1936, 1934, 1897, 1917, 1864, 1886, 1828, 878.912, 1219.7, 846, 1202, 840.68, 1163.76, 693.812, 107.969, 687, 59, 647, 46, -879, -332, -923, -334, -959, -326, -987, -305, -1003, -268, -1003, -213, -986, -176, -955, -151, -903, -134)
+
+[node name="tire_obstacle2" parent="." instance=ExtResource("11_1ff0m")]
+position = Vector2(5518, 776)
+points = PackedVector2Array(-568, -197, -371, -190, -155, -152, -12, -105, 80, -32, 146, 89, 169, 222, 121, 314)
+
+[node name="tire_obstacle3" parent="." instance=ExtResource("11_1ff0m")]
+position = Vector2(-92, -4)
+points = PackedVector2Array(-366, -50, -444, 591, -456, 953, -365, 1320, -107, 1691, 458, 2065, 805, 2466, 1130, 3024, 1481, 3280, 3462, 3902, 4018, 3969, 4419, 3937, 4712, 3825, 4968, 3542, 5040, 3184, 5043, 2763, 4940, 2421, 5099, 2167, 5311, 2286, 5548, 2353, 5819, 2370, 6099, 2277, 6447, 2108, 6729, 1892, 6978, 1259, 6898, 535, 6457, 14, 5269, -444, 3908, -751, 2113, -964, 981, -998, 622, -964, 280, -919, 23, -829, -174, -645, -265, -477, -357, -79)
+
+[node name="tire_obstacle4" parent="." instance=ExtResource("11_1ff0m")]
+position = Vector2(4249, -43)
+points = PackedVector2Array(-541, 959, -377, 644, -175, 201, 6, -337, 61, -583)
