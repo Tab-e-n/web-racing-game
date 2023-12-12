@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://f1l2euej16s1"]
+[gd_scene load_steps=12 format=3 uid="uid://f1l2euej16s1"]
 
 [ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="1_a241j"]
 [ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="2_763ng"]
@@ -7,13 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://dge6ofha5mvc1" path="res://Objects/GameplayObjects/road_ice.tscn" id="5_oty5j"]
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="6_g4lhr"]
 [ext_resource type="PackedScene" uid="uid://b6m05hpjgeyco" path="res://Objects/GameplayObjects/checkpoint.tscn" id="6_yy46m"]
-[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil.tscn" id="7_tw2es"]
+[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="7_tw2es"]
+[ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="9_g1ubs"]
 
-[sub_resource type="Curve" id="Curve_heay1"]
+[sub_resource type="Curve" id="Curve_o3m3q"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_ehwhe"]
+[sub_resource type="Curve" id="Curve_qauq0"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -27,7 +28,7 @@ bunker_type = 1
 [node name="cheating" type="Polygon2D" parent="."]
 position = Vector2(56, 112)
 color = Color(0.698039, 0.784314, 0.858824, 1)
-polygon = PackedVector2Array(-3784, -1344, -1752, -2768, 2360, -3096, 5736, -2416, 7488, 712, 6528, 4448, 2464, 5768, -1680, 5128, -3408, 3048, -4496, 1296)
+polygon = PackedVector2Array(-3784, -1344, -1752, -2768, 2360, -3096, 5736, -2416, 7488, 712, 6528, 4448, 2464, 5768, -1768, 5448, -3752, 4776, -4496, 1296)
 
 [node name="Road" parent="." instance=ExtResource("1_a241j")]
 points = PackedVector2Array(256, 128, -224, 128, -864, -128, -1536, 256, -1536, 1416, -352, 1288, 192, 2112, 624, 2040, 1136, 1568, 1672, 2168, 1216, 2976, 1504, 3208, 2600, 3200, 4160, 3008, 4280, 2752, 3400, 2120, 3424, 1632, 4176, 1128, 3968, 128, 3264, 128)
@@ -37,14 +38,14 @@ width = 384.0
 position = Vector2(992, 288)
 points = PackedVector2Array(-736, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_heay1")
+width_curve = SubResource("Curve_o3m3q")
 width_end = 768.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("2_cvcbv")]
 position = Vector2(3616, 288)
 points = PackedVector2Array(-352, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_ehwhe")
+width_curve = SubResource("Curve_qauq0")
 width_end = 768.0
 
 [node name="RoadIce" parent="." instance=ExtResource("5_oty5j")]
@@ -178,3 +179,19 @@ position = Vector2(4048, 1328)
 
 [node name="oil3" parent="." instance=ExtResource("7_tw2es")]
 position = Vector2(4000, 3136)
+
+[node name="tire_obstacle" parent="." instance=ExtResource("9_g1ubs")]
+position = Vector2(1408, 980)
+points = PackedVector2Array(-2600, 84, -2576, 84, -1624, -68, -1600, -76, -1584, -52, -1088, 740, -1072, 756, -1056, 756, -963.977, 742.854, -944, 740, -928, 724, -288, 100, -272, 84, -248, 100, 680, 1084, 696, 1100, 724.225, 1103.02, 1576, 1196, 1592, 1196, 1592, 1180, 1640, 508, 1760, -260, 1760, -284, 1736, -284, -968, -300, -984, -300, -1000, -308, -1226.22, -505.523, -1248, -524, -1280, -524, -1688, -516, -2218.17, -728.069, -2248, -740, -2265.02, -730.036, -2576, -548, -2592, -540, -2592, -516, -2600, 68, -2600, 84)
+
+[node name="tire_obstacle2" parent="." instance=ExtResource("9_g1ubs")]
+position = Vector2(3304, 552)
+points = PackedVector2Array(48, -56, -136, 144)
+
+[node name="tire_obstacle3" parent="." instance=ExtResource("9_g1ubs")]
+position = Vector2(1776, -456)
+points = PackedVector2Array(-1600, 272, -1373.52, 45.5178, -1360, 32, -1333.95, 31.8445, 1288, 16, 1320, 16, 1344, 32, 1576, 272)
+
+[node name="tire_obstacle4" parent="." instance=ExtResource("9_g1ubs")]
+position = Vector2(-2048, -992)
+points = PackedVector2Array(-64, 160, 7096, 152, 7104, 152, 7104, 160, 7104, 4952, 7104, 4960, 7096, 4960, -56, 4960, -64, 4960, -64, 4952, -64, 192)
