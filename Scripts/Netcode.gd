@@ -94,17 +94,18 @@ func _physics_process(delta):
 				if time_till_timeout <= 0:
 					end_race()
 			
+			var players_amount = players.size()
+			if not is_a_player:
+				players_amount -= 1
+			
 			if vote_timer > 0:
 				vote_timer -= delta
-				var players_amount = players.size()
-				if not is_a_player:
-					players_amount -= 1
-				if votes.size() >= players.size():
+				if votes.size() >= players_amount:
 					vote_timer -= delta * 2
 				if vote_timer <= 0:
 					do_a_new_round()
 			
-			if players_loaded.size() == players.size() and not temp_start_countdown:
+			if players_loaded.size() >= players_amount and not temp_start_countdown:
 				players_loaded = []
 				start_countdown.rpc()
 			
@@ -122,6 +123,9 @@ func join_game(address = ""):
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
+	
+	players[peer.get_unique_id()] = player_info
+	player_connected.emit(peer.get_unique_id())
 	
 	temp_start_countdown = false
 

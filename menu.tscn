@@ -8,14 +8,8 @@ script/source = "extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if not OS.has_feature(\"editor\"): 
-		queue_free()
-		return
-	
-	var textures : Array = [preload(\"res://Textures/placeholder_car_3.png\"), preload(\"res://Textures/formula.png\"), preload(\"res://Textures/auto_vitor_2.png\")]
-	
-	for t in range(textures.size()):
-		for i in Palettes.PALETTES:
+	for t in range(Palettes.CAR_MODELS.size()):
+		for i in Palettes.PALETTES.keys():
 			var button = Button.new()
 			button.size = Vector2(48, 92)
 			button.position.x = i * 48
@@ -25,7 +19,7 @@ func _ready():
 			add_child(button)
 			
 			var sprite = Sprite2D.new()
-			sprite.texture = textures[t]
+			sprite.texture = Palettes.CAR_MODELS[t]
 			sprite.position.x = 24
 			sprite.position.y = 46
 #			sprite.rotation_degrees = 15
@@ -109,6 +103,7 @@ placeholder_text = "Name"
 
 [node name="palette_temp" type="Control" parent="."]
 layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -117,6 +112,8 @@ offset_left = -480.0
 offset_top = -320.0
 offset_right = -440.0
 offset_bottom = -280.0
+grow_horizontal = 2
+grow_vertical = 2
 script = SubResource("GDScript_gc13d")
 
 [connection signal="pressed" from="create_button" to="." method="_on_create_button_pressed"]
