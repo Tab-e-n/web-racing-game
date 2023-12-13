@@ -104,7 +104,7 @@ func _physics_process(_delta):
 	extra_accel = 0
 	
 	if on_ice:
-		state_sliding = true
+		start_sliding()
 		extra_friction -= FRICTION * 0.85
 		extra_accel -= ACCELERATION * 0.6
 	
@@ -112,7 +112,7 @@ func _physics_process(_delta):
 		extra_drag += BUNKER_DRAG
 	
 	if oil_covered:
-		state_sliding = true
+		start_sliding()
 		extra_friction += FRICTION * 0.75
 	
 	if switching_gears_timer > 0:
@@ -169,8 +169,10 @@ func _physics_process(_delta):
 	
 	$Label.text = String.num(gear) + "\n" + String.num(round(curr_speed))
 	
-	if state_sliding or oil_covered:
+	if oil_covered: 
 		$car.material.set_shader_parameter("dim", Vector3(0.5, 0.5, 0.5))
+	elif state_sliding:
+		$car.material.set_shader_parameter("dim", Vector3(0.75, 0.75, 0.75))
 	else:
 		$car.material.set_shader_parameter("dim", Vector3(1, 1, 1))
 	
@@ -198,7 +200,7 @@ func physics_normal():
 		if friction_reduction < FRICTION + extra_friction:
 			friction_reduction += 1
 		if gear > 0:
-			state_sliding = true
+			start_sliding()
 	
 	if ((not input_up and not input_down) or not is_taking_inputs) and friction_reduction > 0:
 		friction_reduction -= 1
@@ -218,6 +220,16 @@ func normal_change_speed(speed : float, top_speed : float, acceleration : float)
 		if abs(speed) > top_speed:
 			speed = sign(speed) * top_speed
 	return speed
+
+
+func start_sliding():
+	if state_sliding == true:
+		return
+	state_sliding = true
+	var effect_packed : PackedScene = preload("res://Objects/drift_effect.tscn")
+	var effect = effect_packed.instantiate()
+	effect.state = effect.STATE_SLIDING
+	add_sibling(effect)
 
 
 func physics_sliding():
@@ -263,7 +275,7 @@ func physics_sliding():
 		if Global.debug_mode:
 			$sliding_rot_cos.global_rotation = incos(velocity_cos, velocity.x)
 		
-		if not DEBUG_NO_EXIT_SLIDING:
+		if not (DEBUG_NO_EXIT_SLIDING or on_ice):
 			var rot_dist = rotation_distance(incos(velocity_cos, velocity.x), rotation)
 			if (rot_dist < PI * 0.03 and not input_down and not forced_brake):
 				state_sliding = false
@@ -271,7 +283,7 @@ func physics_sliding():
 				state_sliding = false
 				pyth = -pyth
 	
-	if not DEBUG_NO_EXIT_SLIDING:
+	if not (DEBUG_NO_EXIT_SLIDING or on_ice):
 		if abs(velocity.x) < 25 and abs(velocity.y) < 25:
 			state_sliding = false
 	
