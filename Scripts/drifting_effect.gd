@@ -2,9 +2,8 @@ extends Node2D
 
 
 @onready var car : Racecar = null
-@onready var wheel : Node2D = null
 
-enum {STATE_SLIDING, STATE_SLIPPING}
+enum {STATE_SLIDING, STATE_DRIFTING}
 
 var state : int = STATE_SLIDING
 
@@ -21,20 +20,22 @@ func _ready():
 		return
 	
 	for i in range(4):
-		wheel = car.get_node("wheel" + String.num(i + 1))
-		var line = get_node("driftline" + String.num(i + 1))
+		var wheel = car.get_node("wheel" + String.num(i + 1))
 		if wheel == null:
-			line.queue_free()
 			continue
+		
+		var line = preload("res://Objects/drift_line_effect.tscn").instantiate()
 		line.car = car
 		line.wheel = wheel
 		line.wheel_num = i + 1
 		if state == STATE_SLIDING:
 			line.line_lenght = 60
-		if state == STATE_SLIPPING:
+		if state == STATE_DRIFTING:
 			line.line_lenght = 30
+		
+		add_child(line)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if not car.state_sliding and get_children()[0].points.size() == 0:
+
+func _physics_process(delta):
+	if not (car.state_sliding or car.state_drifting) and get_children()[0].points.size() == 0:
 		queue_free()

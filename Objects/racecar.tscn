@@ -61,6 +61,14 @@ z_as_relative = false
 texture = ExtResource("2_4oll1")
 offset = Vector2(0, -32)
 
+[node name="drifting_rot" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0.501961, 1, 0.501961)
+z_index = 50
+z_as_relative = false
+texture = ExtResource("2_4oll1")
+offset = Vector2(0, -32)
+
 [node name="last_coll_rot" type="Sprite2D" parent="."]
 visible = false
 modulate = Color(1, 1, 0, 0.501961)

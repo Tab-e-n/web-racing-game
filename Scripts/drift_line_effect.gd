@@ -4,8 +4,8 @@ extends Line2D
 @export var wheel_num : int = 1
 
 
-@onready var car : Racecar = null
-@onready var wheel : Node2D = null
+var car : Racecar
+var wheel : Node2D
 
 
 var line_lenght : int = 60
@@ -14,8 +14,8 @@ var active : bool = true
 func _ready():
 	default_color = Palettes.PALETTES[Net.player_info["palette"]][0] * Color(1, 1, 1, 0.5)
 
-func _process(_delta):
-	if not car.state_sliding:
+func _physics_process(_delta):
+	if not (car.state_sliding or car.state_drifting):
 		active = false
 	
 	if active:

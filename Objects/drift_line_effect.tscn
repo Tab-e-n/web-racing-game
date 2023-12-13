@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://dyyr2k5i7oe3w"]
 
-[ext_resource type="Script" path="res://Scripts/driftline.gd" id="1_o336p"]
+[ext_resource type="Script" path="res://Scripts/drift_line_effect.gd" id="1_q3f60"]
 
 [sub_resource type="Curve" id="Curve_c6e6n"]
 _data = [Vector2(0.00342466, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Driftline" type="Line2D"]
+[node name="drift_line_effect" type="Line2D"]
 width = 7.0
 width_curve = SubResource("Curve_c6e6n")
-script = ExtResource("1_o336p")
+script = ExtResource("1_q3f60")

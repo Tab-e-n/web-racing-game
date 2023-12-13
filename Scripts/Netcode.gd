@@ -21,6 +21,7 @@ const VOTE_POSSIBILITIES : Dictionary = {
 	"test_scene" : "test_scene.tscn",
 	"Trees Trees Trees" : "test_scene_1.tscn",
 	"DA WORLD" : "THEWORLD.tscn",
+	"Stinky Pete" : "stinky_pete.tscn",
 }
 
 

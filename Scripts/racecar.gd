@@ -12,9 +12,16 @@ const TOP_SPEED : float = 690
 const TOP_SPEED_BACK : float = 200
 const GEAR_THRESHOLDS = [150, 275, 400, 500]
 const GEAR_ACC_DECREASE = [0, 1.6, 2.1, 2.4, 2.7]
+const BUNKER_DRAG : float = 4
+
 const TURN_SPEED_SLIDING : float = 0.05
 const SLIDING_DRAG : float = 1.5
-const BUNKER_DRAG : float = 4
+
+const TURN_SPEED_DRIFTING : float = 0.04
+const DRIFTING_SLIP_ANGLE : float = 60
+const DRIFTING_SLIP_INCREASE : float = 30
+const DRIFTING_MIN_SLIP_ANGLE : float = 15
+const DRIFTING_TURN_REDUCTION : float = 200
 
 
 var is_taking_inputs = true
@@ -23,21 +30,26 @@ var curr_speed = 0
 var friction_reduction : float = 0
 var gear = 0
 var switching_gears_timer = 0
+var drifting_real_direction : float = 0
 
 var state_sliding : bool = false
+var state_drifting : bool = false
+
 var forced_accel : bool = false
 var forced_brake : bool = false
 var extra_friction : float = 0
 var extra_drag : float = 0
 var extra_accel : float = 0
+var extra_slip_angle : float = 0
 
 var on_road : bool = false
 var on_ice : bool = false
+var on_dirt : bool = false
 var on_bunker : bool = false
 
 var oil_covered : bool = false
 
-enum {BUNKER_TYPE_NORMAL, BUNKER_TYPE_SNOW}
+enum {BUNKER_TYPE_NORMAL, BUNKER_TYPE_SNOW, BUNKER_TYPE_DIRT}
 var bunker_type = BUNKER_TYPE_NORMAL
 
 var input_left : bool = false
@@ -72,6 +84,7 @@ func reset():
 	
 	on_road = false
 	on_ice = false
+	on_dirt = false
 	
 	oil_covered = false
 
@@ -93,20 +106,29 @@ func _physics_process(_delta):
 	if on_bunker:
 		if bunker_type == BUNKER_TYPE_SNOW:
 			on_ice = true
+		if bunker_type == BUNKER_TYPE_DIRT:
+			on_dirt = true
 	if on_bunker != last_bunker and not on_bunker:
 		if bunker_type == BUNKER_TYPE_SNOW:
 			on_ice = false
+		if bunker_type == BUNKER_TYPE_DIRT:
+			on_dirt = false
 #	print(on_road)
 #	print(on_bunker)
 	
 	extra_friction = 0
 	extra_drag = 0
 	extra_accel = 0
+	extra_slip_angle = 0
 	
 	if on_ice:
 		start_sliding()
 		extra_friction -= FRICTION * 0.85
 		extra_accel -= ACCELERATION * 0.6
+	
+	if on_dirt:
+		start_drifting()
+		extra_slip_angle = 15
 	
 	if on_bunker:
 		extra_drag += BUNKER_DRAG
@@ -127,6 +149,8 @@ func _physics_process(_delta):
 	
 	if state_sliding:
 		physics_sliding()
+	elif state_drifting:
+		physics_drifting()
 	else:
 		physics_normal()
 	
@@ -169,9 +193,9 @@ func _physics_process(_delta):
 	
 	$Label.text = String.num(gear) + "\n" + String.num(round(curr_speed))
 	
-	if oil_covered: 
+	if oil_covered or state_sliding: 
 		$car.material.set_shader_parameter("dim", Vector3(0.5, 0.5, 0.5))
-	elif state_sliding:
+	elif state_drifting:
 		$car.material.set_shader_parameter("dim", Vector3(0.75, 0.75, 0.75))
 	else:
 		$car.material.set_shader_parameter("dim", Vector3(1, 1, 1))
@@ -179,6 +203,7 @@ func _physics_process(_delta):
 	$Label.visible = Global.debug_mode
 	$normal_rot.visible = Global.debug_mode
 	$last_coll_rot.visible = Global.debug_mode
+	$drifting_rot.visible = Global.debug_mode and state_drifting and not velocity == Vector2(0, 0)
 	$sliding_rot_cos.visible = Global.debug_mode and state_sliding and not velocity == Vector2(0, 0)
 	$new_rot.visible = Global.debug_mode
 
@@ -196,11 +221,11 @@ func physics_normal():
 				friction_reduction += 1
 		
 	if input_down or (forced_brake and curr_speed > 10):
-		curr_speed = normal_change_speed(curr_speed, TOP_SPEED_BACK, -DECCELERATION)
+		curr_speed = normal_change_speed(curr_speed, -TOP_SPEED_BACK, -DECCELERATION)
 		if friction_reduction < FRICTION + extra_friction:
 			friction_reduction += 1
-		if gear > 0:
-			start_sliding()
+		if gear > 0 and curr_speed > 0:
+			start_drifting()
 	
 	if ((not input_up and not input_down) or not is_taking_inputs) and friction_reduction > 0:
 		friction_reduction -= 1
@@ -215,21 +240,93 @@ func physics_normal():
 
 
 func normal_change_speed(speed : float, top_speed : float, acceleration : float):
-	if abs(speed) < top_speed:
-		speed += acceleration
-		if abs(speed) > top_speed:
-			speed = sign(speed) * top_speed
+	if top_speed > 0:
+		if speed < top_speed:
+			speed += acceleration
+			if speed > top_speed:
+				speed = top_speed
+	if top_speed < 0:
+		if speed > top_speed:
+			speed += acceleration
+			if speed < top_speed:
+				speed = top_speed
 	return speed
 
 
-func start_sliding():
-	if state_sliding == true:
+func start_drifting():
+	if state_sliding:
 		return
+	if not state_drifting:
+		drifting_real_direction = rotation
+		var effect_packed : PackedScene = preload("res://Objects/drifting_effect.tscn")
+		var effect = effect_packed.instantiate()
+		effect.state = effect.STATE_DRIFTING
+		add_sibling(effect)
+	state_drifting = true
+
+func physics_drifting():
+	if input_left:
+		rotation -= TURN_SPEED_DRIFTING
+	if input_right:
+		rotation += TURN_SPEED_DRIFTING
+	
+	var rot_sign_before = rotation_sign(drifting_real_direction, rotation)
+	drifting_real_direction += sign(curr_speed) * rotation_sign(drifting_real_direction, rotation) * TURN_SPEED * (DRIFTING_TURN_REDUCTION / curr_speed)
+	# * (3.14 / rotation_distance(rotation, drifting_real_direction))
+	if rot_sign_before != rotation_sign(drifting_real_direction, rotation):
+		drifting_real_direction = rotation
+	
+	if Global.debug_mode:
+		$drifting_rot.global_rotation = drifting_real_direction
+	
+	if switching_gears_timer == 0:
+		if input_up or forced_accel:
+			curr_speed = normal_change_speed(curr_speed, TOP_SPEED, (ACCELERATION - GEAR_ACC_DECREASE[gear] + extra_accel) * cos(rotation - drifting_real_direction))
+			if friction_reduction < FRICTION + extra_friction:
+				friction_reduction += 1
+		
+	if input_down or (forced_brake and curr_speed > 10):
+		curr_speed = normal_change_speed(curr_speed, -TOP_SPEED_BACK, -DECCELERATION)
+		if friction_reduction < FRICTION + extra_friction:
+			friction_reduction += 1
+	
+	if ((not input_up and not input_down) or not is_taking_inputs) and friction_reduction > 0:
+		friction_reduction -= 1
+	
+	if friction_reduction > FRICTION + extra_friction:
+		friction_reduction = FRICTION + extra_friction
+	
+	var rot_dist = rotation_distance(drifting_real_direction, rotation)
+	
+	if not (DEBUG_NO_EXIT_SLIDING or on_dirt):
+		if (rot_dist < PI * 0.035 and not input_down and not forced_brake):
+			state_drifting = false
+	
+	if not DEBUG_NO_EXIT_SLIDING:
+		var slip_angle = DRIFTING_SLIP_ANGLE - DRIFTING_SLIP_INCREASE * (curr_speed / 1000) + extra_slip_angle
+		if slip_angle < DRIFTING_MIN_SLIP_ANGLE:
+			slip_angle = DRIFTING_MIN_SLIP_ANGLE
+		if (rot_dist / PI) * 180 > slip_angle:
+			state_drifting = false
+			start_sliding()
+		
+		if abs(velocity.x) < 25 and abs(velocity.y) < 25:
+			state_drifting = false
+	
+	curr_speed = apply_reductive_forces(curr_speed, sign(curr_speed), FRICTION + extra_friction - friction_reduction , abs(curr_speed), extra_drag)
+	
+	velocity.x = sin(drifting_real_direction) * curr_speed
+	velocity.y = -cos(drifting_real_direction) * curr_speed
+
+
+func start_sliding():
+	if not state_sliding:
+		var effect_packed : PackedScene = preload("res://Objects/drifting_effect.tscn")
+		var effect = effect_packed.instantiate()
+		effect.state = effect.STATE_SLIDING
+		add_sibling(effect)
 	state_sliding = true
-	var effect_packed : PackedScene = preload("res://Objects/drift_effect.tscn")
-	var effect = effect_packed.instantiate()
-	effect.state = effect.STATE_SLIDING
-	add_sibling(effect)
+	state_drifting = false
 
 
 func physics_sliding():

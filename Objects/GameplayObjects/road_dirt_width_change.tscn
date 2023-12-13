@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://bia7kaqmuxsek"]
+
+[ext_resource type="Texture2D" uid="uid://w5rplcxhyvvd" path="res://Textures/placeholder_track_dirt.png" id="1_dgjay"]
+[ext_resource type="Script" path="res://Scripts/road_width_change.gd" id="2_8wm75"]
+[ext_resource type="PackedScene" uid="uid://dj7s6ip8d03f3" path="res://Objects/GameplayObjects/dirt.tscn" id="3_821dv"]
+
+[sub_resource type="Curve" id="Curve_u3mxu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Road_Change" type="Line2D"]
+points = PackedVector2Array(0, 0, 0, -256)
+width = 512.0
+width_curve = SubResource("Curve_u3mxu")
+texture = ExtResource("1_dgjay")
+texture_mode = 1
+script = ExtResource("2_8wm75")
+
+[node name="Terrain" parent="." instance=ExtResource("3_821dv")]

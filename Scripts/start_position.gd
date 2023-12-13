@@ -1,7 +1,7 @@
 extends Marker2D
 
 
-@export_enum("Normal", "Snow") var bunker_type : int = Racecar.BUNKER_TYPE_NORMAL
+@export_enum("Normal", "Snow", "Dirt") var bunker_type : int = 0
 
 
 func _ready():
