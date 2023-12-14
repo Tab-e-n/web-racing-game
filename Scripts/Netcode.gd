@@ -16,14 +16,14 @@ const VOTE_TIME : float = 20
 const NUMBER_OF_VOTE_OPTIONS : int = 4
 
 const VOTE_POSSIBILITIES : Dictionary = {
+	"Beginner Track" : "test_scene.tscn",
 	"Anti Testies" : "AntiTesties.tscn",
-	"Funny Ice Physics" : "funny_ice_physics.tscn",
-	"test_scene" : "test_scene.tscn",
 	"Trees Trees Trees" : "test_scene_1.tscn",
-	"DA WORLD" : "THEWORLD.tscn",
+	"Funny Ice Physics" : "funny_ice_physics.tscn",
 	"Stinky Pete" : "stinky_pete.tscn",
+	"DA WORLD" : "THEWORLD.tscn",
 }
-
+const DEFAULT_TRACK : String = "Beginner Track"
 
 var TIME_TO_TIMEOUT : float = 360
 
@@ -48,13 +48,13 @@ var players_loaded = []
 var is_a_player : bool = true
 var is_a_spectator : bool = false
 
-var current_track_name : String = "test_scene"
+var current_track_name : String = DEFAULT_TRACK
 
 var time_till_timeout : float = 0
 var vote_timer : float = 0
 
 var votes : Dictionary = {}
-var vote_options : Array = ["test_scene", "test_scene", "test_scene", "test_scene"]
+var vote_options : Array = [DEFAULT_TRACK, DEFAULT_TRACK, DEFAULT_TRACK, DEFAULT_TRACK]
 
 var temp_start_countdown : bool = true
 var gameplay_active : bool = false
@@ -66,11 +66,11 @@ func reset():
 	players_loaded = []
 	is_a_player = true
 	is_a_spectator = false
-	current_track_name = "test_scene"
+	current_track_name = DEFAULT_TRACK
 	time_till_timeout = 0
 	vote_timer = 0
 	votes = {}
-	vote_options = ["test_scene", "test_scene", "test_scene", "test_scene"]
+	vote_options = [DEFAULT_TRACK, DEFAULT_TRACK, DEFAULT_TRACK, DEFAULT_TRACK]
 	gameplay_active = false
 	
 	# TEMPORARY

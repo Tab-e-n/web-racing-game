@@ -15,7 +15,7 @@ const GEAR_ACC_DECREASE = [0, 1.6, 2.1, 2.4, 2.7]
 const BUNKER_DRAG : float = 4
 
 const TURN_SPEED_SLIDING : float = 0.05
-const SLIDING_DRAG : float = 1.5
+const SLIDING_DRAG : float = 1.2
 
 const TURN_SPEED_DRIFTING : float = 0.04
 const DRIFTING_SLIP_ANGLE : float = 60
@@ -123,12 +123,13 @@ func _physics_process(_delta):
 	
 	if on_ice:
 		start_sliding()
-		extra_friction -= FRICTION * 0.85
-		extra_accel -= ACCELERATION * 0.6
+		extra_friction -= FRICTION * 0.9
+		extra_accel -= ACCELERATION * 0.65
+		extra_drag += SLIDING_DRAG / 4
 	
 	if on_dirt:
 		start_drifting()
-		extra_slip_angle = 15
+		extra_slip_angle = DRIFTING_SLIP_ANGLE / 4
 	
 	if on_bunker:
 		extra_drag += BUNKER_DRAG

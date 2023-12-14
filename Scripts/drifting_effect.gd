@@ -29,9 +29,9 @@ func _ready():
 		line.wheel = wheel
 		line.wheel_num = i + 1
 		if state == STATE_SLIDING:
-			line.line_lenght = 60
-		if state == STATE_DRIFTING:
 			line.line_lenght = 30
+		if state == STATE_DRIFTING:
+			line.line_lenght = 15
 		
 		add_child(line)
 
