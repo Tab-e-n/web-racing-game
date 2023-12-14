@@ -21,7 +21,7 @@ const TURN_SPEED_DRIFTING : float = 0.04
 const DRIFTING_SLIP_ANGLE : float = 60
 const DRIFTING_SLIP_INCREASE : float = 30
 const DRIFTING_MIN_SLIP_ANGLE : float = 15
-const DRIFTING_TURN_REDUCTION : float = 200
+const DRIFTING_TURN_REDUCTION : float = 250
 
 
 var is_taking_inputs = true
@@ -41,6 +41,7 @@ var extra_friction : float = 0
 var extra_drag : float = 0
 var extra_accel : float = 0
 var extra_slip_angle : float = 0
+var extra_turn_reduction : float = 0
 
 var on_road : bool = false
 var on_ice : bool = false
@@ -120,6 +121,7 @@ func _physics_process(_delta):
 	extra_drag = 0
 	extra_accel = 0
 	extra_slip_angle = 0
+	extra_turn_reduction = 0
 	
 	if on_ice:
 		start_sliding()
@@ -129,6 +131,7 @@ func _physics_process(_delta):
 	if on_dirt:
 		start_drifting()
 		extra_slip_angle = 15
+		extra_turn_reduction = -DRIFTING_TURN_REDUCTION / 5
 	
 	if on_bunker:
 		extra_drag += BUNKER_DRAG
@@ -271,7 +274,7 @@ func physics_drifting():
 		rotation += TURN_SPEED_DRIFTING
 	
 	var rot_sign_before = rotation_sign(drifting_real_direction, rotation)
-	drifting_real_direction += sign(curr_speed) * rotation_sign(drifting_real_direction, rotation) * TURN_SPEED * (DRIFTING_TURN_REDUCTION / curr_speed)
+	drifting_real_direction += sign(curr_speed) * rotation_sign(drifting_real_direction, rotation) * TURN_SPEED_DRIFTING * clamp((DRIFTING_TURN_REDUCTION + extra_turn_reduction) / max(curr_speed, 1), 0, 1)
 	# * (3.14 / rotation_distance(rotation, drifting_real_direction))
 	if rot_sign_before != rotation_sign(drifting_real_direction, rotation):
 		drifting_real_direction = rotation
@@ -405,6 +408,8 @@ func boost(magnitude : float, drag : float, direction : float):
 	else:
 		#print("b: ", direction, " r: ", rotation, " d: ", rotation_distance(direction, rotation))
 		curr_speed += ((PI/2) - rotation_distance(direction, rotation)) / (PI/2) * magnitude / (1 + abs(curr_speed) / 1000 * drag)
+	if state_drifting:
+		drifting_real_direction = rotation
 
 
 func wall_rotation_change(curr_rot : float, wall_rot : float):
