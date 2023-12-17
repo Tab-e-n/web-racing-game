@@ -275,7 +275,7 @@ func physics_drifting():
 		rotation += TURN_SPEED_DRIFTING
 	
 	var rot_sign_before = rotation_sign(drifting_real_direction, rotation)
-	drifting_real_direction += sign(curr_speed) * rotation_sign(drifting_real_direction, rotation) * TURN_SPEED_DRIFTING * clamp((DRIFTING_TURN_REDUCTION + extra_turn_reduction) / max(curr_speed, 1), 0, 1)
+	drifting_real_direction += rotation_sign(drifting_real_direction, rotation) * TURN_SPEED_DRIFTING * clamp((DRIFTING_TURN_REDUCTION + extra_turn_reduction) / max(abs(curr_speed), 1), 0, 1)
 	# * (3.14 / rotation_distance(rotation, drifting_real_direction))
 	if rot_sign_before != rotation_sign(drifting_real_direction, rotation):
 		drifting_real_direction = rotation

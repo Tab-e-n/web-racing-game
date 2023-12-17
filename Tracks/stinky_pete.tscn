@@ -12,11 +12,11 @@
 [ext_resource type="PackedScene" uid="uid://bb6g37800oibm" path="res://Objects/GameplayObjects/oil_3.tscn" id="9_58ow5"]
 [ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="10_4sit2"]
 
-[sub_resource type="Curve" id="Curve_pjtbq"]
+[sub_resource type="Curve" id="Curve_men34"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_6iocr"]
+[sub_resource type="Curve" id="Curve_uded5"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -37,13 +37,13 @@ points = PackedVector2Array(40, -832, 40, 0, 216, 384, 592, 744, 904, 864, 1288,
 [node name="Road_Change" parent="." instance=ExtResource("3_tgb66")]
 position = Vector2(4152, -248)
 points = PackedVector2Array(8, 248, 8, -264)
-width_curve = SubResource("Curve_pjtbq")
+width_curve = SubResource("Curve_men34")
 width_end = 896.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("3_tgb66")]
 position = Vector2(1912, -576)
 points = PackedVector2Array(8, 256, 392, -128)
-width_curve = SubResource("Curve_6iocr")
+width_curve = SubResource("Curve_uded5")
 width_end = 896.0
 
 [node name="RoadDirt2" parent="." instance=ExtResource("1_ybfal")]
@@ -149,27 +149,27 @@ position = Vector2(872, 1120)
 rotation = 1.309
 
 [node name="oil" parent="." instance=ExtResource("7_wfrc8")]
-position = Vector2(2640, -808)
+position = Vector2(4216, -1376)
 rotation = -0.523599
 
 [node name="oil2" parent="." instance=ExtResource("8_7pgqf")]
-position = Vector2(3264, -1032)
+position = Vector2(3256, -1096)
 rotation = 1.5708
 
 [node name="oil3" parent="." instance=ExtResource("9_58ow5")]
-position = Vector2(2872, -1560)
+position = Vector2(3064, -1568)
 rotation = 0.785398
 
 [node name="oil4" parent="." instance=ExtResource("7_wfrc8")]
-position = Vector2(2776, -1152)
+position = Vector2(2472, -1248)
 rotation = 1.0472
 
 [node name="oil5" parent="." instance=ExtResource("8_7pgqf")]
-position = Vector2(2408, -408)
+position = Vector2(2728, -600)
 rotation = 0.261799
 
 [node name="oil6" parent="." instance=ExtResource("9_58ow5")]
-position = Vector2(2256, -776)
+position = Vector2(2264, -696)
 rotation = 3.14159
 
 [node name="booster2" parent="." instance=ExtResource("6_d814m")]
