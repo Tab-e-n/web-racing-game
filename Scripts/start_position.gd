@@ -12,4 +12,5 @@ func _ready():
 		car.rotation = rotation
 		car.bunker_type = bunker_type
 		car.reset()
-	queue_free()
+	
+	#queue_free()

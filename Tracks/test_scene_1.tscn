@@ -12,19 +12,19 @@
 [ext_resource type="PackedScene" uid="uid://cyqmi0txwlr0o" path="res://Objects/GameplayObjects/tree_clump.tscn" id="10_nr0wf"]
 [ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="11_1ff0m"]
 
-[sub_resource type="Curve" id="Curve_3pd8q"]
+[sub_resource type="Curve" id="Curve_cc0r2"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_bum6h"]
+[sub_resource type="Curve" id="Curve_i1bo1"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.50588), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_muv86"]
+[sub_resource type="Curve" id="Curve_gvn6j"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.33333), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_u4mfi"]
+[sub_resource type="Curve" id="Curve_rjj7h"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.66667), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -63,26 +63,26 @@ width = 640.0
 position = Vector2(1680, 1520)
 points = PackedVector2Array(-96, 368, 0, 0)
 width = 640.0
-width_curve = SubResource("Curve_3pd8q")
+width_curve = SubResource("Curve_cc0r2")
 width_end = 320.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(296, -56)
 points = PackedVector2Array(0, 0, 168, -152)
 width = 340.0
-width_curve = SubResource("Curve_bum6h")
+width_curve = SubResource("Curve_i1bo1")
 
 [node name="Road_Change3" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(5384, 240)
 points = PackedVector2Array(-424, 0, 0, 0)
 width = 384.0
-width_curve = SubResource("Curve_muv86")
+width_curve = SubResource("Curve_gvn6j")
 
 [node name="Road_Change4" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(4216, 2752)
 points = PackedVector2Array(72, -320, 8, 0)
 width = 384.0
-width_curve = SubResource("Curve_u4mfi")
+width_curve = SubResource("Curve_rjj7h")
 width_end = 640.0
 
 [node name="PlaceholderCrossroads" type="Sprite2D" parent="."]

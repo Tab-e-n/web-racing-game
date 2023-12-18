@@ -9,12 +9,6 @@ enum {
 	PALETTE_GRAYSCALE, PALETTE_GAMEBOY, PALETTE_CGA_1, PALETTE_CGA_2
 }
 
-const CAR_MODELS : Array = [
-	preload("res://Textures/placeholder_car_3.png"), 
-	preload("res://Textures/formula.png"), 
-	preload("res://Textures/auto_vitor_2.png")
-]
-
 
 const PALETTES : Dictionary = {
 	PALETTE_CLASSIC : [
@@ -277,6 +271,22 @@ const PALETTES : Dictionary = {
 		Color(0.7216, 0.7216, 0.8235, 1),
 		Color(0.9725, 0.8235, 0.3333, 1)
 	],
+}
+
+const CAR_MODELS : Array = [
+	preload("res://Textures/placeholder_car_3.png"), 
+	preload("res://Textures/formula.png"), 
+	preload("res://Textures/auto_vitor_2.png")
+]
+
+enum {
+	BG_NORMAL, BG_SNOW, BG_DIRT
+}
+
+const BG_COLORS : Dictionary = {
+	BG_NORMAL : Color(0.27, 0.41, 0.29, 1),
+	BG_SNOW : Color(0.6, 0.76, 0.78, 1),
+	BG_DIRT : Color(0.35, 0.25, 0.22, 1),
 }
 
 @export var palette : Array = [
