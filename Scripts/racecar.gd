@@ -21,7 +21,7 @@ const TURN_SPEED_DRIFTING : float = 0.04
 const DRIFTING_SLIP_ANGLE : float = 60
 const DRIFTING_SLIP_INCREASE : float = 30
 const DRIFTING_MIN_SLIP_ANGLE : float = 15
-const DRIFTING_TURN_REDUCTION : float = 250
+const DRIFTING_TURN_REDUCTION : float = 150
 
 
 var is_taking_inputs = true
@@ -132,7 +132,7 @@ func _physics_process(_delta):
 	if on_dirt:
 		start_drifting()
 		extra_slip_angle = DRIFTING_SLIP_ANGLE / 4
-		extra_turn_reduction = -DRIFTING_TURN_REDUCTION / 5
+		extra_turn_reduction = DRIFTING_TURN_REDUCTION / 5
 	
 	if on_bunker:
 		extra_drag += BUNKER_DRAG
