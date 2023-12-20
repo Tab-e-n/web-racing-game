@@ -12,19 +12,15 @@
 [ext_resource type="PackedScene" uid="uid://bb6g37800oibm" path="res://Objects/GameplayObjects/oil_3.tscn" id="9_58ow5"]
 [ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="10_4sit2"]
 
-[sub_resource type="Curve" id="Curve_g5fx5"]
+[sub_resource type="Curve" id="Curve_tpq6w"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_uxthh"]
+[sub_resource type="Curve" id="Curve_s8701"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="StinkyPete" type="Node2D"]
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0.34902, 0.247059, 0.215686, 1)
-polygon = PackedVector2Array(-3736, -4512, 7720, -5088, 8328, 5656, -3464, 5144)
 
 [node name="start_position" parent="." instance=ExtResource("1_yd06f")]
 position = Vector2(960, -704)
@@ -37,13 +33,13 @@ points = PackedVector2Array(40, -832, 40, 0, 216, 384, 592, 744, 904, 864, 1288,
 [node name="Road_Change" parent="." instance=ExtResource("3_tgb66")]
 position = Vector2(4152, -248)
 points = PackedVector2Array(8, 248, 8, -264)
-width_curve = SubResource("Curve_g5fx5")
+width_curve = SubResource("Curve_tpq6w")
 width_end = 896.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("3_tgb66")]
 position = Vector2(1912, -576)
 points = PackedVector2Array(8, 256, 392, -128)
-width_curve = SubResource("Curve_uxthh")
+width_curve = SubResource("Curve_s8701")
 width_end = 896.0
 
 [node name="RoadDirt2" parent="." instance=ExtResource("1_ybfal")]

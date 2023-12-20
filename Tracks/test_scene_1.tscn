@@ -12,29 +12,23 @@
 [ext_resource type="PackedScene" uid="uid://cyqmi0txwlr0o" path="res://Objects/GameplayObjects/tree_clump.tscn" id="10_nr0wf"]
 [ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="11_1ff0m"]
 
-[sub_resource type="Curve" id="Curve_cc0r2"]
+[sub_resource type="Curve" id="Curve_qjel5"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_i1bo1"]
+[sub_resource type="Curve" id="Curve_lupca"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.50588), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_gvn6j"]
+[sub_resource type="Curve" id="Curve_vwvau"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.33333), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_rjj7h"]
+[sub_resource type="Curve" id="Curve_w5t70"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.66667), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="test_scene_1" type="Node2D"]
-
-[node name="cheating" type="Polygon2D" parent="."]
-position = Vector2(1352, -504)
-scale = Vector2(2, 2)
-color = Color(0.266667, 0.407843, 0.286275, 1)
-polygon = PackedVector2Array(-4336, 816, -1880, -3624, 2200, -2644, 5852, 624, 4656, 3872, 852, 4852, -3908, 3528)
 
 [node name="start_position" parent="." instance=ExtResource("2_j3vdc")]
 position = Vector2(152, 328)
@@ -63,26 +57,26 @@ width = 640.0
 position = Vector2(1680, 1520)
 points = PackedVector2Array(-96, 368, 0, 0)
 width = 640.0
-width_curve = SubResource("Curve_cc0r2")
+width_curve = SubResource("Curve_qjel5")
 width_end = 320.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(296, -56)
 points = PackedVector2Array(0, 0, 168, -152)
 width = 340.0
-width_curve = SubResource("Curve_i1bo1")
+width_curve = SubResource("Curve_lupca")
 
 [node name="Road_Change3" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(5384, 240)
 points = PackedVector2Array(-424, 0, 0, 0)
 width = 384.0
-width_curve = SubResource("Curve_gvn6j")
+width_curve = SubResource("Curve_vwvau")
 
 [node name="Road_Change4" parent="." instance=ExtResource("2_i45vm")]
 position = Vector2(4216, 2752)
 points = PackedVector2Array(72, -320, 8, 0)
 width = 384.0
-width_curve = SubResource("Curve_rjj7h")
+width_curve = SubResource("Curve_w5t70")
 width_end = 640.0
 
 [node name="PlaceholderCrossroads" type="Sprite2D" parent="."]

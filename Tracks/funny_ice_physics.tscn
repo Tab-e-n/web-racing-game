@@ -10,11 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="7_tw2es"]
 [ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="9_g1ubs"]
 
-[sub_resource type="Curve" id="Curve_q66q1"]
+[sub_resource type="Curve" id="Curve_53qmv"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_olknf"]
+[sub_resource type="Curve" id="Curve_nmj42"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -25,11 +25,6 @@ position = Vector2(-1536, 768)
 rotation = 3.14159
 bunker_type = 1
 
-[node name="cheating" type="Polygon2D" parent="."]
-position = Vector2(56, 112)
-color = Color(0.603922, 0.764706, 0.784314, 1)
-polygon = PackedVector2Array(-3784, -1344, -1752, -2768, 2360, -3096, 5736, -2416, 7488, 712, 6528, 4448, 2464, 5768, -1768, 5448, -3752, 4776, -4496, 1296)
-
 [node name="Road" parent="." instance=ExtResource("1_a241j")]
 points = PackedVector2Array(256, 128, -224, 128, -864, -128, -1536, 256, -1536, 1416, -352, 1288, 192, 2112, 624, 2040, 1136, 1568, 1672, 2168, 1216, 2976, 1504, 3208, 2600, 3200, 4160, 3008, 4280, 2752, 3400, 2120, 3424, 1632, 4176, 1128, 3968, 128, 3264, 128)
 width = 384.0
@@ -38,14 +33,14 @@ width = 384.0
 position = Vector2(992, 288)
 points = PackedVector2Array(-736, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_q66q1")
+width_curve = SubResource("Curve_53qmv")
 width_end = 768.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("2_cvcbv")]
 position = Vector2(3616, 288)
 points = PackedVector2Array(-352, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_olknf")
+width_curve = SubResource("Curve_nmj42")
 width_end = 768.0
 
 [node name="RoadIce" parent="." instance=ExtResource("5_oty5j")]

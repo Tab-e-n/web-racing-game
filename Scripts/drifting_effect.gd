@@ -36,6 +36,6 @@ func _ready():
 		add_child(line)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not (car.state_sliding or car.state_drifting) and get_children()[0].points.size() == 0:
 		queue_free()

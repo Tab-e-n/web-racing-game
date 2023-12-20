@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://g1btha576kby"]
+
+[sub_resource type="GDScript" id="GDScript_wydtk"]
+script/source = "extends Label
+
+
+@export var line : String = \"Loading\"
+var progress : float = 0
+var dots : int = 0
+var last_dots : int = 0
+
+
+func _ready():
+	modulate.a = 0
+	text = line
+
+
+func _physics_process(delta):
+	modulate.a = progress
+	dots = progress / 0.2
+	if dots != last_dots:
+		last_dots = dots
+		var t = \"\"
+		for i in range(dots):
+			if i == 4:
+				t += \"!\"
+			else:
+				t += \".\"
+		text = line + t
+"
+
+[node name="exiting_bar" type="Label"]
+z_index = 100
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_wydtk")

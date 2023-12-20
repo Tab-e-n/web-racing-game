@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://cutjfvyumvl0a"]
+
+[ext_resource type="Shader" path="res://Scripts/bg_coloring.gdshader" id="1_cr7ta"]
+[ext_resource type="Script" path="res://Scripts/bg.gd" id="2_kbsyb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ovnp3"]
+shader = ExtResource("1_cr7ta")
+shader_parameter/coloring = Vector4(0.1, 0.5, 0.2, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xn4kd"]
+seed = 69
+frequency = 0.0374
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0s24n"]
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_xn4kd")
+
+[node name="BG" type="Sprite2D"]
+material = SubResource("ShaderMaterial_ovnp3")
+scale = Vector2(8, 8)
+texture = SubResource("NoiseTexture2D_0s24n")
+region_enabled = true
+region_rect = Rect2(0, 0, 4096, 4096)
+script = ExtResource("2_kbsyb")

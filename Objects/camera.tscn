@@ -1,6 +1,227 @@
-[gd_scene load_steps=2 format=3 uid="uid://buw70a4g4fxay"]
+[gd_scene load_steps=9 format=3 uid="uid://buw70a4g4fxay"]
 
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="1_cdspg"]
+[ext_resource type="Texture2D" uid="uid://dbebh8lkvxccl" path="res://Textures/ui/countdown/3.png" id="2_sjpcv"]
+[ext_resource type="Texture2D" uid="uid://2b0bcrok4cvy" path="res://Textures/ui/on_finish_image.png" id="3_s1rd3"]
+[ext_resource type="Script" path="res://Scripts/minimap.gd" id="4_sn766"]
+[ext_resource type="Texture2D" uid="uid://bjhwo2vfwr6ja" path="res://Textures/ui/minimap_car.png" id="5_ubcii"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vl44o"]
+bg_color = Color(0.443137, 0.443137, 0.443137, 1)
+
+[sub_resource type="GDScript" id="GDScript_4inib"]
+script/source = "extends Label
+
+func _physics_process(_delta):
+	visible = not get_parent().get_parent().countdown_has_started and not Net.is_a_spectator and not Net.temp_start_countdown
+"
+
+[sub_resource type="GDScript" id="GDScript_b08mx"]
+script/source = "extends Panel
+
+
+var player_list = {
+	
+}
+
+
+func _ready():
+	pass
+
+func add_player(id: int, name : String):
+	var label_name = Label.new()
+	label_name.text = name
+	$grid.add_child(label_name)
+	
+	var label_time = Label.new()
+	$grid.add_child(label_time)
+	
+	var label_laps = Label.new()
+	$grid.add_child(label_laps)
+	
+	player_list[id] = [label_name, label_time, label_laps]
+
+
+func remove_player(id: int):
+	for i in player_list[id]:
+		i.queue_free()
+	player_list.erase(id)
+"
 
 [node name="camera" type="Camera2D"]
+z_index = 100
 script = ExtResource("1_cdspg")
+
+[node name="countdown" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -125.0
+offset_right = 225.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_sjpcv")
+
+[node name="on_finish_image" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -125.0
+offset_right = 225.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_s1rd3")
+
+[node name="score" type="VBoxContainer" parent="."]
+offset_left = 359.0
+offset_top = -371.0
+offset_right = 501.0
+offset_bottom = -297.0
+
+[node name="timer" type="LineEdit" parent="score"]
+layout_mode = 2
+text = "time: 00:00:00"
+editable = false
+context_menu_enabled = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+
+[node name="lap_count" type="LineEdit" parent="score"]
+layout_mode = 2
+text = "lap: 0 / 0"
+editable = false
+
+[node name="minimap" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -496.0
+offset_top = 144.0
+offset_right = -272.0
+offset_bottom = 368.0
+script = ExtResource("4_sn766")
+
+[node name="track" type="Control" parent="minimap"]
+modulate = Color(0.501961, 0.501961, 0.501961, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -96.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+
+[node name="opponents" type="Node2D" parent="minimap"]
+
+[node name="player" type="Sprite2D" parent="minimap"]
+texture = ExtResource("5_ubcii")
+offset = Vector2(0, -3)
+
+[node name="waiting" type="Label" parent="."]
+offset_left = -96.0
+offset_top = -40.0
+offset_right = 96.0
+offset_bottom = 38.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vl44o")
+text = "WAITING FOR THE
+COUNTDOWN TO START."
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_4inib")
+
+[node name="players" type="Panel" parent="."]
+offset_left = -256.0
+offset_top = -192.0
+offset_right = 256.0
+offset_bottom = 192.0
+script = SubResource("GDScript_b08mx")
+
+[node name="grid" type="GridContainer" parent="players"]
+layout_mode = 2
+columns = 3
+
+[node name="car_stats" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.0
+offset_top = 268.0
+offset_right = 106.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="gear" type="Label" parent="car_stats"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "gear 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="speed" type="Label" parent="car_stats"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "speed: 0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="choose_buttons" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.5
+offset_top = -247.0
+offset_right = 120.5
+offset_bottom = 247.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="vote_buttons" type="HBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -366.0
+offset_top = -277.0
+offset_right = 366.0
+offset_bottom = -183.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="b1" type="Button" parent="vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b2" type="Button" parent="vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b3" type="Button" parent="vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b4" type="Button" parent="vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "random"

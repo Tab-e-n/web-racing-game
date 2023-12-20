@@ -13,4 +13,4 @@ func _ready():
 		car.bunker_type = bunker_type
 		car.reset()
 	
-	#queue_free()
+	queue_free()
