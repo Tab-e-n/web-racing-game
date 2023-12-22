@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c0lth0e5g48xi"]
+[gd_scene load_steps=17 format=3 uid="uid://c0lth0e5g48xi"]
 
 [ext_resource type="PackedScene" uid="uid://6yax7px2ani7" path="res://Objects/GameplayObjects/road_dirt.tscn" id="1_ybfal"]
 [ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="1_yd06f"]
@@ -11,12 +11,15 @@
 [ext_resource type="PackedScene" uid="uid://c0uv2mlwl4p5x" path="res://Objects/GameplayObjects/oil_2.tscn" id="8_7pgqf"]
 [ext_resource type="PackedScene" uid="uid://bb6g37800oibm" path="res://Objects/GameplayObjects/oil_3.tscn" id="9_58ow5"]
 [ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="10_4sit2"]
+[ext_resource type="PackedScene" uid="uid://belrym16fay2w" path="res://Objects/GameplayObjects/shroom_clump.tscn" id="12_gj0ie"]
+[ext_resource type="PackedScene" uid="uid://707rlj4yvb5x" path="res://Objects/GameplayObjects/shroom_brown.tscn" id="13_mh8wy"]
+[ext_resource type="PackedScene" uid="uid://dco3x8tspoty8" path="res://Objects/GameplayObjects/shroom_red.tscn" id="14_b7gpa"]
 
-[sub_resource type="Curve" id="Curve_tpq6w"]
+[sub_resource type="Curve" id="Curve_eerbt"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_s8701"]
+[sub_resource type="Curve" id="Curve_p7f8y"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -33,13 +36,13 @@ points = PackedVector2Array(40, -832, 40, 0, 216, 384, 592, 744, 904, 864, 1288,
 [node name="Road_Change" parent="." instance=ExtResource("3_tgb66")]
 position = Vector2(4152, -248)
 points = PackedVector2Array(8, 248, 8, -264)
-width_curve = SubResource("Curve_tpq6w")
+width_curve = SubResource("Curve_eerbt")
 width_end = 896.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("3_tgb66")]
 position = Vector2(1912, -576)
 points = PackedVector2Array(8, 256, 392, -128)
-width_curve = SubResource("Curve_s8701")
+width_curve = SubResource("Curve_p7f8y")
 width_end = 896.0
 
 [node name="RoadDirt2" parent="." instance=ExtResource("1_ybfal")]
@@ -186,3 +189,49 @@ points = PackedVector2Array(-1008, -1128, -672, -496, -336, -56, 120, 256, 648, 
 [node name="tire_obstacle4" parent="." instance=ExtResource("10_4sit2")]
 position = Vector2(1576, -1144)
 points = PackedVector2Array(152, -312, -96, 616)
+
+[node name="tree_clump" parent="." instance=ExtResource("12_gj0ie")]
+position = Vector2(1141, 1585)
+
+[node name="tree_clump2" parent="." instance=ExtResource("12_gj0ie")]
+position = Vector2(1312, -1280)
+rotation = 1.45682
+
+[node name="shroom_brown" parent="." instance=ExtResource("13_mh8wy")]
+position = Vector2(-489, -207)
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_brown2" parent="." instance=ExtResource("13_mh8wy")]
+position = Vector2(-399, -1358)
+rotation = -1.10832
+scale = Vector2(1.25, 1.25)
+
+[node name="shroom_brown3" parent="." instance=ExtResource("13_mh8wy")]
+position = Vector2(518, -1778)
+
+[node name="shroom_red" parent="." instance=ExtResource("14_b7gpa")]
+position = Vector2(-429, -663)
+rotation = -0.418548
+
+[node name="shroom_red2" parent="." instance=ExtResource("14_b7gpa")]
+position = Vector2(1920, 1776)
+rotation = 0.392447
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_red3" parent="." instance=ExtResource("14_b7gpa")]
+position = Vector2(2652, 1033)
+scale = Vector2(0.75, 0.75)
+
+[node name="shroom_red4" parent="." instance=ExtResource("14_b7gpa")]
+position = Vector2(4210, 2201)
+rotation = 0.540535
+scale = Vector2(2, 2)
+
+[node name="shroom_brown4" parent="." instance=ExtResource("13_mh8wy")]
+position = Vector2(3880, 1338)
+scale = Vector2(1.25, 1.25)
+
+[node name="shroom_brown5" parent="." instance=ExtResource("13_mh8wy")]
+position = Vector2(4623, 170)
+rotation = 0.519555
+scale = Vector2(2, 2)

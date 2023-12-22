@@ -6,7 +6,7 @@ var car : Node2D
 var car_touched_timer : int = 0
 var anim_timer : int = 0
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if car != null:
 		car.forced_accel = true
 		car_touched_timer = 40

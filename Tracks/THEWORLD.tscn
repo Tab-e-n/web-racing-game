@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://di25o87dt0iia"]
+[gd_scene load_steps=9 format=3 uid="uid://di25o87dt0iia"]
 
 [ext_resource type="Texture2D" uid="uid://dl46choff5qis" path="res://Textures/Blue_Marble_2002.png" id="1_7mbfn"]
 [ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="2_qvlt1"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="5_7g31q"]
 [ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="6_njw1t"]
 [ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="7_0i6xl"]
+[ext_resource type="PackedScene" uid="uid://drgemr0hcy3e7" path="res://Objects/GameplayObjects/bumper.tscn" id="8_3i1w2"]
 
 [node name="THE_WORLD" type="Node2D"]
 
@@ -97,3 +98,12 @@ position = Vector2(-640, -88)
 
 [node name="oil2" parent="." instance=ExtResource("7_0i6xl")]
 position = Vector2(-840, -88)
+
+[node name="bumper" parent="." instance=ExtResource("8_3i1w2")]
+position = Vector2(689, 78)
+
+[node name="bumper2" parent="." instance=ExtResource("8_3i1w2")]
+position = Vector2(982, -46)
+
+[node name="bumper3" parent="." instance=ExtResource("8_3i1w2")]
+position = Vector2(216, 274)
