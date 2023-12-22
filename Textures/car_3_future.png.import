@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxyiron5p1eeg"
-path="res://.godot/imported/formula.png-f36a896293d76e07c51201838af4f8e1.ctex"
+uid="uid://boj0w0cla1na3"
+path="res://.godot/imported/car_3_future.png-d3bdc656534792f23ffc60b56df97067.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/formula.png"
-dest_files=["res://.godot/imported/formula.png-f36a896293d76e07c51201838af4f8e1.ctex"]
+source_file="res://Textures/car_3_future.png"
+dest_files=["res://.godot/imported/car_3_future.png-d3bdc656534792f23ffc60b56df97067.ctex"]
 
 [params]
 

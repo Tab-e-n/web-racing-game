@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnx1viimlw0vj"
-path="res://.godot/imported/placeholder_finish.png-de60aee5d267a56709864a55ff2868b5.ctex"
+uid="uid://w5rplcxhyvvd"
+path="res://.godot/imported/track_dirt.png-a37f903b6621fd1f8fa571f21a2b4244.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/placeholder_finish.png"
-dest_files=["res://.godot/imported/placeholder_finish.png-de60aee5d267a56709864a55ff2868b5.ctex"]
+source_file="res://Textures/track_dirt.png"
+dest_files=["res://.godot/imported/track_dirt.png-a37f903b6621fd1f8fa571f21a2b4244.ctex"]
 
 [params]
 

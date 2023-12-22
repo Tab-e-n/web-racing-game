@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dl46choff5qis"
-path="res://.godot/imported/Blue_Marble_2002.png-7e93e17a1485d30ce5ad1ae9a23aa646.ctex"
+uid="uid://dnx1viimlw0vj"
+path="res://.godot/imported/finish.png-80f3bc431e72e201d72cdddd1c9d5528.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Blue_Marble_2002.png"
-dest_files=["res://.godot/imported/Blue_Marble_2002.png-7e93e17a1485d30ce5ad1ae9a23aa646.ctex"]
+source_file="res://Textures/finish.png"
+dest_files=["res://.godot/imported/finish.png-80f3bc431e72e201d72cdddd1c9d5528.ctex"]
 
 [params]
 

@@ -70,7 +70,7 @@ func _physics_process(_delta):
 		if Input.is_action_pressed("down"):
 			position.y += 10 * speed_up
 	else:
-		var target = get_parent().get_node("Racecar")
+		var target : Node2D = get_parent().get_node("Racecar")
 		position = (target as Node2D).position
 	
 	#countdown

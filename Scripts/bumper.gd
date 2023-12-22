@@ -13,19 +13,18 @@ func _ready():
 
 
 func _physics_process(_delta):
+	$DebugVector.visible = Global.debug_mode
+	
 	if car != null and boost_cooldown == 0:
 		boost_cooldown = 10
 		
-		var distance = car.position - position
-		var pyth = car.pythagoras(distance.x, distance.y)
-		var cosine = distance.y / pyth
-		var direction = car.incos(cosine, distance.x)
+		var direction = Global.face_point(position, car.position)
 		
 		$DebugVector.rotation = direction
 		
 		car.start_sliding()
 		
-		car.boost(500, 1, direction)
+		car.boost(500 * scale.x, 1, direction)
 		$sprite.texture = text_active
 	
 	if boost_cooldown > 0:

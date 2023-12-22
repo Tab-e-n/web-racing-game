@@ -1,4 +1,4 @@
-extends Marker2D
+extends Node2D
 
 
 @export_enum("Normal", "Snow", "Dirt") var bunker_type : int = 0
@@ -13,4 +13,4 @@ func _ready():
 		car.bunker_type = bunker_type
 		car.reset()
 	
-	queue_free()
+	#queue_free()

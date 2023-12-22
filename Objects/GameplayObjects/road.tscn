@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b1tv587fjj38r"]
 
-[ext_resource type="Texture2D" uid="uid://dwmsjpkb8rgch" path="res://Textures/placeholder_track.png" id="1_oa1hq"]
+[ext_resource type="Texture2D" uid="uid://dwmsjpkb8rgch" path="res://Textures/track.png" id="1_oa1hq"]
 [ext_resource type="Script" path="res://Scripts/road.gd" id="2_f8vvq"]
 [ext_resource type="PackedScene" uid="uid://cv88uov3uxp48" path="res://Objects/GameplayObjects/asphalt.tscn" id="3_0edyk"]
 

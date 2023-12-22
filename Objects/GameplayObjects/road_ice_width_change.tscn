@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dn1lg4qayntvh"]
 
-[ext_resource type="Texture2D" uid="uid://c0ryndga1casu" path="res://Textures/placeholder_track_ice.png" id="1_327ia"]
+[ext_resource type="Texture2D" uid="uid://c0ryndga1casu" path="res://Textures/track_ice.png" id="1_327ia"]
 [ext_resource type="Script" path="res://Scripts/road_width_change.gd" id="2_h1pum"]
 [ext_resource type="PackedScene" uid="uid://dhsm5kygcfgwi" path="res://Objects/GameplayObjects/ice.tscn" id="3_6wkw4"]
 

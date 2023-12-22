@@ -10,8 +10,8 @@ func _ready():
 
 
 func _physics_process(_delta):
-	$palette_expanded.visible = $car_button.button_pressed
-	$palette_small.visible = not $car_button.button_pressed
+	$palette_expanded.visible = palette_expanded
+	$palette_small.visible = not palette_expanded
 
 
 func _on_create_button_pressed():
@@ -36,6 +36,7 @@ func load_game():
 	get_tree().change_scene_to_file("res://gameplay.tscn")
 
 
-func _on_car_button_toggled(_button_pressed):
+func _on_car_button_pressed():
+	palette_expanded = not palette_expanded
 	$palette_expanded.update()
 	$palette_small.update()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w5rplcxhyvvd"
-path="res://.godot/imported/placeholder_track_dirt.png-358e9a9a38170a731c53a3ace2c9c645.ctex"
+uid="uid://dasf88nbxb0tg"
+path="res://.godot/imported/snowman.png-713d4199707ff172abeb6bb4a656052a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/placeholder_track_dirt.png"
-dest_files=["res://.godot/imported/placeholder_track_dirt.png-358e9a9a38170a731c53a3ace2c9c645.ctex"]
+source_file="res://Textures/snowman.png"
+dest_files=["res://.godot/imported/snowman.png-713d4199707ff172abeb6bb4a656052a.ctex"]
 
 [params]
 

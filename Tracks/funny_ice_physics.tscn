@@ -13,11 +13,11 @@
 [ext_resource type="PackedScene" uid="uid://vykx8dr8eciv" path="res://Objects/GameplayObjects/tree_snow.tscn" id="11_lbc1x"]
 [ext_resource type="PackedScene" uid="uid://lyehykqi5afp" path="res://Objects/GameplayObjects/snowman.tscn" id="12_b7too"]
 
-[sub_resource type="Curve" id="Curve_j7x1l"]
+[sub_resource type="Curve" id="Curve_2movh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_chuoi"]
+[sub_resource type="Curve" id="Curve_wcj22"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -36,14 +36,14 @@ width = 384.0
 position = Vector2(992, 288)
 points = PackedVector2Array(-736, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_j7x1l")
+width_curve = SubResource("Curve_2movh")
 width_end = 768.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("2_cvcbv")]
 position = Vector2(3616, 288)
 points = PackedVector2Array(-352, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_chuoi")
+width_curve = SubResource("Curve_wcj22")
 width_end = 768.0
 
 [node name="RoadIce" parent="." instance=ExtResource("5_oty5j")]
@@ -94,11 +94,11 @@ position = Vector2(4104, 2296)
 rotation = -1.5708
 
 [node name="checkpoint8" parent="finish_line" instance=ExtResource("6_yy46m")]
-position = Vector2(5464, 2144)
+position = Vector2(5256, 2168)
 rotation = -1.8326
 
 [node name="checkpoint9" parent="finish_line" instance=ExtResource("6_yy46m")]
-position = Vector2(5784, 1912)
+position = Vector2(5776, 1800)
 rotation = -3.14159
 
 [node name="checkpoint10" parent="finish_line" instance=ExtResource("6_yy46m")]
@@ -248,7 +248,7 @@ rotation = -0.467174
 scale = Vector2(1.75, 1.75)
 
 [node name="treesnow8" parent="." instance=ExtResource("11_lbc1x")]
-position = Vector2(2843, 3534)
+position = Vector2(3632, 2696)
 rotation = -0.509382
 scale = Vector2(1.5, 1.5)
 
@@ -267,4 +267,5 @@ rotation = -0.623282
 scale = Vector2(2, 2)
 
 [node name="snowman" parent="." instance=ExtResource("12_b7too")]
-position = Vector2(2454, 3192)
+position = Vector2(2120, 3536)
+rotation = 2.35619

@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6et65lkb71bw"]
+[gd_scene load_steps=10 format=3 uid="uid://c6et65lkb71bw"]
 
 [ext_resource type="Script" path="res://Scripts/ui.gd" id="1_roakc"]
-[ext_resource type="Texture2D" uid="uid://br0nljrw10p7m" path="res://Textures/placeholder_car_3.png" id="2_1exe4"]
 [ext_resource type="Shader" path="res://Scripts/palette_replacer.gdshader" id="2_alo6u"]
+[ext_resource type="Texture2D" uid="uid://kclfnxuhqon6" path="res://Textures/ui/bg.png" id="2_kg0db"]
+[ext_resource type="Texture2D" uid="uid://bd6gdv87lwgyk" path="res://Textures/ui/title.png" id="3_1fkfy"]
+[ext_resource type="Texture2D" uid="uid://br0nljrw10p7m" path="res://Textures/car_1_unsymmetry.png" id="3_6jf3t"]
 [ext_resource type="Texture2D" uid="uid://bsq2mo5ls7qy1" path="res://Textures/ui/arrow.png" id="3_jdehj"]
 
 [sub_resource type="GDScript" id="GDScript_gc13d"]
@@ -139,21 +141,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_roakc")
 
-[node name="title_temp" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -296.0
-offset_top = -344.0
-offset_right = 300.0
-offset_bottom = -232.0
-theme_override_font_sizes/font_size = 64
-text = "WEB RACING GAME"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Bg" type="Sprite2D" parent="."]
+modulate = Color(0.615686, 0.615686, 0.615686, 1)
+position = Vector2(512.5, 383.5)
+scale = Vector2(3.78889, 4.74691)
+texture = ExtResource("2_kg0db")
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(512, 104)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_1fkfy")
 
 [node name="create_button" type="Button" parent="."]
 layout_mode = 1
@@ -162,10 +159,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -224.0
-offset_top = -88.0
-offset_right = -32.0
-offset_bottom = -48.0
+offset_left = -448.0
+offset_top = -24.0
+offset_right = -256.0
+offset_bottom = 16.0
 grow_horizontal = 2
 text = "Create game"
 
@@ -176,10 +173,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -224.0
-offset_top = -32.0
-offset_right = -32.0
-offset_bottom = 8.0
+offset_left = -448.0
+offset_top = 32.0
+offset_right = -256.0
+offset_bottom = 72.0
 grow_horizontal = 2
 text = "Join game"
 
@@ -190,10 +187,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -224.0
-offset_top = -192.0
-offset_right = -29.0
-offset_bottom = -160.0
+offset_left = -448.0
+offset_top = -128.0
+offset_right = -253.0
+offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 2
 placeholder_text = "Name"
@@ -205,10 +202,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -224.0
-offset_top = -144.0
-offset_right = -29.0
-offset_bottom = -112.0
+offset_left = -448.0
+offset_top = -80.0
+offset_right = -253.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 placeholder_text = "IP address"
@@ -221,83 +218,95 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 32.0
-offset_top = -192.0
-offset_right = 96.0
-offset_bottom = -128.0
+offset_left = -192.0
+offset_top = -128.0
+offset_right = -128.0
+offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_gc13d")
 
-[node name="palette_small" type="Control" parent="."]
+[node name="car_button" type="Button" parent="palette_expanded"]
 layout_mode = 1
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -512.0
-offset_top = -384.0
-offset_right = -472.0
-offset_bottom = -344.0
-script = SubResource("GDScript_dgwyt")
+anchors_preset = -1
+offset_left = -18.0
+offset_top = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "X"
 
-[node name="car" type="Sprite2D" parent="palette_small"]
-material = SubResource("ShaderMaterial_4b24k")
-position = Vector2(640, 240)
-texture = ExtResource("2_1exe4")
-
-[node name="mode_less" type="TextureButton" parent="palette_small"]
-layout_mode = 0
-offset_left = 584.0
-offset_top = 200.0
-offset_right = 616.0
-offset_bottom = 232.0
-texture_normal = ExtResource("3_jdehj")
-
-[node name="mode_more" type="TextureButton" parent="palette_small"]
-layout_mode = 0
-offset_left = 664.0
-offset_top = 200.0
-offset_right = 696.0
-offset_bottom = 232.0
-texture_normal = ExtResource("3_jdehj")
-flip_h = true
-
-[node name="palette_less" type="TextureButton" parent="palette_small"]
-layout_mode = 0
-offset_left = 584.0
-offset_top = 248.0
-offset_right = 616.0
-offset_bottom = 280.0
-texture_normal = ExtResource("3_jdehj")
-
-[node name="palette_more" type="TextureButton" parent="palette_small"]
-layout_mode = 0
-offset_left = 664.0
-offset_top = 248.0
-offset_right = 696.0
-offset_bottom = 280.0
-texture_normal = ExtResource("3_jdehj")
-flip_h = true
-
-[node name="car_button" type="Button" parent="."]
+[node name="palette_small" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_top = -192.0
-offset_right = 32.0
-offset_bottom = -160.0
+offset_left = -192.0
+offset_top = -128.0
+offset_right = -152.0
+offset_bottom = -88.0
 grow_horizontal = 2
 grow_vertical = 2
-toggle_mode = true
+script = SubResource("GDScript_dgwyt")
+
+[node name="car_button" type="Button" parent="palette_small"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -20.0
+offset_right = 68.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="car" type="Sprite2D" parent="palette_small"]
+material = SubResource("ShaderMaterial_4b24k")
+position = Vector2(64, 48)
+texture = ExtResource("3_6jf3t")
+
+[node name="mode_less" type="TextureButton" parent="palette_small"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 32.0
+offset_bottom = 40.0
+texture_normal = ExtResource("3_jdehj")
+
+[node name="mode_more" type="TextureButton" parent="palette_small"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 8.0
+offset_right = 128.0
+offset_bottom = 40.0
+texture_normal = ExtResource("3_jdehj")
+flip_h = true
+
+[node name="palette_less" type="TextureButton" parent="palette_small"]
+layout_mode = 0
+offset_top = 56.0
+offset_right = 32.0
+offset_bottom = 88.0
+texture_normal = ExtResource("3_jdehj")
+
+[node name="palette_more" type="TextureButton" parent="palette_small"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 56.0
+offset_right = 128.0
+offset_bottom = 88.0
+texture_normal = ExtResource("3_jdehj")
+flip_h = true
 
 [connection signal="pressed" from="create_button" to="." method="_on_create_button_pressed"]
 [connection signal="pressed" from="join_button" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="palette_expanded/car_button" to="." method="_on_car_button_pressed"]
+[connection signal="pressed" from="palette_small/car_button" to="." method="_on_car_button_pressed"]
 [connection signal="pressed" from="palette_small/mode_less" to="palette_small" method="_on_model_changed" binds= [-1]]
 [connection signal="pressed" from="palette_small/mode_more" to="palette_small" method="_on_model_changed" binds= [1]]
 [connection signal="pressed" from="palette_small/palette_less" to="palette_small" method="_on_palette_changed" binds= [-1]]
 [connection signal="pressed" from="palette_small/palette_more" to="palette_small" method="_on_palette_changed" binds= [1]]
-[connection signal="toggled" from="car_button" to="." method="_on_car_button_toggled"]

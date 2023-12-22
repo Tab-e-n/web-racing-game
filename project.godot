@@ -17,14 +17,15 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://Scripts/Global.gd"
-Net="*res://Scripts/Netcode.gd"
-Palettes="*res://Scripts/Palettes.gd"
+Global="*res://Global.gd"
+Net="*res://Netcode.gd"
+Palettes="*res://Palettes.gd"
 
 [display]
 
 window/size/viewport_width=1024
 window/size/viewport_height=768
+window/stretch/mode="canvas_items"
 
 [dotnet]
 

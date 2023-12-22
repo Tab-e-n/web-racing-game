@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://boj0w0cla1na3"
-path="res://.godot/imported/auto_vitor_2.png-19d4610daf7995e8c31eef6d4bc18267.ctex"
+uid="uid://bd6gdv87lwgyk"
+path="res://.godot/imported/title.png-9509bdb93e2b0e4493cfe264fd6e5027.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/auto_vitor_2.png"
-dest_files=["res://.godot/imported/auto_vitor_2.png-19d4610daf7995e8c31eef6d4bc18267.ctex"]
+source_file="res://Textures/ui/title.png"
+dest_files=["res://.godot/imported/title.png-9509bdb93e2b0e4493cfe264fd6e5027.ctex"]
 
 [params]
 

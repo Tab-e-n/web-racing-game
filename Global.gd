@@ -41,4 +41,25 @@ func make_exit_vis():
 		curr_scene = get_viewport().get_camera_2d()
 		exit_vis.position = -get_viewport().get_window().size / Vector2i(2, 2)
 	curr_scene.add_child(exit_vis)
+
+
+func incos(n : float, velx : float):
+	var angle = acos(n)
+	if velx > 0:
+		angle = PI - angle
+	if velx < 0:
+		angle += PI
+	return angle
+
+
+func pythagoras(a, b):
+	return sqrt(a * a + b * b)
+
+
+func face_point(your_pos : Vector2, point_pos : Vector2) -> float:
+	var distance = point_pos - your_pos
+	var pyth = pythagoras(distance.x, distance.y)
+	var cosine = distance.y / pyth
+	var direction = incos(cosine, distance.x)
 	
+	return direction

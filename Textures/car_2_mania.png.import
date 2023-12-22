@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0ryndga1casu"
-path="res://.godot/imported/placeholder_track_ice.png-ada6f8db17f88205c954c87535c9f576.ctex"
+uid="uid://cxyiron5p1eeg"
+path="res://.godot/imported/car_2_mania.png-9de85b707821341bd208e3170c1e50ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/placeholder_track_ice.png"
-dest_files=["res://.godot/imported/placeholder_track_ice.png-ada6f8db17f88205c954c87535c9f576.ctex"]
+source_file="res://Textures/car_2_mania.png"
+dest_files=["res://.godot/imported/car_2_mania.png-9de85b707821341bd208e3170c1e50ca.ctex"]
 
 [params]
 

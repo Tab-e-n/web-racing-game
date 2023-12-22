@@ -191,8 +191,8 @@ func _physics_process(_delta):
 	#		print($last_coll_rot.global_rotation)
 		
 		velocity = get_real_velocity()
-		if pythagoras(velocity.x, velocity.y) < curr_speed:
-			curr_speed = pythagoras(velocity.x, velocity.y)
+		if Global.pythagoras(velocity.x, velocity.y) < curr_speed:
+			curr_speed = Global.pythagoras(velocity.x, velocity.y)
 		curr_speed -= FRICTION * sign(curr_speed)
 	
 	$Label.text = String.num(gear) + "\n" + String.num(round(curr_speed))
@@ -339,7 +339,7 @@ func physics_sliding():
 	if input_right:
 		rotation += TURN_SPEED_SLIDING
 	
-	var pyth = pythagoras(velocity.x, velocity.y)
+	var pyth = Global.pythagoras(velocity.x, velocity.y)
 	var velocity_sin = null
 	var velocity_cos = null
 	if pyth > 0:
@@ -374,10 +374,10 @@ func physics_sliding():
 		velocity.y = apply_reductive_forces(velocity.y, velocity_cos, FRICTION + extra_friction, pyth, SLIDING_DRAG + extra_drag)
 		
 		if Global.debug_mode:
-			$sliding_rot_cos.global_rotation = incos(velocity_cos, velocity.x)
+			$sliding_rot_cos.global_rotation = Global.incos(velocity_cos, velocity.x)
 		
 		if not (DEBUG_NO_EXIT_SLIDING or on_ice):
-			var rot_dist = rotation_distance(incos(velocity_cos, velocity.x), rotation)
+			var rot_dist = rotation_distance(Global.incos(velocity_cos, velocity.x), rotation)
 			if (rot_dist < PI * 0.03 and not input_down and not forced_brake):
 				state_sliding = false
 			if rot_dist > PI * 0.97:
@@ -403,7 +403,7 @@ func apply_reductive_forces(vel : float, portion : float, friction : float, spee
 
 func boost(magnitude : float, drag : float, direction : float):
 	if state_sliding:
-		var pyth = pythagoras(velocity.x, velocity.y)
+		var pyth = Global.pythagoras(velocity.x, velocity.y)
 		velocity.x += sin(direction) * magnitude / (1 + pyth / 1000 * drag)
 		velocity.y += -cos(direction) * magnitude / (1 + pyth / 1000 * drag)
 	else:
@@ -478,19 +478,6 @@ func mirror_angle(angle : float, mirror : float):
 	out = 2*PI - out
 	out += mirror
 	return out
-
-
-func incos(n : float, velx : float):
-	var angle = acos(n)
-	if velx > 0:
-		angle = PI - angle
-	if velx < 0:
-		angle += PI
-	return angle
-
-
-func pythagoras(a, b):
-	return sqrt(a * a + b * b)
 
 
 func _on_race_started():

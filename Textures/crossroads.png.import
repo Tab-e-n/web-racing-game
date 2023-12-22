@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br0nljrw10p7m"
-path="res://.godot/imported/placeholder_car_3.png-9bfda0621fc0a0640ef89f0f964e26ee.ctex"
+uid="uid://bxjawhag4yo0"
+path="res://.godot/imported/crossroads.png-efe14712bad7cf55a9dc38d5aaca08a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/placeholder_car_3.png"
-dest_files=["res://.godot/imported/placeholder_car_3.png-9bfda0621fc0a0640ef89f0f964e26ee.ctex"]
+source_file="res://Textures/crossroads.png"
+dest_files=["res://.godot/imported/crossroads.png-efe14712bad7cf55a9dc38d5aaca08a5.ctex"]
 
 [params]
 

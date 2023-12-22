@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bia7kaqmuxsek"]
 
-[ext_resource type="Texture2D" uid="uid://w5rplcxhyvvd" path="res://Textures/placeholder_track_dirt.png" id="1_dgjay"]
+[ext_resource type="Texture2D" uid="uid://w5rplcxhyvvd" path="res://Textures/track_dirt.png" id="1_dgjay"]
 [ext_resource type="Script" path="res://Scripts/road_width_change.gd" id="2_8wm75"]
 [ext_resource type="PackedScene" uid="uid://dj7s6ip8d03f3" path="res://Objects/GameplayObjects/dirt.tscn" id="3_821dv"]
 

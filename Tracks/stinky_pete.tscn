@@ -15,11 +15,11 @@
 [ext_resource type="PackedScene" uid="uid://707rlj4yvb5x" path="res://Objects/GameplayObjects/shroom_brown.tscn" id="13_mh8wy"]
 [ext_resource type="PackedScene" uid="uid://dco3x8tspoty8" path="res://Objects/GameplayObjects/shroom_red.tscn" id="14_b7gpa"]
 
-[sub_resource type="Curve" id="Curve_eerbt"]
+[sub_resource type="Curve" id="Curve_3wov6"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_p7f8y"]
+[sub_resource type="Curve" id="Curve_lq57y"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -36,13 +36,13 @@ points = PackedVector2Array(40, -832, 40, 0, 216, 384, 592, 744, 904, 864, 1288,
 [node name="Road_Change" parent="." instance=ExtResource("3_tgb66")]
 position = Vector2(4152, -248)
 points = PackedVector2Array(8, 248, 8, -264)
-width_curve = SubResource("Curve_eerbt")
+width_curve = SubResource("Curve_3wov6")
 width_end = 896.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("3_tgb66")]
 position = Vector2(1912, -576)
 points = PackedVector2Array(8, 256, 392, -128)
-width_curve = SubResource("Curve_p7f8y")
+width_curve = SubResource("Curve_lq57y")
 width_end = 896.0
 
 [node name="RoadDirt2" parent="." instance=ExtResource("1_ybfal")]
