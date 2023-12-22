@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://belrym16fay2w"]
+
+[ext_resource type="PackedScene" uid="uid://707rlj4yvb5x" path="res://Objects/GameplayObjects/shroom_brown.tscn" id="1_1f8n3"]
+[ext_resource type="PackedScene" uid="uid://dco3x8tspoty8" path="res://Objects/GameplayObjects/shroom_red.tscn" id="2_0jdfc"]
+
+[node name="tree_clump" type="Node2D"]
+
+[node name="shroom_brown" parent="." instance=ExtResource("1_1f8n3")]
+position = Vector2(48, 72)
+scale = Vector2(1.75, 1.75)
+
+[node name="shroom_brown6" parent="." instance=ExtResource("1_1f8n3")]
+position = Vector2(-73, -182)
+scale = Vector2(0.75, 0.75)
+
+[node name="shroom_brown2" parent="." instance=ExtResource("2_0jdfc")]
+position = Vector2(-111, 73)
+
+[node name="shroom_brown5" parent="." instance=ExtResource("2_0jdfc")]
+position = Vector2(171, -51)
+scale = Vector2(2, 2)
+
+[node name="shroom_brown4" parent="." instance=ExtResource("2_0jdfc")]
+position = Vector2(36, -138)
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_brown3" parent="." instance=ExtResource("1_1f8n3")]
+position = Vector2(-60, -45)
+scale = Vector2(2, 2)

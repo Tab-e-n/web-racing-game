@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw6s34gmfrqhm"]
+
+[ext_resource type="PackedScene" uid="uid://vykx8dr8eciv" path="res://Objects/GameplayObjects/tree_snow.tscn" id="1_eixli"]
+
+[node name="tree_clump" type="Node2D"]
+
+[node name="TreeSnow" parent="." instance=ExtResource("1_eixli")]
+position = Vector2(48, 72)
+rotation = -0.261799
+scale = Vector2(1.75, 1.75)
+
+[node name="TreeSnow2" parent="." instance=ExtResource("1_eixli")]
+position = Vector2(-88, 0)
+rotation = 0.785398
+
+[node name="TreeSnow3" parent="." instance=ExtResource("1_eixli")]
+position = Vector2(72, -48)
+rotation = -1.5708
+scale = Vector2(1.5, 1.5)
+
+[node name="TreeSnow4" parent="." instance=ExtResource("1_eixli")]
+position = Vector2(-88, -136)
+rotation = 0.785398
+scale = Vector2(2, 2)

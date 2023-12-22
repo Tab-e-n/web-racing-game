@@ -44,6 +44,7 @@ func get_car_data():
 	data["position"] = $Racecar.position
 	data["rotation"] = $Racecar.rotation
 	data["sliding"] = $Racecar.state_sliding
+	data["drifting"] = $Racecar.state_drifting
 #	data["gear"] = $Racecar.gear
 #	data["cur_speed"] = $Racecar.cur_speed
 	return data

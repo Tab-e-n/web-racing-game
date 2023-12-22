@@ -1,8 +1,17 @@
+class_name Menu
 extends Control
+
+
+var palette_expanded : bool = false
 
 
 func _ready():
 	Net.reset()
+
+
+func _physics_process(_delta):
+	$palette_expanded.visible = palette_expanded
+	$palette_small.visible = not palette_expanded
 
 
 func _on_create_button_pressed():
@@ -25,4 +34,9 @@ func load_game():
 	else:
 		Net.player_info["name"] = "Guest"
 	get_tree().change_scene_to_file("res://gameplay.tscn")
-	
+
+
+func _on_car_button_pressed():
+	palette_expanded = not palette_expanded
+	$palette_expanded.update()
+	$palette_small.update()

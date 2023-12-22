@@ -71,7 +71,7 @@ func _on_new_track_loaded(new_track : Node2D):
 			$track.add_child(road)
 		if node is Finish:
 			var finish = Sprite2D.new()
-			finish.texture = preload("res://Textures/placeholder_finish.png") # CHANGE LATER
+			finish.texture = preload("res://Textures/finish.png") # CHANGE LATER
 			finish.rotation = node.rotation
 			finish.position = node.position
 			finish.scale = node.scale

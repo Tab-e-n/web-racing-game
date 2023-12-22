@@ -16,21 +16,17 @@ var race_finished : bool = false
 
 var voting : bool = false
 
-var player_list : Dictionary = {}
-
-
 
 func _ready():
 	$countdown.modulate.a = 0
 	$on_finish_image.modulate.a = 0
 	
-	player_list[Net.multiplayer.get_unique_id()] = [Net.players[Net.multiplayer.get_unique_id()]["name"], 0, 0]
-	update_visual_player_list()
+	update_player_list()
 	
 	#player list update connection
-	Net.recieved_time.connect(update_player_list)
+	Net.recieved_time.connect(update_player_list_time)
 	Net.player_connected.connect(update_player_list)
-	Net.player_disconnected.connect(delete_player_from_player_list)
+	Net.player_disconnected.connect(update_player_list)
 	
 	#crete vote buttons	
 	for i in range(len($vote_buttons.get_children())):
@@ -74,7 +70,7 @@ func _physics_process(_delta):
 		if Input.is_action_pressed("down"):
 			position.y += 10 * speed_up
 	else:
-		var target = get_parent().get_node("Racecar")
+		var target : Node2D = get_parent().get_node("Racecar")
 		position = (target as Node2D).position
 	
 	#countdown
@@ -103,10 +99,7 @@ func _physics_process(_delta):
 		fade_out($on_finish_image, fadeout_speed_finish)
 	
 	#player list
-	if Input.is_key_pressed(KEY_TAB):
-		$player_list.visible = true
-	elif $player_list.visible == true:
-		$player_list.visible = false
+	$players.visible = Input.is_key_pressed(KEY_TAB)
 	
 	#car stats
 	$"car_stats/gear".text = "gear: " + str($"../Racecar".gear)
@@ -121,24 +114,22 @@ func choose_button_pressed(map):
 	Net.change_map.rpc(map)
 
 
-func delete_player_from_player_list(peer_id):
-	player_list.erase(peer_id)
+func update_player_list_time(_peer_id, _time, _laps):
+	update_player_list()
 
-func update_player_list(peer_id, time = null, lap = null):
-	print(peer_id, " ", time, " ", lap)
-	if time is float:
-		player_list[peer_id] = [Net.players[peer_id]["name"], time, lap]
-	else:
-		player_list[peer_id] = [Net.players[peer_id]["name"], 0, 0]
-	update_visual_player_list()
-
-
-func update_visual_player_list():
-	print(player_list)
-	$player_list.clear()
-	for player in player_list.values():
-		$player_list.add_item(player[0] + " / "+ format_time(player[1]) + " / lap: " + str(player[2]))
+func update_player_list():
+	#print(player_list)
+	for i in Net.players.keys():
+		if not $players.player_list.has(i):
+			$players.add_player(i, Net.players[i]["name"])
+	for i in $players.player_list.keys():
+		if not Net.players.has(i):
+			$players.remove_player(i)
 	
+	for player in Net.players.keys():
+		$players.player_list[player][1].text = format_time(Net.players[player]["time"])
+		$players.player_list[player][2].text = "lap: " + str(Net.players[player]["laps"])
+
 
 func fade_out(node, fadeout_speed):
 	fadeout_buffer += fadeout_speed

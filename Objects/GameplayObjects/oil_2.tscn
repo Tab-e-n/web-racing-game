@@ -6,6 +6,7 @@
 [node name="oil" instance=ExtResource("1_ndajl")]
 
 [node name="sprite" parent="." index="0"]
+z_index = 10
 texture = ExtResource("2_mtcag")
 
 [node name="collision" parent="." index="1"]

@@ -7,12 +7,14 @@
 size = Vector2(64, 80)
 
 [node name="booster" type="Area2D"]
+z_index = 10
 collision_layer = 2
 script = ExtResource("1_rsh2b")
 
 [node name="Booster" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
 texture = ExtResource("2_r28ra")
+hframes = 5
 
 [node name="coll" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_pm675")

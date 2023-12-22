@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dk3wy4a4pb5la"]
 
-[ext_resource type="Texture2D" uid="uid://dwmsjpkb8rgch" path="res://Textures/placeholder_track.png" id="1_av4l5"]
+[ext_resource type="Texture2D" uid="uid://dwmsjpkb8rgch" path="res://Textures/track.png" id="1_av4l5"]
 [ext_resource type="Script" path="res://Scripts/road_width_change.gd" id="2_3lkig"]
 [ext_resource type="PackedScene" uid="uid://cv88uov3uxp48" path="res://Objects/GameplayObjects/asphalt.tscn" id="3_0ni4i"]
 
