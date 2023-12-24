@@ -15,7 +15,7 @@ script/source = "extends Sprite2D
 
 func bumped(body):
 	frame = 1
-	get_parent().rotation = Global.face_point(position, body.position)
+	get_parent().global_rotation = Global.face_point(position, body.position)
 "
 
 [node name="snowman" type="StaticBody2D"]
