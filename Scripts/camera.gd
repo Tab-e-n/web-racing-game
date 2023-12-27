@@ -57,6 +57,11 @@ func _ready():
 
 
 func _physics_process(_delta):
+	$Speedometer.visible = !Global.ui_hidden
+	$minimap.visible = !Global.ui_hidden
+	$score.visible = !Global.ui_hidden
+	$car_stats.visible = Global.debug_mode
+	
 	if Net.is_a_spectator:
 		var speed_up = 1
 		if Input.is_action_pressed("shift"):
@@ -104,6 +109,8 @@ func _physics_process(_delta):
 	#car stats
 	$"car_stats/gear".text = "gear: " + str($"../Racecar".gear)
 	$"car_stats/speed".text = "speed: " + str(int($"../Racecar".curr_speed))
+	
+	$Speedometer.pixel_speed = $"../Racecar".curr_speed
 	
 
 func vote_button_pressed(vote):

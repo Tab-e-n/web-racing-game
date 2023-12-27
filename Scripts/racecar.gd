@@ -91,6 +91,8 @@ func reset():
 
 
 func _physics_process(_delta):
+#	print(position)
+	
 	if Net.is_a_spectator:
 		visible = false
 		return
@@ -195,8 +197,6 @@ func _physics_process(_delta):
 			curr_speed = Global.pythagoras(velocity.x, velocity.y)
 		curr_speed -= FRICTION * sign(curr_speed)
 	
-	$Label.text = String.num(gear) + "\n" + String.num(round(curr_speed))
-	
 	if oil_covered or state_sliding: 
 		$car.material.set_shader_parameter("dim", Vector3(0.5, 0.5, 0.5))
 	elif state_drifting:
@@ -204,7 +204,6 @@ func _physics_process(_delta):
 	else:
 		$car.material.set_shader_parameter("dim", Vector3(1, 1, 1))
 	
-	$Label.visible = Global.debug_mode
 	$normal_rot.visible = Global.debug_mode
 	$last_coll_rot.visible = Global.debug_mode
 	$drifting_rot.visible = Global.debug_mode and state_drifting and not velocity == Vector2(0, 0)
