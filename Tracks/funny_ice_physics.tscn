@@ -13,11 +13,11 @@
 [ext_resource type="PackedScene" uid="uid://vykx8dr8eciv" path="res://Objects/GameplayObjects/tree_snow.tscn" id="11_lbc1x"]
 [ext_resource type="PackedScene" uid="uid://lyehykqi5afp" path="res://Objects/GameplayObjects/snowman.tscn" id="12_b7too"]
 
-[sub_resource type="Curve" id="Curve_2movh"]
+[sub_resource type="Curve" id="Curve_wgjh0"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_wcj22"]
+[sub_resource type="Curve" id="Curve_xjfwf"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -36,14 +36,14 @@ width = 384.0
 position = Vector2(992, 288)
 points = PackedVector2Array(-736, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_2movh")
+width_curve = SubResource("Curve_wgjh0")
 width_end = 768.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("2_cvcbv")]
 position = Vector2(3616, 288)
 points = PackedVector2Array(-352, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_wcj22")
+width_curve = SubResource("Curve_xjfwf")
 width_end = 768.0
 
 [node name="RoadIce" parent="." instance=ExtResource("5_oty5j")]
@@ -268,4 +268,4 @@ scale = Vector2(2, 2)
 
 [node name="snowman" parent="." instance=ExtResource("12_b7too")]
 position = Vector2(2120, 3536)
-rotation = 2.35619
+rotation = -0.781305
