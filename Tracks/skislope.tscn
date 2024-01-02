@@ -1,0 +1,197 @@
+[gd_scene load_steps=18 format=3 uid="uid://brx6bjr3evq5t"]
+
+[ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="1_7nq7x"]
+[ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="2_8kd3a"]
+[ext_resource type="PackedScene" uid="uid://dk3wy4a4pb5la" path="res://Objects/GameplayObjects/road_width_change.tscn" id="3_vix3h"]
+[ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="4_awwri"]
+[ext_resource type="PackedScene" uid="uid://dge6ofha5mvc1" path="res://Objects/GameplayObjects/road_ice.tscn" id="4_h8lkg"]
+[ext_resource type="PackedScene" uid="uid://dio5x6fxxcoph" path="res://Objects/GameplayObjects/finish_line.tscn" id="5_m53hc"]
+[ext_resource type="PackedScene" uid="uid://bb6g37800oibm" path="res://Objects/GameplayObjects/oil_3.tscn" id="7_e3tw5"]
+[ext_resource type="PackedScene" uid="uid://c0uv2mlwl4p5x" path="res://Objects/GameplayObjects/oil_2.tscn" id="8_qaayl"]
+[ext_resource type="PackedScene" uid="uid://ciix74q2xv87b" path="res://Objects/GameplayObjects/oil_1.tscn" id="9_swku4"]
+[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="10_0sfog"]
+[ext_resource type="PackedScene" uid="uid://vykx8dr8eciv" path="res://Objects/GameplayObjects/tree_snow.tscn" id="11_xliq2"]
+[ext_resource type="PackedScene" uid="uid://lyehykqi5afp" path="res://Objects/GameplayObjects/snowman.tscn" id="12_phxji"]
+[ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="13_o83u6"]
+[ext_resource type="PackedScene" uid="uid://drgemr0hcy3e7" path="res://Objects/GameplayObjects/bumper.tscn" id="14_gio07"]
+
+[sub_resource type="Curve" id="Curve_ajwth"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.777778), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_bwwd2"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.666667), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_21fua"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.75), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="skislope" type="Node2D"]
+
+[node name="start_position" parent="." instance=ExtResource("1_7nq7x")]
+position = Vector2(-2, -84)
+rotation = -3.14159
+bunker_type = 1
+
+[node name="Road" parent="." instance=ExtResource("2_8kd3a")]
+points = PackedVector2Array(0, -256, 0, 448, 60, 778, 188, 997, 412, 1189, 631, 1430, 668, 1729, 626, 2022, 423, 2220, 81, 2220, -149, 2113, -362, 2037, -667, 2102, -1008, 2448, -971, 2774, -896, 2880, -768, 3008)
+width = 448.0
+
+[node name="Road_Change" parent="." instance=ExtResource("3_vix3h")]
+position = Vector2(-424, 3120)
+points = PackedVector2Array(-152, 80, -344, -112)
+width = 576.0
+width_curve = SubResource("Curve_ajwth")
+width_end = 448.0
+
+[node name="RoadIce" parent="." instance=ExtResource("4_h8lkg")]
+position = Vector2(-152, 3656)
+points = PackedVector2Array(-424, -456, 440, 408)
+width = 576.0
+
+[node name="Road_Change2" parent="." instance=ExtResource("3_vix3h")]
+position = Vector2(632, 4176)
+points = PackedVector2Array(-344, -112, -152, 80)
+width = 576.0
+width_curve = SubResource("Curve_bwwd2")
+width_end = 384.0
+
+[node name="Road3" parent="." instance=ExtResource("2_8kd3a")]
+position = Vector2(864, 4504)
+points = PackedVector2Array(-384, -248, -352, -216, -184, 0, -56, 416, -64, 600, -104, 752, -200, 888, -552, 968, -776, 984, -944, 1048, -1024, 1152, -1032, 1304, -976, 1384, -864, 1448, -664, 1480, -480, 1488, -240, 1480, -128, 1504, -56, 1576, 0, 1696, -48, 1864, -144, 1952, -288, 2000, -600, 2064, -848, 2112, -1064, 2208, -1184, 2344, -1248, 2536)
+width = 384.0
+
+[node name="Road_Change3" parent="." instance=ExtResource("3_vix3h")]
+position = Vector2(-624, 7824)
+points = PackedVector2Array(-16, -16, 240, -784)
+width_curve = SubResource("Curve_21fua")
+width_end = 384.0
+
+[node name="Road4" parent="." instance=ExtResource("2_8kd3a")]
+position = Vector2(-1032, 8776)
+points = PackedVector2Array(392, -968, 264, -584, 248, -424, 304, -272, 424, -176, 568, -112, 680, -8, 1000, 952, 1072, 1088, 1200, 1176, 1352, 1208, 2376, 1208)
+
+[node name="RoadIce2" parent="." instance=ExtResource("4_h8lkg")]
+position = Vector2(-400, 10632)
+points = PackedVector2Array(-608, -1904, -432, -1760, -304, -1544, 80, -392, 144, -72, 96, 344, 8, 664, -160, 912, -472, 1184, -1400, 1968)
+width = 128.0
+
+[node name="finish_line" parent="." instance=ExtResource("5_m53hc")]
+position = Vector2(0, 16)
+monitoring = false
+monitorable = false
+width = 448
+
+[node name="booster" parent="." instance=ExtResource("4_awwri")]
+position = Vector2(-144, 128)
+rotation = 3.14159
+
+[node name="booster2" parent="." instance=ExtResource("4_awwri")]
+position = Vector2(-48, 128)
+rotation = 3.14159
+
+[node name="booster3" parent="." instance=ExtResource("4_awwri")]
+position = Vector2(48, 128)
+rotation = 3.14159
+
+[node name="booster4" parent="." instance=ExtResource("4_awwri")]
+position = Vector2(144, 128)
+rotation = 3.14159
+
+[node name="oil" parent="." instance=ExtResource("7_e3tw5")]
+position = Vector2(368, 3864)
+rotation = 1.0472
+
+[node name="oil2" parent="." instance=ExtResource("8_qaayl")]
+position = Vector2(-328, 3640)
+rotation = -0.261799
+
+[node name="oil3" parent="." instance=ExtResource("9_swku4")]
+position = Vector2(-392, 3304)
+rotation = 1.0472
+
+[node name="oil4" parent="." instance=ExtResource("10_0sfog")]
+position = Vector2(-55.9999, 3968)
+rotation = -2.09439
+
+[node name="booster5" parent="." instance=ExtResource("4_awwri")]
+position = Vector2(-904, 8552)
+rotation = 2.82361
+scale = Vector2(1, 1)
+
+[node name="treesnow" parent="." instance=ExtResource("11_xliq2")]
+position = Vector2(8, 6216)
+scale = Vector2(1.5, 1.5)
+
+[node name="treesnow4" parent="." instance=ExtResource("11_xliq2")]
+position = Vector2(144, 6248)
+scale = Vector2(1.25, 1.25)
+
+[node name="treesnow2" parent="." instance=ExtResource("11_xliq2")]
+position = Vector2(512, 6248)
+scale = Vector2(1.5, 1.5)
+
+[node name="treesnow3" parent="." instance=ExtResource("11_xliq2")]
+position = Vector2(344, 6272)
+scale = Vector2(2, 2)
+
+[node name="treesnow5" parent="." instance=ExtResource("11_xliq2")]
+position = Vector2(536, 5704)
+scale = Vector2(2, 2)
+
+[node name="treesnow6" parent="." instance=ExtResource("11_xliq2")]
+position = Vector2(648, 5648)
+
+[node name="treesnow7" parent="." instance=ExtResource("11_xliq2")]
+position = Vector2(136, 5728)
+
+[node name="treesnow8" parent="." instance=ExtResource("11_xliq2")]
+position = Vector2(288, 5736)
+scale = Vector2(1.5, 1.5)
+
+[node name="snowman" parent="." instance=ExtResource("12_phxji")]
+position = Vector2(-472, 9944)
+rotation = -0.523598
+
+[node name="snowman2" parent="." instance=ExtResource("12_phxji")]
+position = Vector2(-528, 9424)
+rotation = -0.261799
+
+[node name="finish_line2" parent="." instance=ExtResource("5_m53hc")]
+position = Vector2(-96, 9536)
+rotation = -0.322886
+
+[node name="RoadIce3" parent="." instance=ExtResource("4_h8lkg")]
+position = Vector2(688, 10384)
+points = PackedVector2Array(144, -144, 144, 560, 48, 1352, -152, 1784, -528, 2240, -928, 2600, -1344, 2776, -1832, 2880, -2424, 2872)
+width = 1024.0
+
+[node name="tire_obstacle" parent="." instance=ExtResource("13_o83u6")]
+position = Vector2(-152, 10128)
+points = PackedVector2Array(-104, 48, -24, 432, -80, 864, -176, 1200, -352, 1464, -504, 1608)
+
+[node name="bumper" parent="." instance=ExtResource("14_gio07")]
+position = Vector2(976, 12248)
+
+[node name="bumper7" parent="." instance=ExtResource("14_gio07")]
+position = Vector2(920, 11408)
+
+[node name="bumper2" parent="." instance=ExtResource("14_gio07")]
+position = Vector2(456, 12584)
+
+[node name="bumper3" parent="." instance=ExtResource("14_gio07")]
+position = Vector2(360, 12120)
+
+[node name="bumper4" parent="." instance=ExtResource("14_gio07")]
+position = Vector2(216, 13088)
+
+[node name="bumper5" parent="." instance=ExtResource("14_gio07")]
+position = Vector2(-648, 12752)
+
+[node name="bumper6" parent="." instance=ExtResource("14_gio07")]
+position = Vector2(-752, 13552)
+
+[node name="snowman3" parent="." instance=ExtResource("12_phxji")]
+position = Vector2(-160, 12584)
+rotation = 1.0472

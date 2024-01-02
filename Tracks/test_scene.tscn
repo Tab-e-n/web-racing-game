@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://db1idhlcf3swl"]
+[gd_scene load_steps=10 format=3 uid="uid://db1idhlcf3swl"]
 
 [ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="1_3ypym"]
 [ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="1_52i3j"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="4_2jxhu"]
 [ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="5_rf6l0"]
 [ext_resource type="PackedScene" uid="uid://82307qvrhkbc" path="res://Objects/GameplayObjects/tire_obstacle.tscn" id="7_8whyx"]
+[ext_resource type="PackedScene" uid="uid://c0uv2mlwl4p5x" path="res://Objects/GameplayObjects/oil_2.tscn" id="8_j0sq3"]
+[ext_resource type="PackedScene" uid="uid://bb6g37800oibm" path="res://Objects/GameplayObjects/oil_3.tscn" id="9_ur0b4"]
 
 [node name="test_scene" type="Node2D"]
 
@@ -74,11 +76,11 @@ position = Vector2(-3706.33, -2039.09)
 rotation = 4.18878
 
 [node name="checkpoint14" parent="finish_line" instance=ExtResource("3_xxc2b")]
-position = Vector2(-3019.69, -2103.69)
+position = Vector2(-3013.01, -2174.99)
 rotation = 4.71238
 
 [node name="checkpoint15" parent="finish_line" instance=ExtResource("3_xxc2b")]
-position = Vector2(-2220.3, -2139)
+position = Vector2(-2206, -2181.99)
 rotation = 4.71238
 
 [node name="checkpoint16" parent="finish_line" instance=ExtResource("3_xxc2b")]
@@ -98,10 +100,10 @@ position = Vector2(15.5683, -680.574)
 rotation = 6.28318
 
 [node name="oil" parent="." instance=ExtResource("4_2jxhu")]
-position = Vector2(3624, 376)
+position = Vector2(3796, 2286)
 
 [node name="oil2" parent="." instance=ExtResource("4_2jxhu")]
-position = Vector2(1672, 1608)
+position = Vector2(1750, 1665)
 
 [node name="booster" parent="." instance=ExtResource("5_rf6l0")]
 position = Vector2(1928, -168)
@@ -122,3 +124,12 @@ points = PackedVector2Array(-349, -435, -338.34, -526.145, -293, -618, -202, -68
 [node name="tire_obstacle4" parent="." instance=ExtResource("7_8whyx")]
 position = Vector2(2321, 553)
 points = PackedVector2Array(-359, 416, -383, 512, -362, 590, -299, 632, -194, 626, -81, 569, -12, 458, 183, -340, 192, -416, 174, -494, 129, -530, 69, -545, -27, -530, -75, -479, -114, -402, -131, -339, -359, 416)
+
+[node name="oil3" parent="." instance=ExtResource("8_j0sq3")]
+position = Vector2(1839, 2631)
+
+[node name="oil4" parent="." instance=ExtResource("9_ur0b4")]
+position = Vector2(2794, 2582)
+
+[node name="oil5" parent="." instance=ExtResource("8_j0sq3")]
+position = Vector2(1404, 2218)

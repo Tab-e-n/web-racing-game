@@ -28,6 +28,8 @@ func _ready():
 	Net.player_connected.connect(update_player_list)
 	Net.player_disconnected.connect(update_player_list)
 	
+	get_parent().race_finished.connect(_on_gameplay_race_finished)
+	
 	#crete vote buttons	
 	for i in range(len($vote_buttons.get_children())):
 		$vote_buttons.get_child(i).connect("button_down", vote_button_pressed.bind(i))
@@ -162,7 +164,7 @@ func start_vote():
 
 
 func _on_gameplay_race_finished(final_time):
-	$on_finish_image.modulate = Color(0, 0, 0, 1)
+	$on_finish_image.modulate.a = 1
 	$score/timer.text = format_time(final_time)
 	race_finished = true
 	reset_fadeout.call()

@@ -212,6 +212,7 @@ texture = ExtResource("7_bmmr8")
 offset = Vector2(-94, 0)
 
 [node name="speed" type="Label" parent="Speedometer"]
+layout_mode = 0
 offset_left = -64.0
 offset_top = 128.0
 offset_right = 224.0
