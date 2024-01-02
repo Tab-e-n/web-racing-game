@@ -18,13 +18,13 @@ func _physics_process(_delta):
 	if car != null and boost_cooldown == 0:
 		boost_cooldown = 10
 		
-		var direction = Global.face_point(position, car.position)
+		var direction = Global.face_point(global_position, car.position)
 		
 		$DebugVector.rotation = direction
 		
 		car.start_sliding()
 		
-		car.boost(500 * scale.x, 1, direction)
+		car.boost(500 * global_scale.x, 1, direction)
 		$sprite.texture = text_active
 	
 	if boost_cooldown > 0:

@@ -276,7 +276,8 @@ const PALETTES : Dictionary = {
 const CAR_MODELS : Array = [
 	preload("res://Textures/car_1_unsymmetry.png"), 
 	preload("res://Textures/car_2_mania.png"), 
-	preload("res://Textures/car_3_future.png")
+	preload("res://Textures/car_3_future.png"),
+	preload("res://Textures/car_4_truck.png")
 ]
 
 enum {

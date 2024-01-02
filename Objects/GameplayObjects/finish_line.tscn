@@ -7,6 +7,8 @@
 
 [node name="finish_line" type="Area2D"]
 collision_layer = 0
+monitoring = false
+monitorable = false
 script = ExtResource("1_ocw73")
 
 [node name="coll" type="CollisionShape2D" parent="."]

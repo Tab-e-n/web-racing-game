@@ -30,9 +30,9 @@ var player_list = {
 func _ready():
 	pass
 
-func add_player(id: int, name : String):
+func add_player(id: int, _name : String):
 	var label_name = Label.new()
-	label_name.text = name
+	label_name.text = _name
 	$grid.add_child(label_name)
 	
 	var label_time = Label.new()
@@ -62,7 +62,7 @@ const MAX_ANGLE_CHANGE_PER_FRAME : float = 1.5
 var kmh : float = 0
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	kmh = abs(pixel_speed * PIXEL_TO_KMH_CONVERSION)
 	
 	
@@ -74,8 +74,8 @@ func _physics_process(delta):
 	
 	var visual_kmh = $arrow.rotation_degrees * 3
 	
-	var scale = 0.5 + 0.5 * (visual_kmh / 400)
-	$speed.scale = Vector2(scale, scale)
+	var text_scale = 0.5 + 0.5 * (visual_kmh / 400)
+	$speed.scale = Vector2(text_scale, text_scale)
 	$speed.text = str(round(visual_kmh)) + \" kmh\"
 "
 

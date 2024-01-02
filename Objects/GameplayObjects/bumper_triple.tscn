@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dajw6c320t1c4"]
+
+[ext_resource type="PackedScene" uid="uid://drgemr0hcy3e7" path="res://Objects/GameplayObjects/bumper.tscn" id="1_0dbqs"]
+
+[node name="BumperTriple" type="Node2D"]
+
+[node name="bumper" parent="." instance=ExtResource("1_0dbqs")]
+
+[node name="bumper2" parent="." instance=ExtResource("1_0dbqs")]
+position = Vector2(0, 72)
+
+[node name="bumper3" parent="." instance=ExtResource("1_0dbqs")]
+position = Vector2(0, -72)
