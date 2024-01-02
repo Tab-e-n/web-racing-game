@@ -20,6 +20,7 @@ const VOTE_POSSIBILITIES : Dictionary = {
 	"Anti Testies" : "AntiTesties.tscn",
 	"Trees Trees Trees" : "test_scene_1.tscn",
 	"Funny Ice Physics" : "funny_ice_physics.tscn",
+	"Bring Your Skis" : "skislope.tscn",
 	"Stinky Pete" : "stinky_pete.tscn",
 }
 const DEFAULT_TRACK : String = "Beginner Track"

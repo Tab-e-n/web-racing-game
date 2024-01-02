@@ -28,6 +28,8 @@ func _ready():
 	Net.player_connected.connect(update_player_list)
 	Net.player_disconnected.connect(update_player_list)
 	
+	get_parent().race_finished.connect(_on_gameplay_race_finished)
+	
 	#crete vote buttons	
 	for i in range(len($vote_buttons.get_children())):
 		$vote_buttons.get_child(i).connect("button_down", vote_button_pressed.bind(i))
@@ -57,6 +59,11 @@ func _ready():
 
 
 func _physics_process(_delta):
+	$Speedometer.visible = !Global.ui_hidden
+	$minimap.visible = !Global.ui_hidden
+	$score.visible = !Global.ui_hidden
+	$car_stats.visible = Global.debug_mode
+	
 	if Net.is_a_spectator:
 		var speed_up = 1
 		if Input.is_action_pressed("shift"):
@@ -104,6 +111,8 @@ func _physics_process(_delta):
 	#car stats
 	$"car_stats/gear".text = "gear: " + str($"../Racecar".gear)
 	$"car_stats/speed".text = "speed: " + str(int($"../Racecar".curr_speed))
+	
+	$Speedometer.pixel_speed = $"../Racecar".curr_speed
 	
 
 func vote_button_pressed(vote):
@@ -155,7 +164,7 @@ func start_vote():
 
 
 func _on_gameplay_race_finished(final_time):
-	$on_finish_image.modulate = Color(0, 0, 0, 1)
+	$on_finish_image.modulate.a = 1
 	$score/timer.text = format_time(final_time)
 	race_finished = true
 	reset_fadeout.call()

@@ -276,17 +276,19 @@ const PALETTES : Dictionary = {
 const CAR_MODELS : Array = [
 	preload("res://Textures/car_1_unsymmetry.png"), 
 	preload("res://Textures/car_2_mania.png"), 
-	preload("res://Textures/car_3_future.png")
+	preload("res://Textures/car_3_future.png"),
+	preload("res://Textures/car_4_truck.png")
 ]
 
 enum {
-	BG_NORMAL, BG_SNOW, BG_DIRT
+	BG_NORMAL, BG_SNOW, BG_DIRT, BG_ROCK
 }
 
 const BG_COLORS : Dictionary = {
 	BG_NORMAL : Color(0.27, 0.41, 0.29, 1),
 	BG_SNOW : Color(0.6, 0.76, 0.78, 1),
 	BG_DIRT : Color(0.35, 0.25, 0.22, 1),
+	BG_ROCK : Color(0.34, 0.31, 0.31, 1),
 }
 
 @export var palette : Array = [

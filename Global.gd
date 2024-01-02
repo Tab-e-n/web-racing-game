@@ -2,13 +2,17 @@ extends Node
 
 
 var debug_mode = false
+var ui_hidden = false
 var exiting : float = 0
 var exit_vis : Label = null
+var window_size : Vector2i = Vector2i(1024, 768)
 
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("debug") and OS.has_feature("editor"):
 		debug_mode = !debug_mode
+	if Input.is_action_just_pressed("hide_ui"):
+		ui_hidden = !ui_hidden
 	
 	if exiting > 0:
 		if exit_vis == null:
@@ -39,7 +43,7 @@ func make_exit_vis():
 	var curr_scene = get_tree().current_scene
 	if get_viewport().get_camera_2d() != null:
 		curr_scene = get_viewport().get_camera_2d()
-		exit_vis.position = -get_viewport().get_window().size / Vector2i(2, 2)
+		exit_vis.position = -window_size / Vector2i(2, 2)
 	curr_scene.add_child(exit_vis)
 
 

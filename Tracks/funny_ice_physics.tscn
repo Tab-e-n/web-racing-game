@@ -13,11 +13,11 @@
 [ext_resource type="PackedScene" uid="uid://vykx8dr8eciv" path="res://Objects/GameplayObjects/tree_snow.tscn" id="11_lbc1x"]
 [ext_resource type="PackedScene" uid="uid://lyehykqi5afp" path="res://Objects/GameplayObjects/snowman.tscn" id="12_b7too"]
 
-[sub_resource type="Curve" id="Curve_2movh"]
+[sub_resource type="Curve" id="Curve_28n38"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_wcj22"]
+[sub_resource type="Curve" id="Curve_mmcc6"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -29,31 +29,31 @@ rotation = 3.14159
 bunker_type = 1
 
 [node name="Road" parent="." instance=ExtResource("1_a241j")]
-points = PackedVector2Array(256, 128, -224, 128, -864, -128, -1536, 256, -1536, 1416, -352, 1288, 192, 2112, 624, 2040, 1136, 1568, 1672, 2168, 1216, 2976, 1504, 3208, 2600, 3200, 4160, 3008, 4280, 2752, 3400, 2120, 3424, 1632, 4176, 1128, 3968, 128, 3264, 128)
+points = PackedVector2Array(256, 128, -224, 128, -864, -128, -1536, 256, -1536, 1416, -397, 1323, 192, 2112, 624, 2040, 1136, 1568, 1672, 2168, 1187, 3028, 1484, 3243, 2600, 3200, 4160, 3008, 4218, 2715, 3400, 2120, 3424, 1632, 4176, 1128, 3968, 128, 3264, 128)
 width = 384.0
 
 [node name="Road_Change" parent="." instance=ExtResource("2_cvcbv")]
 position = Vector2(992, 288)
 points = PackedVector2Array(-736, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_2movh")
+width_curve = SubResource("Curve_28n38")
 width_end = 768.0
 
 [node name="Road_Change2" parent="." instance=ExtResource("2_cvcbv")]
 position = Vector2(3616, 288)
 points = PackedVector2Array(-352, -160, -544, -160)
 width = 384.0
-width_curve = SubResource("Curve_wcj22")
+width_curve = SubResource("Curve_mmcc6")
 width_end = 768.0
 
 [node name="RoadIce" parent="." instance=ExtResource("5_oty5j")]
 position = Vector2(408, 2784)
-points = PackedVector2Array(-24, -472, 0, -328, 80, -184, 304, -128, 400, -40, 592, 64)
+points = PackedVector2Array(-24, -472, -2, -337, 126, -217, 322, -153, 400, -40, 592, 64)
 width = 320.0
 
 [node name="RoadIce2" parent="." instance=ExtResource("5_oty5j")]
 position = Vector2(4328, 1920)
-points = PackedVector2Array(-56, 560, 24, 432, -40, 120, 48, -152, -8, -400, -112, -552)
+points = PackedVector2Array(-56, 560, 27, 448, -56, 116, -4, -148, -47, -462, -112, -552)
 width = 320.0
 
 [node name="RoadIce3" parent="." instance=ExtResource("5_oty5j")]
@@ -110,7 +110,7 @@ position = Vector2(5680, 192)
 rotation = -3.14159
 
 [node name="checkpoint12" parent="finish_line" instance=ExtResource("6_yy46m")]
-position = Vector2(5472, -712)
+position = Vector2(5507, -763)
 rotation = -3.92699
 
 [node name="checkpoint13" parent="finish_line" instance=ExtResource("6_yy46m")]
@@ -268,4 +268,4 @@ scale = Vector2(2, 2)
 
 [node name="snowman" parent="." instance=ExtResource("12_b7too")]
 position = Vector2(2120, 3536)
-rotation = 2.35619
+rotation = -0.781305

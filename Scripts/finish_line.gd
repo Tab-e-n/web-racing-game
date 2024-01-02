@@ -5,13 +5,17 @@ extends Area2D
 
 @export var lap_count : int = 3
 @export var width : int = 512
+@export var decorative : bool = false
 var current_checkpoint : int = 0
 var last_check_point : int = 0
 
 
 func _ready():
-	(get_tree().current_scene as Gameplay).set("lap_count", lap_count)
-	$finish.region_rect.size = Vector2(width, 32)
+	if not decorative:
+		(get_tree().current_scene as Gameplay).set("lap_count", lap_count)
+		$finish.region_rect.size = Vector2(width, 32)
+		call_deferred("set_monitoring", true)
+		call_deferred("set_monitorable", true)
 
 
 func _physics_process(_delta):

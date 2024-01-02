@@ -14,7 +14,7 @@ const GEAR_THRESHOLDS = [150, 275, 400, 500]
 const GEAR_ACC_DECREASE = [0, 1.6, 2.1, 2.4, 2.7]
 const BUNKER_DRAG : float = 4
 
-const TURN_SPEED_SLIDING : float = 0.05
+const TURN_SPEED_SLIDING : float = 0.04
 const SLIDING_DRAG : float = 1.2
 
 const TURN_SPEED_DRIFTING : float = 0.04
@@ -50,7 +50,7 @@ var on_bunker : bool = false
 
 var oil_covered : bool = false
 
-enum {BUNKER_TYPE_NORMAL, BUNKER_TYPE_SNOW, BUNKER_TYPE_DIRT}
+enum {BUNKER_TYPE_NORMAL, BUNKER_TYPE_SNOW, BUNKER_TYPE_DIRT, BUNKER_TYPE_ROCK}
 var bunker_type = BUNKER_TYPE_NORMAL
 
 var input_left : bool = false
@@ -91,6 +91,8 @@ func reset():
 
 
 func _physics_process(_delta):
+#	print(position)
+	
 	if Net.is_a_spectator:
 		visible = false
 		return
@@ -104,6 +106,9 @@ func _physics_process(_delta):
 	
 	var last_bunker = on_bunker
 	on_bunker = not on_road
+	
+	if bunker_type == BUNKER_TYPE_ROCK:
+		on_bunker = false
 	if on_bunker:
 		if bunker_type == BUNKER_TYPE_SNOW:
 			on_ice = true
@@ -128,6 +133,8 @@ func _physics_process(_delta):
 		extra_friction -= FRICTION * 0.9
 		extra_accel -= ACCELERATION * 0.65
 		extra_drag += SLIDING_DRAG / 4
+		if input_left or input_right:
+			extra_accel += ACCELERATION * 0.1
 	
 	if on_dirt:
 		start_drifting()
@@ -195,8 +202,6 @@ func _physics_process(_delta):
 			curr_speed = Global.pythagoras(velocity.x, velocity.y)
 		curr_speed -= FRICTION * sign(curr_speed)
 	
-	$Label.text = String.num(gear) + "\n" + String.num(round(curr_speed))
-	
 	if oil_covered or state_sliding: 
 		$car.material.set_shader_parameter("dim", Vector3(0.5, 0.5, 0.5))
 	elif state_drifting:
@@ -204,7 +209,6 @@ func _physics_process(_delta):
 	else:
 		$car.material.set_shader_parameter("dim", Vector3(1, 1, 1))
 	
-	$Label.visible = Global.debug_mode
 	$normal_rot.visible = Global.debug_mode
 	$last_coll_rot.visible = Global.debug_mode
 	$drifting_rot.visible = Global.debug_mode and state_drifting and not velocity == Vector2(0, 0)
