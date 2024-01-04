@@ -24,7 +24,7 @@ func _physics_process(_delta):
 		
 		car.start_sliding()
 		
-		car.boost(500 * global_scale.x, 1, direction)
+		car.boost(500 * global_scale.x, 1, direction, false)
 		$sprite.texture = text_active
 	
 	if boost_cooldown > 0:

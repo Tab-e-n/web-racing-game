@@ -11,9 +11,9 @@ var last_check_point : int = 0
 
 
 func _ready():
-	if not decorative:
+	$finish.region_rect.size = Vector2(width, 32)
+	if not decorative and not Engine.is_editor_hint():
 		(get_tree().current_scene as Gameplay).set("lap_count", lap_count)
-		$finish.region_rect.size = Vector2(width, 32)
 		call_deferred("set_monitoring", true)
 		call_deferred("set_monitorable", true)
 

@@ -24,39 +24,39 @@
 [ext_resource type="PackedScene" uid="uid://bt4r6c4xu6n25" path="res://Objects/GameplayObjects/tree.tscn" id="22_pvra6"]
 [ext_resource type="PackedScene" uid="uid://707rlj4yvb5x" path="res://Objects/GameplayObjects/shroom_brown.tscn" id="23_jqjuu"]
 
-[sub_resource type="Curve" id="Curve_oyfg0"]
+[sub_resource type="Curve" id="Curve_j5xu5"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.777778), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_6f4xb"]
+[sub_resource type="Curve" id="Curve_5jvxq"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.666667), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_o4x2d"]
+[sub_resource type="Curve" id="Curve_m0ff5"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.75), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_0lhf4"]
+[sub_resource type="Curve" id="Curve_pfjlf"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_swdur"]
+[sub_resource type="Curve" id="Curve_bjtab"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 3.33333), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_cvc77"]
+[sub_resource type="Curve" id="Curve_4f0jc"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2.04167), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_kohk0"]
+[sub_resource type="Curve" id="Curve_o6bof"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.680556), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_mkbcw"]
+[sub_resource type="Curve" id="Curve_3qe1g"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.33333), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_dyl2h"]
+[sub_resource type="Curve" id="Curve_e6614"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.6), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -76,7 +76,7 @@ width = 448.0
 position = Vector2(-424, -11648)
 points = PackedVector2Array(-152, 80, -344, -112)
 width = 576.0
-width_curve = SubResource("Curve_oyfg0")
+width_curve = SubResource("Curve_j5xu5")
 width_end = 448.0
 
 [node name="RoadIce" parent="." instance=ExtResource("4_h8lkg")]
@@ -88,7 +88,7 @@ width = 576.0
 position = Vector2(632, -10592)
 points = PackedVector2Array(-344, -112, -152, 80)
 width = 576.0
-width_curve = SubResource("Curve_6f4xb")
+width_curve = SubResource("Curve_5jvxq")
 width_end = 384.0
 
 [node name="Road3" parent="." instance=ExtResource("2_8kd3a")]
@@ -99,7 +99,7 @@ width = 384.0
 [node name="Road_Change3" parent="." instance=ExtResource("3_vix3h")]
 position = Vector2(-624, -6944)
 points = PackedVector2Array(-16, -16, 240, -784)
-width_curve = SubResource("Curve_o4x2d")
+width_curve = SubResource("Curve_m0ff5")
 width_end = 384.0
 
 [node name="Road4" parent="." instance=ExtResource("2_8kd3a")]
@@ -238,7 +238,7 @@ width = 1024.0
 position = Vector2(-2280, -1480)
 points = PackedVector2Array(552, -40, -664, -40)
 width = 1024.0
-width_curve = SubResource("Curve_0lhf4")
+width_curve = SubResource("Curve_pfjlf")
 
 [node name="Road2" parent="." instance=ExtResource("2_8kd3a")]
 position = Vector2(-3248, -1472)
@@ -259,7 +259,7 @@ width = 192.0
 position = Vector2(-1336, -112)
 points = PackedVector2Array(-8, -192, -456, -192)
 width = 96.0
-width_curve = SubResource("Curve_swdur")
+width_curve = SubResource("Curve_bjtab")
 width_end = 320.0
 
 [node name="Road5" parent="." instance=ExtResource("2_8kd3a")]
@@ -271,21 +271,21 @@ width = 96.0
 position = Vector2(-512, 3616)
 points = PackedVector2Array(0, -352, 0, -256)
 width = 96.0
-width_curve = SubResource("Curve_cvc77")
+width_curve = SubResource("Curve_4f0jc")
 width_end = 196.0
 
 [node name="Road_Change7" parent="." instance=ExtResource("3_vix3h")]
 position = Vector2(-512, 3600)
 points = PackedVector2Array(0, -144, 0, -240)
 width = 288.0
-width_curve = SubResource("Curve_kohk0")
+width_curve = SubResource("Curve_o6bof")
 width_end = 196.0
 
 [node name="Road_Change8" parent="." instance=ExtResource("3_vix3h")]
 position = Vector2(-512, 3600)
 points = PackedVector2Array(0, -144, 0, -48)
 width = 288.0
-width_curve = SubResource("Curve_mkbcw")
+width_curve = SubResource("Curve_3qe1g")
 width_end = 384.0
 
 [node name="tire_obstacle" parent="." instance=ExtResource("13_o83u6")]
@@ -438,7 +438,7 @@ width = 384.0
 position = Vector2(720, 6952)
 points = PackedVector2Array(-16, -296, -272, -424)
 width = 640.0
-width_curve = SubResource("Curve_dyl2h")
+width_curve = SubResource("Curve_e6614")
 width_end = 384.0
 
 [node name="RoadIce6" parent="." instance=ExtResource("4_h8lkg")]
@@ -1160,7 +1160,7 @@ rotation = 3.24191
 
 [node name="booster24" parent="." instance=ExtResource("4_awwri")]
 position = Vector2(-392, -3480)
-rotation = 6.90316
+rotation = 9.94836
 
 [node name="tire_obstacle6" parent="." instance=ExtResource("13_o83u6")]
 position = Vector2(1024, -11744)
