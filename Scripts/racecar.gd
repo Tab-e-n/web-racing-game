@@ -12,6 +12,7 @@ const TOP_SPEED : float = 690
 const TOP_SPEED_BACK : float = 200
 const GEAR_THRESHOLDS = [150, 275, 400, 500]
 const GEAR_ACC_DECREASE = [0, 1.6, 2.1, 2.4, 2.7]
+const GEAR_SWITCH_FRAMES : int = 30
 const BUNKER_DRAG : float = 4
 
 const TURN_SPEED_SLIDING : float = 0.04
@@ -151,8 +152,14 @@ func _physics_process(_delta):
 		extra_friction += FRICTION * 0.75
 	
 	if switching_gears_timer > 0:
-		switching_gears_timer -= 1
-		if switching_gears_timer == 0:
+		if input_left or input_right:
+			switching_gears_timer -= 1
+		else:
+			switching_gears_timer -= 2
+#		switching_gears_timer -= 1
+		
+		if switching_gears_timer <= 0:
+			switching_gears_timer = 0
 			gear = 0
 			for i in GEAR_THRESHOLDS:
 				if curr_speed > i:
@@ -173,7 +180,7 @@ func _physics_process(_delta):
 			if curr_speed > i:
 				expected_gear += 1
 		if expected_gear != gear:
-			switching_gears_timer = 30
+			switching_gears_timer = GEAR_SWITCH_FRAMES * 2
 	
 	$last_coll_rot.global_rotation = last_coll_rot
 	
