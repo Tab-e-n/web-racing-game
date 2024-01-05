@@ -2,6 +2,9 @@ class_name Racecar
 extends CharacterBody2D
 
 
+signal gear_shifting(new_gear, old_gear)
+
+
 const DEBUG_NO_EXIT_SLIDING = false
 
 const TURN_SPEED : float = 0.03
@@ -180,6 +183,7 @@ func _physics_process(_delta):
 			if curr_speed > i:
 				expected_gear += 1
 		if expected_gear != gear:
+			gear_shifting.emit(expected_gear, gear)
 			switching_gears_timer = GEAR_SWITCH_FRAMES * 2
 	
 	$last_coll_rot.global_rotation = last_coll_rot

@@ -31,6 +31,7 @@ shape = SubResource("CircleShape2D_egy1d")
 collision_layer = 2
 
 [node name="coll" type="CollisionShape2D" parent="stop"]
+z_index = 10
 shape = SubResource("CircleShape2D_mw2ub")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

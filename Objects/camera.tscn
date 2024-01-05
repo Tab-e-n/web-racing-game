@@ -88,14 +88,86 @@ bg_color = Color(0.25098, 0.25098, 0.25098, 0.752941)
 script/source = "extends Sprite2D
 
 
-# Called when the node enters the scene tree for the first time.
+var start_gear : int = 0
+var end_gear : int = 0
+
+var positions : PackedVector2Array = PackedVector2Array()
+
+
+@export var animation_frame : int = -1
+
+var self_anim : int = -1
+
 func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
 	pass
+
+
+func _physics_process(_delta):
+	if self_anim > -1:
+		self_anim -= 1
+		animation_frame = self_anim
+		update()
+
+
+func update():
+	if animation_frame >= 0 and animation_frame < positions.size():
+		#print(animation_frame, \" / \", positions.size())
+		visible = true
+		$lever.position = positions[positions.size() - animation_frame - 1]
+	else:
+		visible = false
+
+
+func self_update(frames : int):
+	self_anim = frames
+
+
+func new_gear_shift(_end : int, _start : int):
+	const FRAME_AMOUNT = Racecar.GEAR_SWITCH_FRAMES
+	
+	start_gear = _start
+	end_gear = _end
+	self_anim = 0
+	
+	#print(\"GEARS: \", start_gear, \" -> \", end_gear)
+	
+	var start_pos : Vector2 = determine_gear_position(start_gear)
+	var end_pos : Vector2 = determine_gear_position(end_gear)
+	
+	#print(\"POSITIONS: \", start_pos, \" -> \", end_pos)
+	
+	positions.resize(FRAME_AMOUNT)
+	
+	if start_gear == end_gear:
+		for i in range(FRAME_AMOUNT):
+			positions[i] = start_pos
+	elif start_pos.x == end_pos.x:
+		var y_difference : float = (end_pos.y - start_pos.y) / FRAME_AMOUNT
+		for i in range(FRAME_AMOUNT):
+			positions[i] = Vector2(start_pos.x, start_pos.y + y_difference * float(i))
+	else:
+		@warning_ignore(\"integer_division\")
+		var x_difference : float = (end_pos.x - start_pos.x) / (FRAME_AMOUNT / 3)
+		@warning_ignore(\"integer_division\")
+		var third_of_frames : int = FRAME_AMOUNT / 3
+		var leftovers : int = FRAME_AMOUNT - third_of_frames * 3
+		for i in range(third_of_frames):
+			@warning_ignore(\"integer_division\")
+			positions[i] = Vector2(start_pos.x, start_pos.y - (start_pos.y / (FRAME_AMOUNT / 3)) * float(i))
+		for i in range(third_of_frames):
+			positions[i + third_of_frames] = Vector2(start_pos.x + x_difference * float(i), 0)
+		for i in range(third_of_frames):
+			@warning_ignore(\"integer_division\")
+			positions[i + third_of_frames * 2] = Vector2(end_pos.x, (end_pos.y / (FRAME_AMOUNT / 3)) * float(i))
+		for i in range(leftovers):
+			positions[i + third_of_frames * 3] = end_pos
+
+func determine_gear_position(gear : int) -> Vector2:
+	gear += 1
+	if gear > 5 or gear < 0:
+		gear = 0
+	@warning_ignore(\"integer_division\")
+	return Vector2(-32 + (gear / 2) * 32, 24 * -((gear % 2) * 2 - 1))
 "
 
 [node name="camera" type="Camera2D"]
@@ -203,7 +275,7 @@ script = SubResource("GDScript_b08mx")
 layout_mode = 2
 columns = 3
 
-[node name="Speedometer" type="Control" parent="."]
+[node name="speedometer" type="Control" parent="."]
 self_modulate = Color(0.501961, 0.501961, 0.501961, 0.752941)
 clip_contents = true
 layout_mode = 3
@@ -214,20 +286,20 @@ offset_right = 496.0
 offset_bottom = 368.0
 script = SubResource("GDScript_x3ubt")
 
-[node name="speedmeter" type="Sprite2D" parent="Speedometer"]
+[node name="speedmeter" type="Sprite2D" parent="speedometer"]
 modulate = Color(0.501961, 0.501961, 0.501961, 0.878431)
 position = Vector2(156, 105)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_7ssi5")
 
-[node name="arrow" type="Sprite2D" parent="Speedometer"]
+[node name="arrow" type="Sprite2D" parent="speedometer"]
 modulate = Color(0.501961, 0.501961, 0.501961, 0.878431)
 position = Vector2(208, 208)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("7_bmmr8")
 offset = Vector2(-94, 0)
 
-[node name="speed" type="Label" parent="Speedometer"]
+[node name="speed" type="Label" parent="speedometer"]
 layout_mode = 0
 offset_left = -64.0
 offset_top = 128.0
@@ -317,7 +389,7 @@ text = "random"
 
 [node name="gearshift" type="Sprite2D" parent="."]
 visible = false
-self_modulate = Color(0.501961, 0.501961, 0.501961, 0.752941)
+self_modulate = Color(1, 1, 1, 0.752941)
 position = Vector2(224, 320)
 texture = ExtResource("8_huybx")
 script = SubResource("GDScript_yxgsp")

@@ -56,10 +56,12 @@ func _ready():
 			
 		start_button.connect("button_down", start.bind())
 		$choose_buttons.add_child(start_button)
+	
+	$"../Racecar".gear_shifting.connect(_on_gear_shifting)
 
 
 func _physics_process(_delta):
-	$Speedometer.visible = !Global.ui_hidden
+	$speedometer.visible = !Global.ui_hidden
 	$minimap.visible = !Global.ui_hidden
 	$score.visible = !Global.ui_hidden
 	$car_stats.visible = Global.debug_mode
@@ -112,7 +114,15 @@ func _physics_process(_delta):
 	$"car_stats/gear".text = "gear: " + str($"../Racecar".gear)
 	$"car_stats/speed".text = "speed: " + str(int($"../Racecar".curr_speed))
 	
-	$Speedometer.pixel_speed = $"../Racecar".curr_speed
+	$speedometer.pixel_speed = $"../Racecar".curr_speed
+	$gearshift.animation_frame = $"../Racecar".switching_gears_timer / 2 - 1
+	$gearshift.update()
+	if $"../Racecar".curr_speed < 0 and $gearshift.end_gear != -1:
+		$gearshift.new_gear_shift(-1, $gearshift.end_gear)
+		$gearshift.self_update(30)
+	if $"../Racecar".curr_speed >= 0 and $gearshift.end_gear == -1:
+		$gearshift.new_gear_shift(0, -1)
+		$gearshift.self_update(30)
 	
 
 func vote_button_pressed(vote):
@@ -168,3 +178,10 @@ func _on_gameplay_race_finished(final_time):
 	$score/timer.text = format_time(final_time)
 	race_finished = true
 	reset_fadeout.call()
+
+
+func _on_gear_shifting(new_gear : int, old_gear : int):
+	if $gearshift.end_gear == -1:
+		$gearshift.new_gear_shift(new_gear, -1)
+	else:
+		$gearshift.new_gear_shift(new_gear, old_gear)
