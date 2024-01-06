@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cue4ejtkpgggj"
-path="res://.godot/imported/tire_barricade.png-29293d277b16943377c1499f883fe6eb.ctex"
+path="res://.godot/imported/barricade_tire.png-5ab293dd39554b7634587be7e923a974.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/tire_barricade.png"
-dest_files=["res://.godot/imported/tire_barricade.png-29293d277b16943377c1499f883fe6eb.ctex"]
+source_file="res://Textures/barricade_tire.png"
+dest_files=["res://.godot/imported/barricade_tire.png-5ab293dd39554b7634587be7e923a974.ctex"]
 
 [params]
 

@@ -22,6 +22,7 @@ const VOTE_POSSIBILITIES : Dictionary = {
 	"Funny Ice Physics" : "funny_ice_physics.tscn",
 	"Bring Your Skis" : "skislope.tscn",
 	"Stinky Pete" : "stinky_pete.tscn",
+	"Scary Spooker" : "spooker.tscn",
 }
 const DEFAULT_TRACK : String = "Beginner Track"
 

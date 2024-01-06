@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci07ecf4ajcdk"]
+
+[ext_resource type="Texture2D" uid="uid://bdbwhadgeodoo" path="res://Textures/bones.png" id="1_3gajh"]
+
+[node name="bones" type="StaticBody2D"]
+collision_layer = 2
+
+[node name="vis" type="Sprite2D" parent="."]
+z_index = 30
+scale = Vector2(2, 2)
+texture = ExtResource("1_3gajh")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-8, 128, 8, 112, -16, 88, -32, 48, -40, -8, -24, -80, -8, -112, -8, -120, -24, -128, -48, -72, -56, -24, -48, 40, -40, 80, -24, 112)

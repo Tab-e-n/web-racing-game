@@ -247,8 +247,10 @@ grow_vertical = 2
 scale = Vector2(0.1, 0.1)
 
 [node name="opponents" type="Node2D" parent="minimap"]
+z_index = 1
 
 [node name="player" type="Sprite2D" parent="minimap"]
+z_index = 2
 texture = ExtResource("5_ubcii")
 offset = Vector2(0, -3)
 
