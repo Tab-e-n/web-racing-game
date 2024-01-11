@@ -20,13 +20,13 @@ func manage_opponents():
 		
 		if not has_node(String.num(i)):
 			var new_op : Sprite2D = Sprite2D.new()
-			new_op.texture = preload("res://Textures/placeholder_car_2.png")
+			new_op.texture = Palettes.CAR_MODELS[Net.players[i]["car_model"]]
 			new_op.name = String.num(i)
 			
 			new_op.material = ShaderMaterial.new()
 			new_op.material.shader = preload("res://Scripts/palette_replacer.gdshader")
 			var palette = Palettes.PALETTES[Net.players[i]["palette"]].duplicate()
-			new_op.material.set_shader_parameter("dim", Color.DARK_GRAY)
+			new_op.material.set_shader_parameter("dim", Color.GRAY)
 			new_op.material.set_shader_parameter("palette", palette)
 			new_op.material.set_shader_parameter("active", true)
 			
@@ -61,8 +61,10 @@ func animate_opponents():
 		op.rotation = car_data["rotation"]
 		op.position = car_data["position"]
 		if car_data["sliding"]:
-			op.material.set_shader_parameter("dim", Color.DARK_GRAY * Color(0.5, 0.5, 0.5))
+			op.material.set_shader_parameter("dim", Color.GRAY * Color(0.5, 0.5, 0.5))
+		if car_data["drifting"]:
+			op.material.set_shader_parameter("dim", Color.GRAY * Color(0.75, 0.75, 0.75))
 		else:
-			op.material.set_shader_parameter("dim", Color.DARK_GRAY * Color(1, 1, 1))
+			op.material.set_shader_parameter("dim", Color.GRAY * Color(1, 1, 1))
 		
 		op.get_node("name").rotation = -op.rotation
