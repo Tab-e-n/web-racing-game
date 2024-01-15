@@ -1,5 +1,18 @@
-# web-racing-game
-Školní projekt do ISc, závodní síťová hra
+# Webova Zavodni Hra
 
-Game engine: Godot
-Verze: 4.1.2
+Školní projekt do ISc. 2D zavodni hra ktera funguje na peer to peer, muze byt hrana solo.
+
+Game engine: Godot 4.1.2
+
+## Ovladani
+
+Sipka nahoru / W - Zrychlit
+Sipka dolu / S / Shift - Brzda / Reverse
+Sipka Doleva / A - Zataceni doleva
+Sipka Doprava / D - Zataceni doprava
+Esc - Opusteni hry
+
+## Exportovani Hry
+
+TBA
+
