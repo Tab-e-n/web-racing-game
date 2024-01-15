@@ -8,9 +8,15 @@ var current_track : Node2D = Node2D.new()
 var track_name : String = ""
 
 
+func _ready():
+	Net.map_changed.connect(change_track)
+	change_track(Net.current_track_name)
+
+
 func _physics_process(_delta):
-	if track_name != Net.current_track_name:
-		change_track(Net.current_track_name)
+	pass
+#	if track_name != Net.current_track_name:
+#		change_track(Net.current_track_name)
 
 
 func change_track(new_track_name : String):

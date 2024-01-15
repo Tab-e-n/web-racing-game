@@ -4,7 +4,7 @@ extends Node2D
 
 signal lap_finished(lap)
 signal race_started()
-signal race_finished(final_time)
+signal race_finished(final_time, lap)
 signal wrong_way()
 
 
@@ -63,8 +63,7 @@ func stop_race():
 	is_racing = false
 	timer_has_started = false
 	$Racecar.is_taking_inputs = false
-	$camera.start_vote() # premistil jsem ti funkci ha ha ha
-	# Tam kde si to dal predtim to sice fungovalo, ale bylo to moc zamotane
+	$camera.start_vote()
 
 
 func player_did_a_lap():
@@ -76,8 +75,8 @@ func player_did_a_lap():
 		lap_finished.emit(current_lap)
 		Net._on_lap_finished(race_timer, current_lap)
 	else:
-		race_finished.emit(race_timer)
-		Net._on_race_finished(race_timer)
+		race_finished.emit(race_timer, current_lap)
+		Net._on_race_finished(race_timer, current_lap)
 
 
 func _on_server_disconnect():

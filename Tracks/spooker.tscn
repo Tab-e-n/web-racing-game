@@ -1,0 +1,534 @@
+[gd_scene load_steps=28 format=3 uid="uid://d4juxp36gfxah"]
+
+[ext_resource type="PackedScene" uid="uid://d02i4pulhjd01" path="res://Objects/GameplayObjects/start_position.tscn" id="1_vdxp3"]
+[ext_resource type="PackedScene" uid="uid://dio5x6fxxcoph" path="res://Objects/GameplayObjects/finish_line.tscn" id="2_nbfbx"]
+[ext_resource type="PackedScene" uid="uid://ci07ecf4ajcdk" path="res://Objects/GameplayObjects/bones.tscn" id="3_0gydq"]
+[ext_resource type="PackedScene" uid="uid://b6m05hpjgeyco" path="res://Objects/GameplayObjects/checkpoint.tscn" id="3_7o3mc"]
+[ext_resource type="PackedScene" uid="uid://crhhi6k05yset" path="res://Objects/GameplayObjects/bumper_flat.tscn" id="4_7ntgq"]
+[ext_resource type="PackedScene" uid="uid://brh3e6yvtv2qy" path="res://Objects/GameplayObjects/skull.tscn" id="4_gpm5l"]
+[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="5_fbw55"]
+[ext_resource type="PackedScene" uid="uid://1qwa81sgmwrc" path="res://Objects/GameplayObjects/barricade_bones.tscn" id="5_vaap5"]
+[ext_resource type="PackedScene" uid="uid://6yax7px2ani7" path="res://Objects/GameplayObjects/road_dirt.tscn" id="6_l2j1n"]
+[ext_resource type="Texture2D" uid="uid://bpyirlrmsxdlk" path="res://Textures/crossroads_dirt.png" id="7_ohuqf"]
+[ext_resource type="PackedScene" uid="uid://707rlj4yvb5x" path="res://Objects/GameplayObjects/shroom_brown.tscn" id="7_vdhmu"]
+[ext_resource type="PackedScene" uid="uid://c0uv2mlwl4p5x" path="res://Objects/GameplayObjects/oil_2.tscn" id="9_yfuo5"]
+[ext_resource type="PackedScene" uid="uid://ciix74q2xv87b" path="res://Objects/GameplayObjects/oil_1.tscn" id="10_322h4"]
+[ext_resource type="PackedScene" uid="uid://bb6g37800oibm" path="res://Objects/GameplayObjects/oil_3.tscn" id="11_ve2i3"]
+[ext_resource type="PackedScene" uid="uid://dco3x8tspoty8" path="res://Objects/GameplayObjects/shroom_red.tscn" id="13_ld17j"]
+[ext_resource type="PackedScene" uid="uid://bjrfuokbebqih" path="res://Objects/GameplayObjects/booster.tscn" id="14_salw3"]
+[ext_resource type="Texture2D" uid="uid://cdm1lvpvag10h" path="res://Textures/snoozy.png" id="15_4erme"]
+[ext_resource type="Texture2D" uid="uid://glddkt3y6dl8" path="res://Textures/snoozing.png" id="16_sdcde"]
+[ext_resource type="Texture2D" uid="uid://cqv6dkwrx2wc0" path="res://Textures/shroom_2.png" id="17_7eleb"]
+[ext_resource type="PackedScene" uid="uid://b1tv587fjj38r" path="res://Objects/GameplayObjects/road.tscn" id="20_v1sle"]
+[ext_resource type="PackedScene" uid="uid://dk3wy4a4pb5la" path="res://Objects/GameplayObjects/road_width_change.tscn" id="21_3vlsd"]
+
+[sub_resource type="GDScript" id="GDScript_c7h6f"]
+script/source = "extends Sprite2D
+
+var timer : float = 0
+
+func _physics_process(delta):
+	timer += delta
+	if timer >= 1:
+		timer = 0
+		if frame == 2:
+			frame = 0
+		else:
+			frame += 1
+"
+
+[sub_resource type="Curve" id="Curve_3ldew"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ep2u3"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.6), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_3co7k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.66667), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_jrqob"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.714286), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_cqjur"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.857143), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Spooker" type="Node2D"]
+
+[node name="start_position" parent="." instance=ExtResource("1_vdxp3")]
+position = Vector2(-192, -48)
+rotation = 0.785398
+bunker_type = 3
+
+[node name="finish_line" parent="." instance=ExtResource("2_nbfbx")]
+position = Vector2(-51, -57)
+rotation = -2.32031
+width = 448
+
+[node name="checkpoint" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-333.754, 888.126)
+rotation = 0.523598
+
+[node name="checkpoint2" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-905.097, 1629.17)
+rotation = 1.309
+
+[node name="checkpoint3" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-1702.71, 1555.63)
+rotation = 2.09439
+
+[node name="checkpoint4" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-2703.98, 1663.11)
+rotation = 0.785397
+
+[node name="checkpoint13" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-3049.04, 2245.77)
+
+[node name="checkpoint5" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-3280.98, 2986.82)
+
+[node name="checkpoint6" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-3586.45, 3586.45)
+rotation = 0.785397
+
+[node name="checkpoint7" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-4129.5, 3891.92)
+rotation = 1.309
+
+[node name="checkpoint8" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-4723.47, 3795.75)
+rotation = 2.35619
+
+[node name="checkpoint9" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-4944.09, 3348.86)
+rotation = 3.14159
+
+[node name="checkpoint10" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-4768.73, 2969.85)
+rotation = 3.92699
+
+[node name="checkpoint11" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-4129.5, 2851.05)
+rotation = 4.97418
+
+[node name="checkpoint12" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-2901.97, 2596.5)
+rotation = 4.71238
+
+[node name="checkpoint14" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-1878.08, 2240.11)
+rotation = 4.97418
+
+[node name="checkpoint15" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(-650.537, 2019.5)
+rotation = 4.18878
+
+[node name="checkpoint16" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(401.636, 1159.66)
+rotation = 3.66519
+
+[node name="checkpoint17" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(678.823, -362.039)
+rotation = 3.92699
+
+[node name="checkpoint18" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(1023.89, -876.812)
+rotation = 2.35619
+
+[node name="checkpoint19" parent="finish_line" instance=ExtResource("3_7o3mc")]
+position = Vector2(418.607, -724.077)
+rotation = 0.785397
+
+[node name="barricade_bones" parent="." instance=ExtResource("5_vaap5")]
+position = Vector2(-320, -256)
+points = PackedVector2Array(2888, 224, 2800, 16, 2664, -248, 2512, -400, 2360, -488, 2208, -528, 2032, -552, 1880, -568, 1672, -568, 1416, -520, 1232, -480, 1064, -440, 856, -408, 648, -368, 496, -312, 336, -256, 184, -136, 72, -8, -24, 88, -216, 192, -392, 176, -544, 80, -736, 64, -880, 104)
+
+[node name="bumper_flat" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(56, -432)
+rotation = -1.309
+
+[node name="bumper_flat2" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(712, -248)
+rotation = 0.261799
+
+[node name="oil" parent="." instance=ExtResource("5_fbw55")]
+position = Vector2(1656, -448)
+
+[node name="RoadDirt" parent="." instance=ExtResource("6_l2j1n")]
+position = Vector2(2344, 256)
+points = PackedVector2Array(-104, -192, -40, -64, 144, 216, 400, 376, 824, 424, 1176, 320, 2328, -256, 2568, -328, 2848, -312, 3128, -248, 3384, -96, 3560, 128, 3608, 320, 3608, 352)
+width = 384.0
+
+[node name="RoadDirt2" parent="." instance=ExtResource("6_l2j1n")]
+position = Vector2(2344, 256)
+points = PackedVector2Array(3608, 352, 3608, 384, 3592, 568, 3472, 784, 3296, 896, 3144, 952, 3000, 952, 2864, 912, 2696, 824, 2576, 664, 2472, 472, 2328, 320, 1176, -256, 1032, -304, 840, -288, 704, -312, 600, -384, 536, -512)
+width = 384.0
+
+[node name="CrossroadsDirt" type="Sprite2D" parent="."]
+position = Vector2(4096, 288)
+rotation = 3.60634
+scale = Vector2(0.935, 0.935)
+skew = 0.633555
+texture = ExtResource("7_ohuqf")
+
+[node name="shroom_brown" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(2656, 160)
+rotation = 1.309
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_brown2" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(2888, 280)
+rotation = -0.785397
+
+[node name="shroom_brown3" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(2600, 32)
+rotation = -0.523598
+scale = Vector2(2, 2)
+
+[node name="shroom_brown4" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(2792, 200)
+rotation = -1.57079
+scale = Vector2(2, 2)
+
+[node name="skull" parent="." instance=ExtResource("4_gpm5l")]
+position = Vector2(5344, 576)
+scale = Vector2(3, 3)
+
+[node name="bumper_flat3" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(6144, 880)
+rotation = -1.309
+
+[node name="bumper_flat11" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(6032, 1112)
+rotation = -1.0472
+
+[node name="bumper_flat12" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(5832, 1296)
+rotation = -0.523598
+
+[node name="bumper_flat7" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(6176, 632)
+rotation = -1.57079
+
+[node name="bumper_flat8" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(6144, 408)
+rotation = -1.83259
+
+[node name="bumper_flat9" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(6032, 176)
+rotation = -2.21255
+
+[node name="bumper_flat10" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(5864, -7.99988)
+rotation = -2.47004
+
+[node name="bumper_flat6" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(5616, 1400)
+rotation = -0.387558
+
+[node name="bumper_flat13" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(5400, 1432)
+
+[node name="bumper_flat14" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(5168, 1392)
+rotation = 0.342826
+
+[node name="bumper_flat4" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(5568, -192)
+rotation = -2.72367
+
+[node name="bumper_flat5" parent="." instance=ExtResource("4_7ntgq")]
+position = Vector2(2936, 864)
+rotation = -3.02167
+
+[node name="oil2" parent="." instance=ExtResource("9_yfuo5")]
+position = Vector2(4240, 352)
+rotation = -2.35619
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_brown5" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(5168, 760)
+rotation = 0.785397
+
+[node name="shroom_brown6" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(5112, 304)
+rotation = 0.785397
+scale = Vector2(1.75, 1.75)
+
+[node name="shroom_brown7" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(4808, 304)
+rotation = -0.523598
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_brown8" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(5536, 448)
+rotation = -1.0472
+scale = Vector2(1.75, 1.75)
+
+[node name="shroom_brown9" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(3768, 832)
+rotation = -1.0472
+scale = Vector2(2, 2)
+
+[node name="shroom_brown10" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(4024, -95.9999)
+rotation = 0.523598
+scale = Vector2(1.75, 1.75)
+
+[node name="shroom_brown11" parent="." instance=ExtResource("7_vdhmu")]
+position = Vector2(4232, 712)
+rotation = 0.523598
+scale = Vector2(1.25, 1.25)
+
+[node name="oil3" parent="." instance=ExtResource("5_fbw55")]
+position = Vector2(2372, -602)
+
+[node name="oil4" parent="." instance=ExtResource("10_322h4")]
+position = Vector2(2728, -854)
+rotation = 0.523598
+
+[node name="oil5" parent="." instance=ExtResource("9_yfuo5")]
+position = Vector2(2352, -984)
+rotation = 0.785397
+
+[node name="oil6" parent="." instance=ExtResource("11_ve2i3")]
+position = Vector2(2176, -1088)
+
+[node name="oil7" parent="." instance=ExtResource("5_fbw55")]
+position = Vector2(1984, -848)
+rotation = -0.785397
+
+[node name="oil8" parent="." instance=ExtResource("10_322h4")]
+position = Vector2(1776, -1088)
+
+[node name="oil9" parent="." instance=ExtResource("5_fbw55")]
+position = Vector2(1480, -920)
+
+[node name="oil10" parent="." instance=ExtResource("11_ve2i3")]
+position = Vector2(1672, -1200)
+rotation = 0.785397
+
+[node name="oil11" parent="." instance=ExtResource("9_yfuo5")]
+position = Vector2(1328, -1048)
+rotation = 0.523598
+
+[node name="oil12" parent="." instance=ExtResource("10_322h4")]
+position = Vector2(1152, -1032)
+rotation = 0.261799
+
+[node name="oil13" parent="." instance=ExtResource("5_fbw55")]
+position = Vector2(1152, -1296)
+
+[node name="oil14" parent="." instance=ExtResource("11_ve2i3")]
+position = Vector2(856, -1112)
+rotation = -0.261799
+
+[node name="bones" parent="." instance=ExtResource("3_0gydq")]
+position = Vector2(-1664, -216)
+rotation = 13.09
+scale = Vector2(2, 2)
+
+[node name="bones2" parent="." instance=ExtResource("3_0gydq")]
+position = Vector2(-1592, 136)
+rotation = -0.785397
+scale = Vector2(2, 2)
+
+[node name="barricade_bones2" parent="." instance=ExtResource("5_vaap5")]
+position = Vector2(792, -864)
+points = PackedVector2Array(416, 56, 184, -56, 40, -104, -128, -104, -288, -88, -424, -32, -552, 32, -704, 168, -776, 272, -856, 416)
+
+[node name="shroom_red" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(216, -688)
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_red2" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(376, -792)
+rotation = 1.0472
+scale = Vector2(2, 2)
+
+[node name="shroom_red3" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(520, -728)
+rotation = -2.09439
+
+[node name="shroom_red4" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(768, -888)
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_red5" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(896, -824)
+rotation = 0.785397
+scale = Vector2(1.75, 1.75)
+
+[node name="shroom_red6" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(640, -824)
+rotation = 1.0472
+scale = Vector2(2, 2)
+
+[node name="shroom_red7" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(1280, -888)
+rotation = -0.785397
+scale = Vector2(3, 3)
+
+[node name="shroom_red8" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(1888, -1272)
+rotation = 1.0472
+scale = Vector2(2.5, 2.5)
+
+[node name="shroom_red18" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(-856, -576)
+rotation = -0.523598
+scale = Vector2(2.75, 2.75)
+
+[node name="shroom_red9" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(-1912, -256)
+rotation = -1.0472
+
+[node name="shroom_red10" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(-1664, 416)
+rotation = 0.785397
+scale = Vector2(2, 2)
+
+[node name="shroom_red17" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(1496, -192)
+rotation = 0.785397
+scale = Vector2(2.25, 2.25)
+
+[node name="barricade_bones3" parent="." instance=ExtResource("5_vaap5")]
+position = Vector2(200, 88)
+points = PackedVector2Array(-1632, 224, -1504, 224, -1384, 264, -1256, 368, -1088, 424, -928, 440, -728, 424, -520, 352, -328, 240, -56, 24, 240, -160, 504, -264, 640, -288, 944, -352, 1128, -440, 1288, -456, 1400, -440, 1504, -384, 1608, -288, 1688, -136, 1712, 0, 1744, 152, 1808, 296, 1904, 456, 1992, 600, 2104, 704, 2232, 792, 2480, 920, 2736, 960, 2984, 992, 3184, 976, 3416, 952, 3592, 928, 3800, 912, 4048, 912, 4240, 1032, 4328, 1152, 4464, 1320, 4584, 1424, 4752, 1480, 5000, 1536, 5272, 1552, 5536, 1512, 5744, 1440, 5912, 1288, 6000, 1144, 6096, 904, 6152, 632, 6136, 416, 6088, 176, 6016, 16, 5928, -120, 5800, -256, 5608, -424, 5448, -504, 5208, -576, 4936, -624, 4656, -640, 4448, -616, 4240, -552, 4096, -496, 3968, -440, 3848, -360, 3744, -360, 3640, -400, 3424, -520, 3272, -536, 3120, -520, 3024, -504, 2920, -600, 2832, -736, 2664, -936, 2456, -1128, 2304, -1216, 2080, -1304, 1896, -1352, 1824, -1464, 1624, -1512, 1480, -1440, 1256, -1480, 1032, -1520, 848, -1528, 664, -1528, 480, -1528, 272, -1504)
+
+[node name="skull2" parent="." instance=ExtResource("4_gpm5l")]
+position = Vector2(392, -1424)
+rotation = 0.261799
+scale = Vector2(2, 2)
+
+[node name="barricade_bones4" parent="." instance=ExtResource("5_vaap5")]
+position = Vector2(-704, -936)
+points = PackedVector2Array(-864, 488, -760, 432, -648, 392, -544, 384, -432, 392, -344, 424, -248, 472, -160, 528, -80, 544, 56, 496, 120, 424, 168, 312, 208, 144, 320, -32, 448, -144, 632, -256, 736, -304, 856, -368, 952, -408, 1048, -440)
+
+[node name="shroom_red11" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(-296, -424)
+rotation = 1.57079
+scale = Vector2(1.75, 1.75)
+
+[node name="shroom_red12" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(-320, -872)
+rotation = 1.0472
+
+[node name="shroom_red13" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(112, -896)
+rotation = -1.0472
+scale = Vector2(1.75, 1.75)
+
+[node name="shroom_red14" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(-792, 16)
+rotation = -2.87979
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_red15" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(-816, 184)
+rotation = 0.785397
+scale = Vector2(1.5, 1.5)
+
+[node name="shroom_red16" parent="." instance=ExtResource("13_ld17j")]
+position = Vector2(-832, 368)
+rotation = -2.09439
+scale = Vector2(1.5, 1.5)
+
+[node name="booster" parent="." instance=ExtResource("14_salw3")]
+position = Vector2(-720, 448)
+rotation = 1.309
+
+[node name="Snoozy" type="Sprite2D" parent="."]
+position = Vector2(2000, -1552)
+texture = ExtResource("15_4erme")
+
+[node name="Snoozing" type="Sprite2D" parent="."]
+position = Vector2(2032, -1584)
+texture = ExtResource("16_sdcde")
+hframes = 3
+script = SubResource("GDScript_c7h6f")
+
+[node name="Shroom2" type="Sprite2D" parent="."]
+position = Vector2(1960, -1592)
+texture = ExtResource("17_7eleb")
+
+[node name="Road" parent="." instance=ExtResource("20_v1sle")]
+visible = false
+position = Vector2(488, -856)
+points = PackedVector2Array(2392, 600, 2328, 472, 2192, 256, 2024, 88, 1840, -48, 1456, -184, 1056, -256, 792, -296, 496, -344, 256, -352, 64, -336, -240, -240, -496, -104, -680, 88, -744, 216)
+width = 384.0
+
+[node name="Road_Change" parent="." instance=ExtResource("21_3vlsd")]
+visible = false
+position = Vector2(-344, -448)
+points = PackedVector2Array(24, -64, 88, -192)
+width = 320.0
+width_curve = SubResource("Curve_3ldew")
+width_end = 384.0
+
+[node name="Road2" parent="." instance=ExtResource("20_v1sle")]
+visible = false
+position = Vector2(-432, -424)
+points = PackedVector2Array(112, -88, 48, 40, -32, 112, -144, 176, -208, 168)
+width = 320.0
+
+[node name="Road_Change2" parent="." instance=ExtResource("21_3vlsd")]
+visible = false
+position = Vector2(-760, -232)
+points = PackedVector2Array(120, -24, -8, -40)
+width = 320.0
+width_curve = SubResource("Curve_ep2u3")
+width_end = 192.0
+
+[node name="Road3" parent="." instance=ExtResource("20_v1sle")]
+visible = false
+position = Vector2(-880, -304)
+points = PackedVector2Array(112, 32, 48, 24, -47.7193, -11.9649, -80, -16)
+width = 192.0
+
+[node name="Road_Change3" parent="." instance=ExtResource("21_3vlsd")]
+visible = false
+position = Vector2(-1080, -272)
+points = PackedVector2Array(120, -48, -136, -80)
+width = 192.0
+width_curve = SubResource("Curve_3co7k")
+width_end = 320.0
+
+[node name="Road4" parent="." instance=ExtResource("20_v1sle")]
+visible = false
+position = Vector2(-1328, -360)
+points = PackedVector2Array(112, 8, 48, 0, -64, 32, -152, 88, -200, 136, -248, 208, -264, 248, -272, 312, -256, 368, -224, 408, -184, 448, -128, 480, -72, 480, 16, 480)
+width = 320.0
+
+[node name="Road_Change4" parent="." instance=ExtResource("21_3vlsd")]
+visible = false
+position = Vector2(-1112, 128)
+points = PackedVector2Array(24, -8, -200, -8)
+width = 448.0
+width_curve = SubResource("Curve_jrqob")
+width_end = 320.0
+
+[node name="Road5" parent="." instance=ExtResource("20_v1sle")]
+visible = false
+position = Vector2(-992, 112)
+points = PackedVector2Array(-96, 8, -72, 8, 16, 24, 104, 56, 264, 136, 392, 128, 592, 56, 888, -120, 1136, -352, 1424, -480, 1904, -584, 2016, -616, 2104, -640)
+width = 448.0
+
+[node name="Road_Change5" parent="." instance=ExtResource("21_3vlsd")]
+visible = false
+position = Vector2(1296, -520)
+points = PackedVector2Array(-184, -8, -96, -32)
+width = 448.0
+width_curve = SubResource("Curve_cqjur")
+width_end = 384.0
+
+[node name="Road6" parent="." instance=ExtResource("20_v1sle")]
+visible = false
+position = Vector2(1400, -560)
+points = PackedVector2Array(-200, 8, -112, -16, 80, -32, 360, 0, 520, 72, 688, 232, 736, 376, 808, 560, 840, 624)
+width = 384.0

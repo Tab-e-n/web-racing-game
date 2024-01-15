@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cue4ejtkpgggj"
-path="res://.godot/imported/tire_barricade.png-29293d277b16943377c1499f883fe6eb.ctex"
+uid="uid://dr6y7td741bbg"
+path="res://.godot/imported/gearshift_lever.png-f8163b88e8c994ef602ac8b44fe2026c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/tire_barricade.png"
-dest_files=["res://.godot/imported/tire_barricade.png-29293d277b16943377c1499f883fe6eb.ctex"]
+source_file="res://Textures/ui/gearshift_lever.png"
+dest_files=["res://.godot/imported/gearshift_lever.png-f8163b88e8c994ef602ac8b44fe2026c.ctex"]
 
 [params]
 

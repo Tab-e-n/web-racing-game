@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://crhhi6k05yset"]
+
+[ext_resource type="Script" path="res://Scripts/bumper_flat.gd" id="1_ybeve"]
+[ext_resource type="Texture2D" uid="uid://brr1eefv2euag" path="res://Textures/bumper_flat.png" id="2_6o0gu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_avbl7"]
+size = Vector2(144, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wttsd"]
+size = Vector2(132, 20)
+
+[node name="bumper_flat" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_ybeve")
+
+[node name="sprite" type="Sprite2D" parent="."]
+z_index = 10
+texture = ExtResource("2_6o0gu")
+
+[node name="coll" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_avbl7")
+
+[node name="stop" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="coll" type="CollisionShape2D" parent="stop"]
+shape = SubResource("RectangleShape2D_wttsd")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

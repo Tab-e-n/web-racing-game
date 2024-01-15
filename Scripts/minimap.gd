@@ -76,6 +76,7 @@ func _on_new_track_loaded(new_track : Node2D):
 			finish.position = node.position
 			finish.scale = node.scale
 			finish.offset.y = 16
+			finish.z_index = 1
 			finish.region_enabled = true
 			finish.region_rect.size = Vector2(node.width, 32)
 			$track.add_child(finish)

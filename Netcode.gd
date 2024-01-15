@@ -7,6 +7,7 @@ signal player_connected(peer_id)
 signal player_disconnected(peer_id)
 signal server_disconnected
 signal recieved_time(peer_id, time, lap)
+signal map_changed(map)
 
 const PORT = 7000
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
@@ -22,6 +23,7 @@ const VOTE_POSSIBILITIES : Dictionary = {
 	"Funny Ice Physics" : "funny_ice_physics.tscn",
 	"Bring Your Skis" : "skislope.tscn",
 	"Stinky Pete" : "stinky_pete.tscn",
+	"Scary Spooker" : "spooker.tscn",
 }
 const DEFAULT_TRACK : String = "Beginner Track"
 
@@ -87,6 +89,8 @@ func _ready():
 
 func _physics_process(delta):
 	if multiplayer.multiplayer_peer != null:
+		if Input.is_action_just_pressed("spectator"):
+			become_spectator()
 		if multiplayer.is_server() and gameplay_active:
 			get_car_data.rpc()
 			
@@ -108,6 +112,7 @@ func _physics_process(delta):
 			
 			if players_loaded.size() >= players_amount and not temp_start_countdown:
 				players_loaded = []
+				print("All have loaded")
 				start_countdown.rpc()
 			
 			if Input.is_action_just_pressed("F1") and temp_start_countdown:
@@ -165,7 +170,7 @@ func get_car_data():
 		send_car_data.rpc({})
 
 
-@rpc("any_peer", "call_remote", "unreliable")
+@rpc("any_peer", "call_local", "unreliable")
 func send_car_data(car_data : Dictionary):
 	var peer_id = multiplayer.get_remote_sender_id()
 	if players.has(peer_id):
@@ -177,7 +182,7 @@ func send_car_data(car_data : Dictionary):
 func send_game_info(game_info : Dictionary):
 	print("i got sent game info")
 	
-	current_track_name = game_info["track_name"]
+	change_map(game_info["track_name"])
 	if game_info["become_spectator"]:
 		become_spectator()
 	else:
@@ -197,10 +202,8 @@ func do_a_new_round():
 func change_map(track_name : String):
 	print("changing map: ", track_name)
 	
-	if track_name == current_track_name:
-		call_deferred("set", "current_track_name", track_name)
-		track_name = ""
 	current_track_name = track_name
+	map_changed.emit(current_track_name)
 	send_time.rpc(0, false, 0)
 	
 	become_player()
@@ -250,15 +253,16 @@ func send_time(time : float, done : bool, laps : int = -1):
 
 func check_player_finish():
 	for i in players:
+		print(i, " ", players[i]["finished"], " ", players[i]["car_data"])
 		if not players[i]["finished"] and not players[i]["car_data"].is_empty():
 			return
 	print("everyone finished")
 	end_race()
 
 
-func _on_race_finished(race_timer):
+func _on_race_finished(race_timer, lap):
 	print("i finished")
-	send_time.rpc(race_timer, true)
+	send_time.rpc(race_timer, true, lap)
 
 
 func _on_lap_finished(race_timer, lap):
@@ -325,6 +329,8 @@ func generate_vote_options():
 
 
 func end_race():
+	if vote_timer > 0:
+		return
 	print("race is over")
 	if multiplayer.is_server():
 		time_till_timeout = 0
@@ -378,11 +384,12 @@ func _register_player(new_player_info):
 
 func _on_player_disconnected(id):
 	players.erase(id)
-	player_disconnected.emit(id)
 	if multiplayer.is_server():
 		if players_loaded.find(id) != -1:
 			players_loaded.remove_at(players_loaded.find(id))
 		votes.erase(id)
+	player_disconnected.emit(id)
+	check_player_finish()
 	print("player ", id, " disconnected")
 
 

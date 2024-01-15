@@ -1,7 +1,7 @@
 extends Area2D
 
-var text_stand : Texture = preload("res://Textures/bumper.png")
-var text_active : Texture = preload("res://Textures/bumper_active.png")
+const TEXT_STAND : Texture = preload("res://Textures/bumper.png")
+const TEXT_ACTIVE : Texture = preload("res://Textures/bumper_active.png")
 
 var car : Racecar
 
@@ -24,13 +24,13 @@ func _physics_process(_delta):
 		
 		car.start_sliding()
 		
-		car.boost(500 * global_scale.x, 1, direction)
-		$sprite.texture = text_active
+		car.boost(500 * global_scale.x, 1, direction, false)
+		$sprite.texture = TEXT_ACTIVE
 	
 	if boost_cooldown > 0:
 		boost_cooldown -= 1
 		if boost_cooldown == 0:
-			$sprite.texture = text_stand
+			$sprite.texture = TEXT_STAND
 
 
 func _on_body_entered(body):

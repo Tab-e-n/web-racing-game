@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://brh3e6yvtv2qy"]
+
+[ext_resource type="Texture2D" uid="uid://dwrpwmcyx304" path="res://Textures/skull.png" id="1_2fp2u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hr7ap"]
+radius = 40.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f0bwp"]
+size = Vector2(58.7273, 54.1157)
+
+[node name="skull" type="StaticBody2D"]
+collision_layer = 2
+
+[node name="vis" type="Sprite2D" parent="."]
+z_index = 30
+scale = Vector2(2, 2)
+texture = ExtResource("1_2fp2u")
+
+[node name="coll" type="CollisionShape2D" parent="."]
+position = Vector2(-8, -8)
+shape = SubResource("CircleShape2D_hr7ap")
+
+[node name="coll2" type="CollisionShape2D" parent="."]
+position = Vector2(11.5991, 19.6976)
+rotation = 0.161048
+shape = SubResource("RectangleShape2D_f0bwp")

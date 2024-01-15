@@ -2,6 +2,9 @@ class_name Racecar
 extends CharacterBody2D
 
 
+signal gear_shifting(new_gear, old_gear)
+
+
 const DEBUG_NO_EXIT_SLIDING = false
 
 const TURN_SPEED : float = 0.03
@@ -12,10 +15,12 @@ const TOP_SPEED : float = 690
 const TOP_SPEED_BACK : float = 200
 const GEAR_THRESHOLDS = [150, 275, 400, 500]
 const GEAR_ACC_DECREASE = [0, 1.6, 2.1, 2.4, 2.7]
+const GEAR_SWITCH_FRAMES : int = 30
 const BUNKER_DRAG : float = 4
 
 const TURN_SPEED_SLIDING : float = 0.04
 const SLIDING_DRAG : float = 1.2
+const MAX_ICESLIDE_TURN_SPEED : float = 0.0125
 
 const TURN_SPEED_DRIFTING : float = 0.04
 const DRIFTING_SLIP_ANGLE : float = 60
@@ -49,6 +54,7 @@ var on_dirt : bool = false
 var on_bunker : bool = false
 
 var oil_covered : bool = false
+var iceslide : bool = false
 
 enum {BUNKER_TYPE_NORMAL, BUNKER_TYPE_SNOW, BUNKER_TYPE_DIRT, BUNKER_TYPE_ROCK}
 var bunker_type = BUNKER_TYPE_NORMAL
@@ -132,7 +138,7 @@ func _physics_process(_delta):
 		start_sliding()
 		extra_friction -= FRICTION * 0.9
 		extra_accel -= ACCELERATION * 0.65
-		extra_drag += SLIDING_DRAG / 4
+#		extra_drag += SLIDING_DRAG / 4
 		if input_left or input_right:
 			extra_accel += ACCELERATION * 0.1
 	
@@ -149,8 +155,14 @@ func _physics_process(_delta):
 		extra_friction += FRICTION * 0.75
 	
 	if switching_gears_timer > 0:
-		switching_gears_timer -= 1
-		if switching_gears_timer == 0:
+		if input_left or input_right:
+			switching_gears_timer -= 1
+		else:
+			switching_gears_timer -= 2
+#		switching_gears_timer -= 1
+		
+		if switching_gears_timer <= 0:
+			switching_gears_timer = 0
 			gear = 0
 			for i in GEAR_THRESHOLDS:
 				if curr_speed > i:
@@ -171,7 +183,8 @@ func _physics_process(_delta):
 			if curr_speed > i:
 				expected_gear += 1
 		if expected_gear != gear:
-			switching_gears_timer = 30
+			gear_shifting.emit(expected_gear, gear)
+			switching_gears_timer = GEAR_SWITCH_FRAMES * 2
 	
 	$last_coll_rot.global_rotation = last_coll_rot
 	
@@ -194,6 +207,7 @@ func _physics_process(_delta):
 			var angle_dist = rotation_distance(new_angle, rotation)
 			var angle_sign = rotation_sign(rotation, new_angle)
 			rotation += angle_dist * angle_sign * 0.05
+			drifting_real_direction = rotation
 	#		print(rotation_apply_percent)
 	#		print($last_coll_rot.global_rotation)
 		
@@ -333,6 +347,7 @@ func start_sliding():
 		var effect = effect_packed.instantiate()
 		effect.state = effect.STATE_SLIDING
 		add_sibling(effect)
+		iceslide = false
 	state_sliding = true
 	state_drifting = false
 
@@ -350,6 +365,19 @@ func physics_sliding():
 		velocity_sin = (velocity.x / pyth)
 		velocity_cos = (velocity.y / pyth)
 	
+	if (input_down or input_up) and on_ice and pyth >= GEAR_THRESHOLDS[0]:
+		iceslide = true
+	
+	if iceslide:
+		var rot_dist = rotation_distance(rotation, Global.incos(velocity_cos, velocity.x))
+		if rot_dist < PI*0.5 + TURN_SPEED_SLIDING * 6 and rot_dist > PI*0.5 - TURN_SPEED_SLIDING:
+			var iceslide_rotation : float = rotation
+			if rot_dist > PI * 0.5 + MAX_ICESLIDE_TURN_SPEED:
+				iceslide_rotation += (rot_dist - (PI * 0.5 + MAX_ICESLIDE_TURN_SPEED)) * rotation_sign(rotation, Global.incos(velocity_cos, velocity.x))
+			redirect_velocity(iceslide_rotation + PI * 0.5 * rotation_sign(rotation, Global.incos(velocity_cos, velocity.x)))
+		else:
+			iceslide = false
+	
 	if input_up or forced_accel:
 		if switching_gears_timer == 0:
 			velocity.x += sin(rotation) * (ACCELERATION + extra_accel)
@@ -366,7 +394,7 @@ func physics_sliding():
 		velocity.x -= sin(rotation) * (DECCELERATION + extra_accel)
 		velocity.y += cos(rotation) * (DECCELERATION + extra_accel)
 		
-		extra_drag += 3
+		extra_drag += 6
 	
 	
 	if (not input_up and not input_down) or not is_taking_inputs:
@@ -405,7 +433,7 @@ func apply_reductive_forces(vel : float, portion : float, friction : float, spee
 	return vel
 
 
-func boost(magnitude : float, drag : float, direction : float):
+func boost(magnitude : float, drag : float, direction : float, redirect_drift : bool = true):
 	if state_sliding:
 		var pyth = Global.pythagoras(velocity.x, velocity.y)
 		velocity.x += sin(direction) * magnitude / (1 + pyth / 1000 * drag)
@@ -413,8 +441,17 @@ func boost(magnitude : float, drag : float, direction : float):
 	else:
 		#print("b: ", direction, " r: ", rotation, " d: ", rotation_distance(direction, rotation))
 		curr_speed += ((PI/2) - rotation_distance(direction, rotation)) / (PI/2) * magnitude / (1 + abs(curr_speed) / 1000 * drag)
+	if state_drifting and redirect_drift:
+		redirect_velocity(rotation)
+
+
+func redirect_velocity(direction : float):
+	if state_sliding:
+		var pyth = Global.pythagoras(velocity.x, velocity.y)
+		velocity.x = sin(direction) * pyth
+		velocity.y = -cos(direction) * pyth
 	if state_drifting:
-		drifting_real_direction = rotation
+		drifting_real_direction = direction
 
 
 func wall_rotation_change(curr_rot : float, wall_rot : float):
@@ -488,6 +525,6 @@ func _on_race_started():
 	is_taking_inputs = true
 
 
-func _on_race_finished(_race_timer):
+func _on_race_finished(_race_timer, _lap):
 	is_taking_inputs = false
 	forced_brake = true
