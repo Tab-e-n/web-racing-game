@@ -146,8 +146,9 @@ func update_player_list(_peer_id = 1):
 			$players.remove_player(i)
 	
 	for player in Net.players.keys():
-		$players.player_list[player][1].text = format_time(Net.players[player]["time"])
-		$players.player_list[player][2].text = "lap: " + str(Net.players[player]["laps"])
+		if Net.players[player]["car_data"]:
+			$players.player_list[player][1].text = format_time(Net.players[player]["time"])
+			$players.player_list[player][2].text = "lap: " + str(Net.players[player]["laps"])
 
 
 func fade_out(node, fadeout_speed):
