@@ -111,9 +111,10 @@ func _physics_process(delta):
 					do_a_new_round()
 			
 			if players_loaded.size() >= players_amount and not temp_start_countdown:
-				players_loaded = []
-				print("All have loaded")
-				start_countdown.rpc()
+				if players_loaded.size():
+					players_loaded = []
+					print("All have loaded")
+					start_countdown.rpc()
 			
 			if Input.is_action_just_pressed("F1") and temp_start_countdown:
 				start_countdown.rpc()
