@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dn1lg4qayntvh"]
+
+[ext_resource type="Texture2D" uid="uid://c0ryndga1casu" path="res://Textures/track_ice.png" id="1_327ia"]
+[ext_resource type="Script" path="res://Scripts/road_width_change.gd" id="2_h1pum"]
+[ext_resource type="PackedScene" uid="uid://dhsm5kygcfgwi" path="res://Objects/GameplayObjects/ice.tscn" id="3_6wkw4"]
+
+[sub_resource type="Curve" id="Curve_63bbk"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Road_Change" type="Line2D"]
+points = PackedVector2Array(0, 0, 0, -256)
+width = 512.0
+width_curve = SubResource("Curve_63bbk")
+texture = ExtResource("1_327ia")
+texture_mode = 1
+script = ExtResource("2_h1pum")
+
+[node name="Terrain" parent="." instance=ExtResource("3_6wkw4")]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhsm5kygcfgwi"]
+
+[ext_resource type="Script" path="res://Scripts/ice.gd" id="1_go0ig"]
+
+[node name="Ice" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_go0ig")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

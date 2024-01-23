@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://lyehykqi5afp"]
+
+[ext_resource type="Script" path="res://Scripts/Breakable.gd" id="1_xaktx"]
+[ext_resource type="Texture2D" uid="uid://dasf88nbxb0tg" path="res://Textures/snowman.png" id="2_mvbb0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nfxg2"]
+radius = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vcwtq"]
+radius = 24.0
+
+[sub_resource type="GDScript" id="GDScript_03cmi"]
+script/source = "extends Sprite2D
+
+
+func bumped(body):
+	frame = 1
+	get_parent().rotation = Global.face_point(get_parent().position, body.position)
+"
+
+[node name="snowman" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_xaktx")
+
+[node name="coll" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nfxg2")
+
+[node name="bump_detection" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="coll" type="CollisionShape2D" parent="bump_detection"]
+shape = SubResource("CircleShape2D_vcwtq")
+
+[node name="sprite" type="Sprite2D" parent="."]
+z_index = 10
+rotation = 3.14159
+scale = Vector2(2, 2)
+texture = ExtResource("2_mvbb0")
+offset = Vector2(0, -16)
+hframes = 2
+script = SubResource("GDScript_03cmi")
+
+[connection signal="body_entered" from="bump_detection" to="." method="_on_bump_detection_body_entered"]

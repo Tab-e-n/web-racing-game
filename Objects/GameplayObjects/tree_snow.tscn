@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://vykx8dr8eciv"]
+
+[ext_resource type="Texture2D" uid="uid://ce3iqfvn74hpx" path="res://Textures/snow_tree.png" id="1_ng5t2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hr7ap"]
+radius = 16.0
+
+[node name="treesnow" type="StaticBody2D"]
+collision_layer = 2
+
+[node name="PlaceholderTree" type="Sprite2D" parent="."]
+z_index = 30
+texture = ExtResource("1_ng5t2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 30
+shape = SubResource("CircleShape2D_hr7ap")

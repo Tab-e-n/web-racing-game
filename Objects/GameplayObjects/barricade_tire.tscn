@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://82307qvrhkbc"]
+
+[ext_resource type="Texture2D" uid="uid://cue4ejtkpgggj" path="res://Textures/barricade_tire.png" id="1_fycpg"]
+[ext_resource type="Script" path="res://Scripts/tire_obstacle.gd" id="2_lrto4"]
+
+[node name="barricade_tire" type="Line2D"]
+z_index = 10
+width = 22.0
+texture = ExtResource("1_fycpg")
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 1
+end_cap_mode = 1
+script = ExtResource("2_lrto4")
+
+[node name="body" type="StaticBody2D" parent="."]
+collision_layer = 2

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0uv2mlwl4p5x"]
+
+[ext_resource type="PackedScene" uid="uid://cm7fsaqo11er" path="res://Objects/GameplayObjects/oil_0.tscn" id="1_ndajl"]
+[ext_resource type="Texture2D" uid="uid://l5wkf5866w7g" path="res://Textures/oil_2.png" id="2_mtcag"]
+
+[node name="oil" instance=ExtResource("1_ndajl")]
+
+[node name="sprite" parent="." index="0"]
+z_index = 10
+texture = ExtResource("2_mtcag")
+
+[node name="collision" parent="." index="1"]
+polygon = PackedVector2Array(-20, 0, -12, -12, 0, -16, 20, -4, 20, 4, 16, 12, 0, 16, -16, 16, -20, 8)

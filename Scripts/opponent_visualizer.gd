@@ -15,12 +15,36 @@ func manage_opponents():
 		if i == Net.multiplayer.get_unique_id():
 			continue
 		
+		if Net.players[i]["car_data"].is_empty():
+			continue
+		
 		if not has_node(String.num(i)):
 			var new_op : Sprite2D = Sprite2D.new()
-			new_op.texture = preload("res://Textures/placeholder_car.png")
+			new_op.texture = Palettes.CAR_MODELS[Net.players[i]["car_model"]]
 			new_op.name = String.num(i)
-			new_op.modulate = Color.DARK_GRAY
+			
+			new_op.material = ShaderMaterial.new()
+			new_op.material.shader = preload("res://Scripts/palette_replacer.gdshader")
+			var palette = Palettes.PALETTES[Net.players[i]["palette"]].duplicate()
+			new_op.material.set_shader_parameter("dim", Color.GRAY)
+			new_op.material.set_shader_parameter("palette", palette)
+			new_op.material.set_shader_parameter("active", true)
+			
 			add_child(new_op)
+			
+			var op_name : Label = Label.new()
+			op_name.name = "name"
+			op_name.text = Net.players[i]["name"]
+			
+			var stylebox : StyleBoxFlat = StyleBoxFlat.new()
+			stylebox.bg_color = Color(0, 0, 0, 0.3)
+			op_name.add_theme_stylebox_override("normal", stylebox)
+#
+#			op_name.pivot_offset = op_name.size / 2
+#			op_name.position = -op_name.size / 2
+			op_name.set_anchors_preset(Control.PRESET_TOP_LEFT)
+			
+			new_op.add_child(op_name)
 
 
 func animate_opponents():
@@ -29,13 +53,18 @@ func animate_opponents():
 			op.queue_free()
 			continue
 		
-		if not Net.players[int(String(op.name))].has("car_data"):
+		if Net.players[int(String(op.name))]["car_data"].is_empty():
+			op.queue_free()
 			continue
 		
 		var car_data = Net.players[int(String(op.name))]["car_data"]
-		op.rotation =  car_data["rotation"]
-		op.position =  car_data["position"]
+		op.rotation = car_data["rotation"]
+		op.position = car_data["position"]
 		if car_data["sliding"]:
-			op.self_modulate = Color(0.5, 0.5, 0.5)
+			op.material.set_shader_parameter("dim", Color.GRAY * Color(0.5, 0.5, 0.5))
+		if car_data["drifting"]:
+			op.material.set_shader_parameter("dim", Color.GRAY * Color(0.75, 0.75, 0.75))
 		else:
-			op.self_modulate = Color(1, 1, 1)
+			op.material.set_shader_parameter("dim", Color.GRAY * Color(1, 1, 1))
+		
+		op.get_node("name").rotation = -op.rotation

@@ -1,13 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://c64snpqm6f4ah"]
+[gd_scene load_steps=7 format=3 uid="uid://c64snpqm6f4ah"]
 
 [ext_resource type="PackedScene" uid="uid://d1u3cho1sh1kk" path="res://Objects/opponent_visualizer.tscn" id="1_0oath"]
 [ext_resource type="PackedScene" uid="uid://be2hnvy4ty6sv" path="res://Objects/track_loader.tscn" id="1_3amlh"]
 [ext_resource type="Script" path="res://Scripts/gameplay.gd" id="1_7u3yl"]
 [ext_resource type="PackedScene" uid="uid://dq4jcgjndycyl" path="res://Objects/racecar.tscn" id="1_po648"]
+[ext_resource type="PackedScene" uid="uid://cutjfvyumvl0a" path="res://Objects/bg.tscn" id="2_dcey2"]
 [ext_resource type="PackedScene" uid="uid://buw70a4g4fxay" path="res://Objects/camera.tscn" id="4_50n4o"]
 
 [node name="gameplay" type="Node2D"]
 script = ExtResource("1_7u3yl")
+
+[node name="BG" parent="." instance=ExtResource("2_dcey2")]
 
 [node name="track_loader" parent="." instance=ExtResource("1_3amlh")]
 
@@ -15,7 +18,7 @@ script = ExtResource("1_7u3yl")
 z_index = 20
 
 [node name="Racecar" parent="." instance=ExtResource("1_po648")]
-z_index = 20
 
 [node name="camera" parent="." instance=ExtResource("4_50n4o")]
-z_index = 100
+
+[connection signal="new_track_loaded" from="track_loader" to="." method="_on_new_track_loaded"]

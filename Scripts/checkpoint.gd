@@ -27,6 +27,8 @@ func _physics_process(_delta):
 func _on_body_entered(_body):
 	if finish.current_checkpoint == checkpoint_number - 1:
 		finish.current_checkpoint = checkpoint_number
+	if finish.current_checkpoint > checkpoint_number:
+		finish.wrong_way()
 #		print(checkpoint_number)
 #	else:
 #		print("wrong, ", checkpoint_number)

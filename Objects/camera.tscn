@@ -1,6 +1,402 @@
-[gd_scene load_steps=2 format=3 uid="uid://buw70a4g4fxay"]
+[gd_scene load_steps=16 format=3 uid="uid://buw70a4g4fxay"]
 
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="1_cdspg"]
+[ext_resource type="Texture2D" uid="uid://dbebh8lkvxccl" path="res://Textures/ui/countdown/3.png" id="2_sjpcv"]
+[ext_resource type="Texture2D" uid="uid://2b0bcrok4cvy" path="res://Textures/ui/on_finish_image.png" id="3_s1rd3"]
+[ext_resource type="Script" path="res://Scripts/minimap.gd" id="4_sn766"]
+[ext_resource type="Texture2D" uid="uid://bjhwo2vfwr6ja" path="res://Textures/ui/minimap_car.png" id="5_ubcii"]
+[ext_resource type="Texture2D" uid="uid://em4dcf42ttj4" path="res://Textures/ui/speedometer.png" id="6_7ssi5"]
+[ext_resource type="Texture2D" uid="uid://66ddhnxnadja" path="res://Textures/ui/speedometer_arrow.png" id="7_bmmr8"]
+[ext_resource type="Texture2D" uid="uid://0ed4y2j03elv" path="res://Textures/ui/gearshift.png" id="8_huybx"]
+[ext_resource type="Texture2D" uid="uid://dr6y7td741bbg" path="res://Textures/ui/gearshift_lever.png" id="9_wb3c8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vl44o"]
+bg_color = Color(0.443137, 0.443137, 0.443137, 1)
+
+[sub_resource type="GDScript" id="GDScript_4inib"]
+script/source = "extends Label
+
+func _physics_process(_delta):
+	visible = not get_parent().get_parent().countdown_has_started and not Net.is_a_spectator and not Net.temp_start_countdown
+"
+
+[sub_resource type="GDScript" id="GDScript_b08mx"]
+script/source = "extends Panel
+
+
+var player_list = {
+	
+}
+
+
+func _ready():
+	pass
+
+func add_player(id: int, _name : String):
+	var label_name = Label.new()
+	label_name.text = _name
+	$grid.add_child(label_name)
+	
+	var label_time = Label.new()
+	$grid.add_child(label_time)
+	
+	var label_laps = Label.new()
+	$grid.add_child(label_laps)
+	
+	player_list[id] = [label_name, label_time, label_laps]
+
+
+func remove_player(id: int):
+	for i in player_list[id]:
+		i.queue_free()
+	player_list.erase(id)
+"
+
+[sub_resource type="GDScript" id="GDScript_x3ubt"]
+script/source = "extends Control
+
+
+const PIXEL_TO_KMH_CONVERSION : float = 0.2107
+const MAX_ANGLE_CHANGE_PER_FRAME : float = 1.5
+
+@export var pixel_speed : float = 0
+
+var kmh : float = 0
+
+
+func _physics_process(_delta):
+	kmh = abs(pixel_speed * PIXEL_TO_KMH_CONVERSION)
+	
+	
+	var new_angle = kmh / 3
+	if abs($arrow.rotation_degrees - new_angle) <= 1:
+		$arrow.rotation_degrees = new_angle
+	else:
+		$arrow.rotation_degrees += 1 * sign(new_angle - $arrow.rotation_degrees)
+	
+	var visual_kmh = $arrow.rotation_degrees * 3
+	
+	var text_scale = 0.5 + 0.5 * (visual_kmh / 400)
+	$speed.scale = Vector2(text_scale, text_scale)
+	$speed.text = str(round(visual_kmh)) + \" kmh\"
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s3ef4"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 0.752941)
+
+[sub_resource type="GDScript" id="GDScript_yxgsp"]
+script/source = "extends Sprite2D
+
+
+var start_gear : int = 0
+var end_gear : int = 0
+
+var positions : PackedVector2Array = PackedVector2Array()
+
+
+@export var animation_frame : int = -1
+
+var self_anim : int = -1
+
+func _ready():
+	pass
+
+
+func _physics_process(_delta):
+	if self_anim > -1:
+		self_anim -= 1
+		animation_frame = self_anim
+		update()
+
+
+func update():
+	if animation_frame >= 0 and animation_frame < positions.size():
+		#print(animation_frame, \" / \", positions.size())
+		visible = true
+		$lever.position = positions[positions.size() - animation_frame - 1]
+	else:
+		visible = false
+
+
+func self_update(frames : int):
+	self_anim = frames
+
+
+func new_gear_shift(_end : int, _start : int):
+	const FRAME_AMOUNT = Racecar.GEAR_SWITCH_FRAMES
+	
+	start_gear = _start
+	end_gear = _end
+	self_anim = 0
+	
+	#print(\"GEARS: \", start_gear, \" -> \", end_gear)
+	
+	var start_pos : Vector2 = determine_gear_position(start_gear)
+	var end_pos : Vector2 = determine_gear_position(end_gear)
+	
+	#print(\"POSITIONS: \", start_pos, \" -> \", end_pos)
+	
+	positions.resize(FRAME_AMOUNT)
+	
+	if start_gear == end_gear:
+		for i in range(FRAME_AMOUNT):
+			positions[i] = start_pos
+	elif start_pos.x == end_pos.x:
+		var y_difference : float = (end_pos.y - start_pos.y) / FRAME_AMOUNT
+		for i in range(FRAME_AMOUNT):
+			positions[i] = Vector2(start_pos.x, start_pos.y + y_difference * float(i))
+	else:
+		@warning_ignore(\"integer_division\")
+		var x_difference : float = (end_pos.x - start_pos.x) / (FRAME_AMOUNT / 3)
+		@warning_ignore(\"integer_division\")
+		var third_of_frames : int = FRAME_AMOUNT / 3
+		var leftovers : int = FRAME_AMOUNT - third_of_frames * 3
+		for i in range(third_of_frames):
+			@warning_ignore(\"integer_division\")
+			positions[i] = Vector2(start_pos.x, start_pos.y - (start_pos.y / (FRAME_AMOUNT / 3)) * float(i))
+		for i in range(third_of_frames):
+			positions[i + third_of_frames] = Vector2(start_pos.x + x_difference * float(i), 0)
+		for i in range(third_of_frames):
+			@warning_ignore(\"integer_division\")
+			positions[i + third_of_frames * 2] = Vector2(end_pos.x, (end_pos.y / (FRAME_AMOUNT / 3)) * float(i))
+		for i in range(leftovers):
+			positions[i + third_of_frames * 3] = end_pos
+
+func determine_gear_position(gear : int) -> Vector2:
+	gear += 1
+	if gear > 5 or gear < 0:
+		gear = 0
+	@warning_ignore(\"integer_division\")
+	return Vector2(-32 + (gear / 2) * 32, 24 * -((gear % 2) * 2 - 1))
+"
 
 [node name="camera" type="Camera2D"]
+z_index = 100
 script = ExtResource("1_cdspg")
+
+[node name="countdown" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -125.0
+offset_right = 225.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_sjpcv")
+
+[node name="on_finish_image" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -125.0
+offset_right = 225.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_s1rd3")
+
+[node name="score" type="VBoxContainer" parent="."]
+offset_left = 359.0
+offset_top = -371.0
+offset_right = 501.0
+offset_bottom = -297.0
+
+[node name="timer" type="LineEdit" parent="score"]
+layout_mode = 2
+text = "time: 00:00:00"
+editable = false
+context_menu_enabled = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+
+[node name="lap_count" type="LineEdit" parent="score"]
+layout_mode = 2
+text = "lap: 0 / 0"
+editable = false
+
+[node name="minimap" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -496.0
+offset_top = 144.0
+offset_right = -272.0
+offset_bottom = 368.0
+script = ExtResource("4_sn766")
+
+[node name="track" type="Control" parent="minimap"]
+modulate = Color(0.501961, 0.501961, 0.501961, 0.878431)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -96.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+
+[node name="opponents" type="Node2D" parent="minimap"]
+z_index = 1
+
+[node name="player" type="Sprite2D" parent="minimap"]
+z_index = 2
+texture = ExtResource("5_ubcii")
+offset = Vector2(0, -3)
+
+[node name="waiting" type="Label" parent="."]
+offset_left = -96.0
+offset_top = -40.0
+offset_right = 96.0
+offset_bottom = 38.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vl44o")
+text = "WAITING FOR THE
+COUNTDOWN TO START."
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_4inib")
+
+[node name="players" type="Panel" parent="."]
+offset_left = -256.0
+offset_top = -192.0
+offset_right = 256.0
+offset_bottom = 192.0
+script = SubResource("GDScript_b08mx")
+
+[node name="grid" type="GridContainer" parent="players"]
+layout_mode = 2
+columns = 3
+
+[node name="speedometer" type="Control" parent="."]
+self_modulate = Color(0.501961, 0.501961, 0.501961, 0.752941)
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 272.0
+offset_top = 144.0
+offset_right = 496.0
+offset_bottom = 368.0
+script = SubResource("GDScript_x3ubt")
+
+[node name="speedmeter" type="Sprite2D" parent="speedometer"]
+modulate = Color(0.501961, 0.501961, 0.501961, 0.878431)
+position = Vector2(156, 105)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("6_7ssi5")
+
+[node name="arrow" type="Sprite2D" parent="speedometer"]
+modulate = Color(0.501961, 0.501961, 0.501961, 0.878431)
+position = Vector2(208, 208)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("7_bmmr8")
+offset = Vector2(-94, 0)
+
+[node name="speed" type="Label" parent="speedometer"]
+layout_mode = 0
+offset_left = -64.0
+offset_top = 128.0
+offset_right = 224.0
+offset_bottom = 224.0
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(288, 96)
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_s3ef4")
+text = "333 kmh"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="car_stats" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.0
+offset_top = 268.0
+offset_right = 106.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="gear" type="Label" parent="car_stats"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "gear 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="speed" type="Label" parent="car_stats"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "speed: 0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="choose_buttons" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.5
+offset_top = -247.0
+offset_right = 120.5
+offset_bottom = 247.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="vote_buttons" type="HBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -366.0
+offset_top = -296.0
+offset_right = 366.0
+offset_bottom = -202.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="b1" type="Button" parent="vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b2" type="Button" parent="vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b3" type="Button" parent="vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="b4" type="Button" parent="vote_buttons"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "random"
+
+[node name="gearshift" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.752941)
+position = Vector2(224, 320)
+texture = ExtResource("8_huybx")
+script = SubResource("GDScript_yxgsp")
+
+[node name="lever" type="Sprite2D" parent="gearshift"]
+self_modulate = Color(0.25098, 0.25098, 0.25098, 1)
+position = Vector2(-32, -24)
+texture = ExtResource("9_wb3c8")

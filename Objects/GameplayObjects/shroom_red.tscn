@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dco3x8tspoty8"]
+
+[ext_resource type="Texture2D" uid="uid://cqv6dkwrx2wc0" path="res://Textures/shroom_2.png" id="1_8psbo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hr7ap"]
+radius = 16.0
+
+[node name="shroom_red" type="StaticBody2D"]
+collision_layer = 2
+
+[node name="PlaceholderTree" type="Sprite2D" parent="."]
+z_index = 30
+texture = ExtResource("1_8psbo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 30
+shape = SubResource("CircleShape2D_hr7ap")

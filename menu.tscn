@@ -1,0 +1,316 @@
+[gd_scene load_steps=10 format=3 uid="uid://c6et65lkb71bw"]
+
+[ext_resource type="Script" path="res://Scripts/ui.gd" id="1_roakc"]
+[ext_resource type="Shader" path="res://Scripts/palette_replacer.gdshader" id="2_alo6u"]
+[ext_resource type="Texture2D" uid="uid://kclfnxuhqon6" path="res://Textures/ui/bg.png" id="2_kg0db"]
+[ext_resource type="Texture2D" uid="uid://bd6gdv87lwgyk" path="res://Textures/ui/title.png" id="3_1fkfy"]
+[ext_resource type="Texture2D" uid="uid://br0nljrw10p7m" path="res://Textures/car_1_unsymmetry.png" id="3_6jf3t"]
+[ext_resource type="Texture2D" uid="uid://bsq2mo5ls7qy1" path="res://Textures/ui/arrow.png" id="3_jdehj"]
+
+[sub_resource type="GDScript" id="GDScript_gc13d"]
+script/source = "extends Control
+
+var car_models = []
+var car_palettes = []
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var lines : int = 10
+	@warning_ignore(\"integer_division\")
+	var offset : int = (Palettes.CAR_MODELS.size() - 1) / lines + 1
+	
+	@warning_ignore(\"integer_division\")
+	size.x = offset * 48 + int((Palettes.PALETTES.size() - 1) / lines + 1) * 96
+	size.y = 480
+	
+	for i in range(Palettes.CAR_MODELS.size()):
+		var button = Button.new()
+		button.size = Vector2(48, 96)
+		@warning_ignore(\"integer_division\")
+		button.position.y = i / (lines / 2) * 48
+		@warning_ignore(\"integer_division\")
+		button.position.y = i % (lines / 2) * 96
+		button.pressed.connect(_on_model_pressed.bind(i))
+		button.self_modulate.a = 0
+		
+		add_child(button)
+		
+		var sprite = Sprite2D.new()
+		sprite.texture = Palettes.CAR_MODELS[i]
+		sprite.position.x = 24
+		sprite.position.y = 48
+		sprite.material = ShaderMaterial.new()
+		sprite.material.shader = preload(\"res://Scripts/palette_replacer.gdshader\")
+		sprite.material.set_shader_parameter(\"palette\", Palettes.PALETTES[Net.player_info[\"palette\"]].duplicate())
+		sprite.material.set_shader_parameter(\"active\", true)
+		
+		button.add_child(sprite)
+		
+		car_models.append(sprite)
+	
+	for i in Palettes.PALETTES.keys():
+		var button = Button.new()
+		button.size = Vector2(96, 48)
+		button.position.x = i / lines * 96 + offset * 48
+		button.position.y = i % lines * 48
+		button.pressed.connect(_on_palette_pressed.bind(i))
+		button.self_modulate.a = 0
+		
+		add_child(button)
+		
+		var sprite = Sprite2D.new()
+		sprite.texture = Palettes.CAR_MODELS[Net.player_info[\"car_model\"]]
+		sprite.position.x = 48
+		sprite.position.y = 24
+		sprite.rotation_degrees = 90
+		sprite.material = ShaderMaterial.new()
+		sprite.material.shader = preload(\"res://Scripts/palette_replacer.gdshader\")
+		sprite.material.set_shader_parameter(\"palette\", Palettes.PALETTES[i].duplicate())
+		sprite.material.set_shader_parameter(\"active\", true)
+		
+		button.add_child(sprite)
+		
+		car_palettes.append(sprite)
+
+
+func update():
+	for spr in car_models:
+		spr.material.set_shader_parameter(\"palette\", Palettes.PALETTES[Net.player_info[\"palette\"]].duplicate())
+	for spr in car_palettes:
+		spr.texture = Palettes.CAR_MODELS[Net.player_info[\"car_model\"]]
+
+func _on_palette_pressed(palette):
+	Net.player_info[\"palette\"] = palette
+	
+	for spr in car_models:
+		spr.material.set_shader_parameter(\"palette\", Palettes.PALETTES[palette].duplicate())
+
+
+func _on_model_pressed(model):
+	Net.player_info[\"car_model\"] = model
+	
+	for spr in car_palettes:
+		spr.texture = Palettes.CAR_MODELS[model]
+"
+
+[sub_resource type="GDScript" id="GDScript_dgwyt"]
+script/source = "extends Control
+
+
+func _ready():
+	update()
+
+func update():
+	$car.texture = Palettes.CAR_MODELS[Net.player_info[\"car_model\"]]
+	$car.material.set_shader_parameter(\"palette\", Palettes.PALETTES[Net.player_info[\"palette\"]].duplicate())
+
+
+func _on_model_changed(i : int):
+	Net.player_info[\"car_model\"] += i
+	if Net.player_info[\"car_model\"] < 0:
+		Net.player_info[\"car_model\"] = Palettes.CAR_MODELS.size() - 1
+	if Net.player_info[\"car_model\"] >= Palettes.CAR_MODELS.size():
+		Net.player_info[\"car_model\"] = 0
+	
+	$car.texture = Palettes.CAR_MODELS[Net.player_info[\"car_model\"]]
+	
+
+func _on_palette_changed(i : int):
+	Net.player_info[\"palette\"] += i
+	if Net.player_info[\"palette\"] < 0:
+		Net.player_info[\"palette\"] = Palettes.PALETTES.size() - 1
+	if Net.player_info[\"palette\"] >= Palettes.PALETTES.size():
+		Net.player_info[\"palette\"] = 0
+	
+	$car.material.set_shader_parameter(\"palette\", Palettes.PALETTES[Net.player_info[\"palette\"]].duplicate())
+
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4b24k"]
+shader = ExtResource("2_alo6u")
+shader_parameter/active = true
+shader_parameter/palette = null
+shader_parameter/dim = Vector3(1, 1, 1)
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_roakc")
+
+[node name="Bg" type="Sprite2D" parent="."]
+modulate = Color(0.615686, 0.615686, 0.615686, 1)
+position = Vector2(512.5, 383.5)
+scale = Vector2(3.78889, 4.74691)
+texture = ExtResource("2_kg0db")
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(512, 104)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_1fkfy")
+
+[node name="create_button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = -24.0
+offset_right = -256.0
+offset_bottom = 16.0
+grow_horizontal = 2
+text = "Create game"
+
+[node name="join_button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = 32.0
+offset_right = -256.0
+offset_bottom = 72.0
+grow_horizontal = 2
+text = "Join game"
+
+[node name="name_line" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = -128.0
+offset_right = -253.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+placeholder_text = "Name"
+
+[node name="ip_line" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = -80.0
+offset_right = -253.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 2
+placeholder_text = "IP address"
+
+[node name="palette_expanded" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -128.0
+offset_right = -128.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_gc13d")
+
+[node name="car_button" type="Button" parent="palette_expanded"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = -18.0
+offset_top = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "X"
+
+[node name="palette_small" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -128.0
+offset_right = -152.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_dgwyt")
+
+[node name="car_button" type="Button" parent="palette_small"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -20.0
+offset_right = 68.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="car" type="Sprite2D" parent="palette_small"]
+material = SubResource("ShaderMaterial_4b24k")
+position = Vector2(64, 48)
+texture = ExtResource("3_6jf3t")
+
+[node name="mode_less" type="TextureButton" parent="palette_small"]
+modulate = Color(0, 0, 0, 0.392157)
+layout_mode = 0
+offset_top = 8.0
+offset_right = 32.0
+offset_bottom = 40.0
+texture_normal = ExtResource("3_jdehj")
+
+[node name="mode_more" type="TextureButton" parent="palette_small"]
+modulate = Color(0, 0, 0, 0.392157)
+layout_mode = 0
+offset_left = 96.0
+offset_top = 8.0
+offset_right = 128.0
+offset_bottom = 40.0
+texture_normal = ExtResource("3_jdehj")
+flip_h = true
+
+[node name="palette_less" type="TextureButton" parent="palette_small"]
+modulate = Color(0, 0, 0, 0.392157)
+layout_mode = 0
+offset_top = 56.0
+offset_right = 32.0
+offset_bottom = 88.0
+texture_normal = ExtResource("3_jdehj")
+
+[node name="palette_more" type="TextureButton" parent="palette_small"]
+modulate = Color(0, 0, 0, 0.392157)
+layout_mode = 0
+offset_left = 96.0
+offset_top = 56.0
+offset_right = 128.0
+offset_bottom = 88.0
+texture_normal = ExtResource("3_jdehj")
+flip_h = true
+
+[connection signal="pressed" from="create_button" to="." method="_on_create_button_pressed"]
+[connection signal="pressed" from="join_button" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="palette_expanded/car_button" to="." method="_on_car_button_pressed"]
+[connection signal="pressed" from="palette_small/car_button" to="." method="_on_car_button_pressed"]
+[connection signal="pressed" from="palette_small/mode_less" to="palette_small" method="_on_model_changed" binds= [-1]]
+[connection signal="pressed" from="palette_small/mode_more" to="palette_small" method="_on_model_changed" binds= [1]]
+[connection signal="pressed" from="palette_small/palette_less" to="palette_small" method="_on_palette_changed" binds= [-1]]
+[connection signal="pressed" from="palette_small/palette_more" to="palette_small" method="_on_palette_changed" binds= [1]]
