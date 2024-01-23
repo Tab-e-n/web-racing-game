@@ -61,9 +61,9 @@ func _ready():
 
 
 func _physics_process(_delta):
-	$speedometer.visible = !Global.ui_hidden
-	$minimap.visible = !Global.ui_hidden
-	$score.visible = !Global.ui_hidden
+	$speedometer.visible = !(Global.ui_hidden or Net.is_a_spectator)
+	$minimap.visible = !(Global.ui_hidden or Net.is_a_spectator)
+	$score.visible = !(Global.ui_hidden or Net.is_a_spectator)
 	$car_stats.visible = Global.debug_mode
 	
 	if Net.is_a_spectator:
@@ -134,9 +134,9 @@ func choose_button_pressed(map):
 
 
 func update_player_list_time(_peer_id, _time, _laps):
-	update_player_list()
+	update_player_list(_peer_id)
 
-func update_player_list():
+func update_player_list(_peer_id = 1):
 	#print(player_list)
 	for i in Net.players.keys():
 		if not $players.player_list.has(i):
@@ -146,8 +146,9 @@ func update_player_list():
 			$players.remove_player(i)
 	
 	for player in Net.players.keys():
-		$players.player_list[player][1].text = format_time(Net.players[player]["time"])
-		$players.player_list[player][2].text = "lap: " + str(Net.players[player]["laps"])
+		if Net.players[player]["car_data"]:
+			$players.player_list[player][1].text = format_time(Net.players[player]["time"])
+			$players.player_list[player][2].text = "lap: " + str(Net.players[player]["laps"])
 
 
 func fade_out(node, fadeout_speed):
@@ -173,7 +174,7 @@ func start_vote():
 		$vote_buttons.get_child(i).text = Net.vote_options[i]
 
 
-func _on_gameplay_race_finished(final_time):
+func _on_gameplay_race_finished(final_time, _lap):
 	$on_finish_image.modulate.a = 1
 	$score/timer.text = format_time(final_time)
 	race_finished = true

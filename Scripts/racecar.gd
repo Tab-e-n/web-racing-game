@@ -207,6 +207,7 @@ func _physics_process(_delta):
 			var angle_dist = rotation_distance(new_angle, rotation)
 			var angle_sign = rotation_sign(rotation, new_angle)
 			rotation += angle_dist * angle_sign * 0.05
+			drifting_real_direction = rotation
 	#		print(rotation_apply_percent)
 	#		print($last_coll_rot.global_rotation)
 		
@@ -524,6 +525,6 @@ func _on_race_started():
 	is_taking_inputs = true
 
 
-func _on_race_finished(_race_timer):
+func _on_race_finished(_race_timer, _lap):
 	is_taking_inputs = false
 	forced_brake = true
