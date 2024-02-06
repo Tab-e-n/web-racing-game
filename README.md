@@ -14,5 +14,10 @@ Game engine: Godot 4.1.2
 
 ## Exportovani Hry
 
-TBA
+Stáhněte si Godot 4.1.2, otevřte si ho a naimportujte projekt.
+Poté, v levém horním rohu editoru klikněte na "Projekt" a pak "Exportovat...".
+V novém okně, co se právě otevřelo, můžete vybrat předvolbu která sedí vaší platformě,
+a pak můžete zmáčknout čudlík "Exportovat projekt..." na vyexportovaní projectu.
+Pokud jste stahovali Godot 4.1.2 poprvé, musíte si stáhnout ještě navíc šablony exportu.
+Dají se jednoduše stáhnout přes správce šablon exportu, což můžete spustit kliknutím na odkaz v červeném textu.
 
