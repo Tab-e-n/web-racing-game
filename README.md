@@ -6,11 +6,11 @@ Game engine: Godot 4.1.2
 
 ## Ovladani
 
-Sipka nahoru / W - Zrychlit
-Sipka dolu / S / Shift - Brzda / Reverse
-Sipka Doleva / A - Zataceni doleva
-Sipka Doprava / D - Zataceni doprava
-Esc - Opusteni hry
+ - Sipka nahoru / W - Zrychlit
+ - Sipka dolu / S / Shift - Brzda / Reverse
+ - Sipka Doleva / A - Zataceni doleva
+ - Sipka Doprava / D - Zataceni doprava
+ - Esc - Opusteni hry
 
 ## Exportovani Hry
 
