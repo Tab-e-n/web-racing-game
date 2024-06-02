@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6et65lkb71bw"]
+[gd_scene load_steps=11 format=3 uid="uid://c6et65lkb71bw"]
 
 [ext_resource type="Script" path="res://Scripts/ui.gd" id="1_roakc"]
 [ext_resource type="Shader" path="res://Scripts/palette_replacer.gdshader" id="2_alo6u"]
@@ -132,6 +132,13 @@ shader_parameter/active = true
 shader_parameter/palette = null
 shader_parameter/dim = Vector3(1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ruquj"]
+bg_color = Color(0, 0, 0, 0.376471)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -152,65 +159,85 @@ position = Vector2(512, 104)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_1fkfy")
 
-[node name="create_button" type="Button" parent="."]
+[node name="controls_button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -448.0
-offset_top = -24.0
-offset_right = -256.0
-offset_bottom = 16.0
+offset_left = 192.0
+offset_top = 208.0
+offset_right = 384.0
+offset_bottom = 248.0
+grow_horizontal = 2
+text = "Controls"
+
+[node name="main" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="create_button" type="Button" parent="main"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 44.0
+offset_top = 340.0
+offset_right = 236.0
+offset_bottom = 380.0
 grow_horizontal = 2
 text = "Create game"
 
-[node name="join_button" type="Button" parent="."]
+[node name="join_button" type="Button" parent="main"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -448.0
-offset_top = 32.0
-offset_right = -256.0
-offset_bottom = 72.0
+offset_left = 44.0
+offset_top = 396.0
+offset_right = 236.0
+offset_bottom = 436.0
 grow_horizontal = 2
 text = "Join game"
 
-[node name="name_line" type="LineEdit" parent="."]
+[node name="name_line" type="LineEdit" parent="main"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -448.0
-offset_top = -128.0
-offset_right = -253.0
-offset_bottom = -96.0
+offset_left = 44.0
+offset_top = 236.0
+offset_right = 239.0
+offset_bottom = 268.0
 grow_horizontal = 2
 grow_vertical = 2
 placeholder_text = "Name"
 
-[node name="ip_line" type="LineEdit" parent="."]
+[node name="ip_line" type="LineEdit" parent="main"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -448.0
-offset_top = -80.0
-offset_right = -253.0
-offset_bottom = -48.0
+offset_left = 44.0
+offset_top = 284.0
+offset_right = 239.0
+offset_bottom = 316.0
 grow_horizontal = 2
 grow_vertical = 2
 placeholder_text = "IP address"
 
-[node name="palette_expanded" type="Panel" parent="."]
+[node name="palette_expanded" type="Panel" parent="main"]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -218,15 +245,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -128.0
-offset_right = -128.0
-offset_bottom = -64.0
+offset_left = 300.0
+offset_top = 236.0
+offset_right = 364.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_gc13d")
 
-[node name="car_button" type="Button" parent="palette_expanded"]
+[node name="car_button" type="Button" parent="main/palette_expanded"]
 layout_mode = 1
 anchors_preset = -1
 offset_left = -18.0
@@ -236,22 +263,22 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "X"
 
-[node name="palette_small" type="Control" parent="."]
+[node name="palette_small" type="Control" parent="main"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -128.0
-offset_right = -152.0
-offset_bottom = -88.0
+offset_left = 300.0
+offset_top = 236.0
+offset_right = 340.0
+offset_bottom = 276.0
 grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_dgwyt")
 
-[node name="car_button" type="Button" parent="palette_small"]
+[node name="car_button" type="Button" parent="main/palette_small"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -265,12 +292,12 @@ offset_bottom = 76.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="car" type="Sprite2D" parent="palette_small"]
+[node name="car" type="Sprite2D" parent="main/palette_small"]
 material = SubResource("ShaderMaterial_4b24k")
 position = Vector2(64, 48)
 texture = ExtResource("3_6jf3t")
 
-[node name="mode_less" type="TextureButton" parent="palette_small"]
+[node name="mode_less" type="TextureButton" parent="main/palette_small"]
 modulate = Color(0, 0, 0, 0.392157)
 layout_mode = 0
 offset_top = 8.0
@@ -278,7 +305,7 @@ offset_right = 32.0
 offset_bottom = 40.0
 texture_normal = ExtResource("3_jdehj")
 
-[node name="mode_more" type="TextureButton" parent="palette_small"]
+[node name="mode_more" type="TextureButton" parent="main/palette_small"]
 modulate = Color(0, 0, 0, 0.392157)
 layout_mode = 0
 offset_left = 96.0
@@ -288,7 +315,7 @@ offset_bottom = 40.0
 texture_normal = ExtResource("3_jdehj")
 flip_h = true
 
-[node name="palette_less" type="TextureButton" parent="palette_small"]
+[node name="palette_less" type="TextureButton" parent="main/palette_small"]
 modulate = Color(0, 0, 0, 0.392157)
 layout_mode = 0
 offset_top = 56.0
@@ -296,7 +323,7 @@ offset_right = 32.0
 offset_bottom = 88.0
 texture_normal = ExtResource("3_jdehj")
 
-[node name="palette_more" type="TextureButton" parent="palette_small"]
+[node name="palette_more" type="TextureButton" parent="main/palette_small"]
 modulate = Color(0, 0, 0, 0.392157)
 layout_mode = 0
 offset_left = 96.0
@@ -306,11 +333,76 @@ offset_bottom = 88.0
 texture_normal = ExtResource("3_jdehj")
 flip_h = true
 
-[connection signal="pressed" from="create_button" to="." method="_on_create_button_pressed"]
-[connection signal="pressed" from="join_button" to="." method="_on_join_button_pressed"]
-[connection signal="pressed" from="palette_expanded/car_button" to="." method="_on_car_button_pressed"]
-[connection signal="pressed" from="palette_small/car_button" to="." method="_on_car_button_pressed"]
-[connection signal="pressed" from="palette_small/mode_less" to="palette_small" method="_on_model_changed" binds= [-1]]
-[connection signal="pressed" from="palette_small/mode_more" to="palette_small" method="_on_model_changed" binds= [1]]
-[connection signal="pressed" from="palette_small/palette_less" to="palette_small" method="_on_palette_changed" binds= [-1]]
-[connection signal="pressed" from="palette_small/palette_more" to="palette_small" method="_on_palette_changed" binds= [1]]
+[node name="Label" type="Label" parent="main"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 256.0
+offset_right = 960.0
+offset_bottom = 576.0
+theme_override_colors/font_color = Color(0.878431, 0.929412, 0.94902, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ruquj")
+text = "Welcome to web racer!
+Grab a few pals and see who is
+the best racist amongst your peers!
+
+To play localy, one player creates
+a lobby and the other join in using
+the buttons on the left. You don't
+need to specify the IP unless you
+are connnecting to a Web Racer
+Server.
+
+Have fun! :3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="controls" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label2" type="Label" parent="controls"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 256.0
+offset_right = 512.0
+offset_bottom = 576.0
+theme_override_colors/font_color = Color(0.878431, 0.929412, 0.94902, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ruquj")
+text = "Left Arrow, Right Arrow / A, D  -  Steer
+Up Arrow / W  -  Accelerate
+Down Arrow / S / Shift  -  Break
+Esc  -  Exit
+F1  -  Start Countdown
+F2  -  Hide UI
+F5  -  Give up and spectate"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="controls"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 256.0
+offset_right = 896.0
+offset_bottom = 576.0
+theme_override_colors/font_color = Color(0.878431, 0.929412, 0.94902, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ruquj")
+text = "TIPS:
+Car models have no effect on the game.
+Sliding can increase your speed past top speed.
+Be nice to snowmen.
+To turn faster on ice be at a 90 degree angle.
+Oil always slow you down.
+Watchout for Snoozy! He's gonna get you!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="controls_button" to="." method="_on_controls_pressed"]
+[connection signal="pressed" from="main/create_button" to="." method="_on_create_button_pressed"]
+[connection signal="pressed" from="main/join_button" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="main/palette_expanded/car_button" to="." method="_on_car_button_pressed"]
+[connection signal="pressed" from="main/palette_small/car_button" to="." method="_on_car_button_pressed"]
+[connection signal="pressed" from="main/palette_small/mode_less" to="main/palette_small" method="_on_model_changed" binds= [-1]]
+[connection signal="pressed" from="main/palette_small/mode_more" to="main/palette_small" method="_on_model_changed" binds= [1]]
+[connection signal="pressed" from="main/palette_small/palette_less" to="main/palette_small" method="_on_palette_changed" binds= [-1]]
+[connection signal="pressed" from="main/palette_small/palette_more" to="main/palette_small" method="_on_palette_changed" binds= [1]]
