@@ -1,4 +1,18 @@
-# Webova Zavodni Hra
+# Web Racer (EN)
+
+A school project. It is a 2D racing game that has peer to peer functionality, but can just be played solo.
+
+Game engine: Godot 4.1.2
+
+## Controls
+
+ - Up Arrow / W - Accelerate
+ - Down Arrow / S / Shift - Brake / Reverse
+ - Left Arrow / A - Turn Left
+ - Right Arrow / D - Turn Right
+ - Esc - End game
+
+# Webova Zavodni Hra (CZ)
 
 Školní projekt do ISc. 2D zavodni hra ktera funguje na peer to peer, muze byt hrana solo.
 
